@@ -18,7 +18,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// make sure it is not initialized before
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const loggerMiddleware = (req, res, next) => {
     firebase.auth().onAuthStateChanged(function (user) {
