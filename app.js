@@ -27,10 +27,20 @@ app.set('view engine', 'ejs');
 app.get("/", groceriesController.home);
 
 // SS - create list page
-app.get("/groceries/createListPage", groceriesController.createListPage);
+app.get("/groceries/createListPage", loggerMiddleware, groceriesController.createListPage);
 
 // SS - edit list page
-app.get("/groceries/editListPage", groceriesController.editListPage);
+app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editListPage);
+
+// SS - login / logout the user ( get user id from post request )
+app.post("/home", function(req, res) {
+    let userId = JSON.parse(JSON.stringify(req.body));
+    if (userId.idToken) {
+        authController.login(userId);
+    } else {
+        authController.logout();
+    }
+});
 
 app.listen(PORT, function() {
     console.log("Server running: Vist localhost:" + PORT + " in your browser.")

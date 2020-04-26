@@ -28,13 +28,12 @@ let authController = {
                 next();
             } else {
                 // redirect to the home page.
-                res.render("home.ejs");
+                res.render("groceries/home");
             }
         });
     },
 
-    login: function (userId) {
-        let uId = JSON.parse(userId);
+    login: (uId) => {
         var credential = firebase.auth.GoogleAuthProvider.credential(
         uId['idToken']);
         // Sign in with credential from the Google user.
@@ -44,7 +43,7 @@ let authController = {
         });
     },
 
-    logout: function () {
+    logout: () => {
         firebase.auth().signOut().then(function() {
             console.log('sign out successfull');
         }, function(error) {
