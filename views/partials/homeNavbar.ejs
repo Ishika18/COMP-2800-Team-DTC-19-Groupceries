@@ -4,4 +4,8 @@
     <img src="/images/logo.png" width="60" height="60" class="d-inline-block p-2" alt="">
     <a class="navbar-brand p-2 text-dark">Groupceries</a>
     <!-- Login button for the google auth here. -->
+    <div class="g-signin2" id="signIn" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <button id="signOut" onclick={signOut()} style="display: none;">
+        Sign Out
+    </button>
 </nav>

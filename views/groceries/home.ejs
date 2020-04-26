@@ -1,6 +1,36 @@
 <!-- SS - home / landing page. -->
 <!-- including home navbar. -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyBzfpsQJKBWD575xH9C42NBXrZ8dXd963o",
+        authDomain: "nodefirebase-fe37e.firebaseapp.com",
+        databaseURL: "https://nodefirebase-fe37e.firebaseio.com",
+        projectId: "nodefirebase-fe37e",
+        storageBucket: "nodefirebase-fe37e.appspot.com",
+        messagingSenderId: "553609402101",
+        appId: "1:553609402101:web:a1b7c98c40c5402ed697bc"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);    
+</script>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="553609402101-bk3ueml8036g4otguvta4un4g792g2du">
+<meta name="google-signin-cookiepolicy" content="single_host_origin">
+<meta name="google-signin-scope" content="profile email">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+
 <%- include('../partials/homeNavbar.ejs'); -%>
 
 
 <!-- Other landing page design - tbd. -->
+
+<script src="/js/firebaseLogin.js"></script>
