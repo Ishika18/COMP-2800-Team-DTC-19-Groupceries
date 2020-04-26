@@ -1,5 +1,4 @@
 function onSignIn(googleUser) {
-    console.log(googleUser);
     let id_token = googleUser.getAuthResponse().id_token;
 
     // do not login the user here, just send the id_token to app.js
@@ -15,7 +14,6 @@ function sendIDToken(id_token) {
       url: '/home',
       data: id,
       success: function(data){
-        console.log(data);
         //do something with the data via front-end framework
         location.reload();
       }
@@ -43,7 +41,6 @@ function logOutInServer() {
     url: '/home',
     data: id,
     success: function(data){
-      console.log(data);
       //do something with the data via front-end framework
       location.reload();
     }
