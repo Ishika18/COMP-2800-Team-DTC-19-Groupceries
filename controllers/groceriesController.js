@@ -1,4 +1,4 @@
-import { database } from "firebase";
+const firebase = require("firebase/app");
 
 let groceriesController = {
 
@@ -15,4 +15,6 @@ let groceriesController = {
         // instead of grocery list user email could be passed because firestore data has to be edited.
         res.render('groceries/editListPage', {groceryList: database.randomUserId.groceries})
     }
-}
+};
+
+module.exports = groceriesController;
