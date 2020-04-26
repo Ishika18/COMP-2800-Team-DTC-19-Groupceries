@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const ejsLayouts = require('express-ejs-layouts');
+const groceriesController = require('./controllers/groceriesController');
 
 const firebase = require('firebase/app');
 require('firebase/auth');
@@ -33,7 +34,7 @@ const loggerMiddleware = (req, res, next) => {
     });
 };
 
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -48,7 +49,15 @@ app.set('view engine', 'ejs');
 
 /* Routes start here */
 
+// SS - landing / home page.
+app.get("/", groceriesController.home);
+
+// SS - create list page
+app.get("/groceries/createListPage", groceriesController.createListPage);
+
+// SS - edit list page
+app.get("/groceries/editListPage", groceriesController.editListPage);
 
 app.listen(PORT, function() {
-    console.log("Server running: Vist localhost:" + PORT + "/home in your browser.")
+    console.log("Server running: Vist localhost:" + PORT + " in your browser.")
 })
