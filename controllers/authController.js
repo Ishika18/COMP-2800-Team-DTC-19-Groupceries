@@ -33,6 +33,25 @@ let authController = {
         });
     },
 
+    login: function (userId) {
+        let uId = JSON.parse(userId);
+        var credential = firebase.auth.GoogleAuthProvider.credential(
+        uId['idToken']);
+        // Sign in with credential from the Google user.
+        firebase.auth().signInWithCredential(credential).catch(function(error) {
+        // Handle Errors here.
+        console.log(error);
+        });
+    },
+
+    logout: function () {
+        firebase.auth().signOut().then(function() {
+            console.log('sign out successfull');
+        }, function(error) {
+            console.log(error);
+        });
+    },
+
     user: firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             return user;
