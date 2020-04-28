@@ -1,4 +1,62 @@
 <!-- SS - create new grocery item page. -->
 <%- include('../partials/appNavbar.ejs'); -%>
 
+<div class="container" style="margin-top: 20px">
+    <div class="row">
+    <div class="col-md-3">
+    <h3>Shopping List</h3>
+    </div>
+    <div class="col-md-6">
+        <div id="newItemDetails" class="content" style="display: none; border: 1px solid grey;padding: 10px; margin-bottom: 20px;">
+           <h3>New Item Details</h3><br>
+           <label for="itemName">Name</label>
+           <input id="itemName" type="text">
+           <label for="brand">Brand</label>
+           <input id="brand" type="text"> <br>
+           <label for="qty">Quantity</label>
+           <input id="qty" type="text"> 
+           <select>
+            <option value="units">Unit(s)</option>
+            <option value="lbs">lb(s)</option>
+            <option value="kgs">kg(s)</option>
+            <option value="g">g(s)</option>
+            <option value="mL">mL(s)</option>
+            <option value="L">L(s)</option>
+           </select><br>
+           <label for="notes">Notes</label>
+           <input id="notes" type="text" style="display:table-cell; width:100%">
+        </div>
+             
+        <div id="listArea" style="border: 1px solid black; border-radius: 16px; height: 80vh;">
+            <div id="buttons" style="border-bottom: 1px solid grey; height: 10vh;">
+                <button id="newItem" type="button" class="btn btn-dark collapsible" style="float: right; margin:10px;">New Item</button>
+            </div>
+    </div>
+    </div>
+    <div class="col-md-3">
+        <h3>List Actions</h3>
+    </div>
+</div>
+</div>
+
+<link rel="stylesheet" type="text/css" href=/public/css/style.css>
+
+<script>
+
+    function newItemDropdown() {
+        let btn = document.getElementById("newItem")
+        btn.addEventListener("click", function(){
+            this.classList.toggle("active");
+            var content = document.getElementById("newItemDetails")
+            if (content.style.display === "block") {
+            content.style.display = "none";
+            } else {
+            content.style.display = "block";
+            }
+            })
+        
+    }
+
+newItemDropdown()
+</script>
 <!-- the sidebar is to be included as well. -->
