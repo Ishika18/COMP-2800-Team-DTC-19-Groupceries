@@ -1,21 +1,33 @@
 <!-- SS - create new grocery item page. -->
 <%- include('../partials/appNavbar.ejs'); -%>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" type="text/css" href=/css/style.css>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 
 <div class="container" style="margin-top: 20px">
     <div class="row">
-    <div class="col-md-3">
-    <h3>Shopping List</h3>
+    <div class="col-lg-3">
+    <h3>Shopping Lists</h3><hr>
+        <div id="myLists">
+            <h4>My Lists</h4>
+        </div>
+        <div id="friendLists">
+            <h4>My Friends' Lists</h4>
+        </div>
     </div>
-    <div class="col-md-6">
-        <div id="newItemDetails" class="content" style="display: none; border: 1px solid grey;padding: 10px; margin-bottom: 20px;">
-           <h3>New Item Details</h3><br>
+    <div class="col-lg-6">
+        <div id="newItemDetails" class="content">
+           <h3>New Item Details</h3>
            <label for="itemName">Name</label>
            <input id="itemName" type="text">
            <label for="brand">Brand</label>
-           <input id="brand" type="text"> <br>
+           <input id="brand" type="text">
            <label for="qty">Quantity</label>
            <input id="qty" type="text"> 
-           <select>
+           <select id="units">
             <option value="units">Unit(s)</option>
             <option value="lbs">lb(s)</option>
             <option value="kgs">kg(s)</option>
@@ -24,22 +36,31 @@
             <option value="L">L(s)</option>
            </select><br>
            <label for="notes">Notes</label>
-           <input id="notes" type="text" style="display:table-cell; width:100%">
+           <input id="notes" type="text">
+           <button id="addItem" class="btn btn-dark">Add Item</button>
         </div>
              
-        <div id="listArea" style="border: 1px solid black; border-radius: 16px; height: 80vh;">
-            <div id="buttons" style="border-bottom: 1px solid grey; height: 10vh;">
-                <button id="newItem" type="button" class="btn btn-dark collapsible" style="float: right; margin:10px;">New Item</button>
+        <div id="listArea">
+            <div id="buttons">
+                <h2 id="listTitle">My List</h2>
+                <button id="newItem" type="button" class="collapsible">New Item</button>
             </div>
     </div>
     </div>
-    <div class="col-md-3">
-        <h3>List Actions</h3>
+    <div class="col-lg-3" id="listActions">
+        <h3>List Actions</h3><hr><br>
+        <ul>
+            <label for="readyToggle">Mark as Ready For Purchase</label>
+            <input id="readyToggle" type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
+            <label for="readyToggle">Shopping Mode</label>
+            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
+            <label for="merge">Merge List</label>
+        </ul>
     </div>
 </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href=/public/css/style.css>
+
 
 <script>
 
@@ -58,5 +79,7 @@
     }
 
 newItemDropdown()
+
+      
 </script>
 <!-- the sidebar is to be included as well. -->
