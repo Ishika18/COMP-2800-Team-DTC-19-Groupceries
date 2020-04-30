@@ -60,3 +60,7 @@
     width: 11em;
     border-radius: 20px;
 }
+
+.collapse {
+    display: none;
+}
