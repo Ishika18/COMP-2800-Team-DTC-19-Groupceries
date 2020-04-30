@@ -1,10 +1,3 @@
-body{
-    background-color:#140A26;
-}
-#listArea {
-    border: 1px solid black;
-    border: 16px;
-}
 #topbar {
     background-color: #140A26;
     position: fixed;
@@ -162,8 +155,6 @@ body{
     height: 4.5rem;
     margin: auto;    
     display: block;
-    margin-top: 18rem;
-    margin-bottom: 1.5rem;
 }
 #appTitleContainer {
     margin-bottom: 1rem;
@@ -177,6 +168,9 @@ body{
     width:100%;
     height:calc(100vh - 16.5rem);
   }
+body{
+    background-color:#140A26;
+}
 .toggle.ios, .toggle-on.ios, .toggle-off.ios {
     border-radius: 2rem;
     width: 11rem;

@@ -1,11 +1,30 @@
 <!-- SS - navbar for landing page. -->
 
-<nav class="navbar d-flex bg-white border-bottom border-dark">
+<!-- <nav class="navbar d-flex bg-white border-bottom border-dark">
     <img src="/images/logo.png" width="60" height="60" class="d-inline-block p-2" alt="">
     <a class="navbar-brand p-2 text-dark">Groupceries</a>
     <!-- Login button for the google auth here. -->
-    <div class="g-signin2" id="signIn" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <!-- <div class="g-signin2" id="signIn" data-onsuccess="onSignIn" data-theme="dark"></div>
     <button id="signOut" onclick={signOut()} style="display: none;">
         Sign Out
     </button>
-</nav>
+</nav> -->
+<!-- SS  HTML page layout. -->
+<div class="container-fluid"> 
+    <div class="row">
+        <div class="container-fluid" id="topbar">
+            <div class="row">
+                <div class="col align-items-center">
+                    <img src="images/logo.png" class="col align-items-center" id="logoIcon">
+                    <h2 id="appTitle">Groupceries</h2>
+                    <div class="row justify-content-center mt-4">
+                        <div class="g-signin2" id="signIn" data-onsuccess="onSignIn" data-theme="dark"></div>
+                        <button class="rectangularButton pagination-centered" id="signOut" onclick={signOut()} style="display: none;">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
