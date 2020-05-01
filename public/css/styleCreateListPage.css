@@ -1,0 +1,66 @@
+#newItemDetails {
+    display: none;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#notes {
+    display: table-cell;
+    width: 100%;
+}
+
+#addItem {
+    display: table-cell;
+    width: 100%;
+    margin-top: 5px;
+
+}
+
+#listArea {
+    border: 1px solid black;
+    border-radius: 16px;
+    height: 80vh;
+}
+
+#buttons {
+    border-bottom: 1px solid grey;
+    height: 10vh;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: "one two three four";
+}
+
+#newItem {
+    grid-area: four;
+}
+
+#listTitle {
+    grid-area: one;
+    margin-left: 15px;
+    margin-top: 15px
+}
+
+.custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
+    text-indent: -3.9em;
+    border-radius: 20px;
+    width:11em;
+}
+.custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
+    border-radius: 20px;
+    width:4em
+}
+.custom-size-flipswitch.ui-flipswitch {
+    width: 11em;
+    border-radius: 20px;
+}
+.custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
+    padding-left: 7em;
+    width: 11em;
+    border-radius: 20px;
+}
+
+.collapse {
+    display: none;
+}
