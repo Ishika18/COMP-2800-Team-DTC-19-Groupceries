@@ -1,11 +1,7 @@
 <!-- SS - create new grocery item page. -->
 <%- include('../partials/appNavbar.ejs'); -%>
-<script src="/js/mainPage.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet" type="text/css" href=/css/styleCreateListPage.css>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
@@ -17,7 +13,7 @@
        <div id="myLists">
            <button id="myLists" class="btn collapsible">My Lists</button>
            <ul id="lists" class="collapse">
-                <p style="border: 1px solid black;">My List</p>
+                <p>My List</p>
                 <p>List 2</p>
                 <p>List 3</p>
            </ul>
@@ -193,16 +189,16 @@ document.getElementById("newItem").onclick = newItemField
         var i;
 
         for (i = 0; i < coll.length; i++) {
-        coll[i].onclick = function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-        content.style.display = "none";
-        } else {
-        content.style.display = "block";
-    }
-  };
-}
+            coll[i].onclick = function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            };
+        }
     }
 
 
@@ -210,4 +206,10 @@ document.getElementById("newItem").onclick = newItemField
 
       
 </script>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+<script src="/js/firebaseInit.js"></script>
 <!-- the sidebar is to be included as well. -->
