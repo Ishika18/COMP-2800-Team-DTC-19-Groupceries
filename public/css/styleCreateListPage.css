@@ -21,12 +21,13 @@
 #listArea {
     border: 1px solid black;
     border-radius: 16px;
-    height: 80vh;
+    height: 650px;
+    overflow: auto;
 }
 
 #buttons {
     border-bottom: 1px solid grey;
-    height: 10vh;
+    height: 75px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas: "one two three four";
@@ -68,9 +69,36 @@
 .disabledInput {
     border: none;
     background-color: transparent;
+    margin-left: 8px;
+    width: 
 }
 
 .textInput {
-    border: 1px solid black;
+    border: 1px solid grey;
+    border-radius: 5px;
     background-color: white;
+    margin: 5px;
 }
+
+.listItems {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid indigo;
+    border-radius: 5px;
+}
+
+.listInputLabels {
+    font-weight: bold;
+    color: indigo;
+}
+
+.textInput[id |= "Name"] {
+    display: table-cell;
+    width: 50%;
+}
+
+.textInput[id |= "Quantity"] {
+    display: table-cell;
+    width: 20%;
+}
+

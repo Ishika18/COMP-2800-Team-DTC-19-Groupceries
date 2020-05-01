@@ -62,29 +62,29 @@
     let itemNumber = 1
 
     function newItemField() {
-    let item = document.createElement("div")
-    item.className = "listItems"
-    item.id = "Item" + itemNumber
-    itemNumber++
-    let list = document.getElementById("groceryList")
-    list.appendChild(item)
-    var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
-    var i
+        let item = document.createElement("div")
+        item.className = "listItems"
+        item.id = "Item" + itemNumber
+        itemNumber++
+        let list = document.getElementById("groceryList")
+        list.appendChild(item)
+        var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
+        var i
 
-    for(i=0; i <fields.length; i++) {
-        input = document.createElement("input")
-        input.setAttribute("type", "text")
-        input.id = fields[i]
-        input.classList = "textInput"
-        label = document.createElement("label")
-        label.innerHTML = fields[i]
-        item.appendChild(label)
-        item.appendChild(input)
-    }
-        addButtons(item,itemNumber)
-    }
+        for(i=0; i <fields.length; i++) {
+            input = document.createElement("input")
+            input.setAttribute("type", "text")
+            input.id = fields[i]
+            input.classList = "textInput"
+            label = document.createElement("label")
+            label.innerHTML = fields[i]
+            label.classList ="listInputLabels"
+            item.appendChild(label)
+            item.appendChild(input)
+        }
+            addButtons(item,itemNumber)
+        }
 
-document.getElementById("newItem").onclick = newItemField
 
     function addButtons(item, itemNumber) {
         addButton = document.createElement("button")
@@ -190,7 +190,7 @@ document.getElementById("newItem").onclick = newItemField
         }
     }
 
-
+    document.getElementById("newItem").onclick = newItemField
     collapse()
 
       
