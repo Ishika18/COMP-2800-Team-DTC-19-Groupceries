@@ -1,11 +1,3 @@
-#newItemDetails {
-    display: none;
-    border: 1px solid grey;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
 #notes {
     display: table-cell;
     width: 100%;
@@ -22,6 +14,7 @@
     border: 1px solid black;
     border-radius: 16px;
     height: 80vh;
+    overflow: auto;
 }
 
 #buttons {
@@ -63,4 +56,9 @@
 
 .collapse {
     display: none;
+}
+
+.listItems {
+    border-bottom: 1px solid grey;
+    padding: 10px;
 }

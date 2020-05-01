@@ -1,5 +1,6 @@
 <!-- SS - create new grocery item page. -->
 <%- include('../partials/appNavbar.ejs'); -%>
+<script src="/js/mainPage.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -35,43 +36,14 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <div id="newItemDetails" class="content">
-           <h3>New Item Details</h3>
-           <label for="itemName">Name</label>
-           <input id="itemName" type="text">
-           <label for="brand">Brand</label>
-           <input id="brand" type="text">
-           <label for="qty">Quantity</label>
-           <input id="qty" type="text"> 
-           <select id="units">
-            <option value="units">Unit(s)</option>
-            <option value="lbs">lb(s)</option>
-            <option value="kgs">kg(s)</option>
-            <option value="g">g(s)</option>
-            <option value="mL">mL(s)</option>
-            <option value="L">L(s)</option>
-           </select><br>
-           <label for="notes">Notes</label>
-           <input id="notes" type="text">
-           <button id="addItem" class="btn btn-dark">Add Item</button>
-        </div>
-             
+                  
         <div id="listArea">
             <div id="buttons">
                 <h2 id="listTitle">My List</h2>
-                <button id="newItem" type="button" class="collapsible">New Item</button>
+                <button id="newItem" type="button">New Item</button>
             </div>
-            <table>
-                <tr>
-                    <th>
-                        one
-                    </th>
-                </tr>
-                <tr>
-                    <td>two</td>
-                    <td>three</td>
-                </tr>
-            </table>
+            <div id="groceryList">
+            </div>
     </div>
     </div>
     <div class="col-lg-3" id="listActions">
@@ -90,7 +62,129 @@
 
 
 <script>
+    function newItemField() {
+    let item = document.createElement("div")
+    let list = document.getElementById("groceryList")
+    list.appendChild(item)
+    var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
+    var i
 
+    for(i=0; i <fields.length; i++) {
+        input = document.createElement("input")
+        input.setAttribute("type", "text")
+        input.id = fields[i]
+        input.classList = "textInput"
+        label = document.createElement("label")
+        label.innerHTML = fields[i]
+        item.appendChild(label)
+        item.appendChild(input)
+    }
+        addButton = document.createElement("button")
+        addButton.innerHTML = "Add"
+        addButton.id = "addButton"
+        item.appendChild(addButton)
+        addButton.onclick = addItemDetails(item)
+    }
+
+document.getElementById("newItem").onclick = newItemField
+//addItemDetails is buggy, only changes every other element for some reason
+    function addItemDetails(item) {
+        return function() {
+            var fields = item.getElementsByClassName("textInput")
+            var i
+
+            for (i=0; i<fields.length; i++) {
+                this.classList.toggle("text")
+                input = fields[i]
+                inputData = input.value
+                inputText = document.createElement("p")
+                inputText.innerHTML = inputData
+                item.replaceChild(inputText, input)
+            }
+        }
+    }
+    
+    //     editButton = document.createElement("button")
+    //     editButton.innerHTML = "Edit"
+    //     item.appendChild(editButton)
+    //     editButton.id = "edit"
+    //  }
+
+    // document.getElementById("newItem").onclick = newItemField
+
+    // function addItemDetails(item, name, qty, units, notes){
+    //     return function() {
+    //     inputtedName = name.value
+    //     nameText = document.createElement("p")
+    //     item.replaceChild(nameText, name)
+    //     nameText.innerHTML = inputtedName
+    //     inputtedQty = qty.value
+    //     qtyText = document.createElement("p")
+    //     item.replaceChild(qtyText, qty)
+    //     qtyText.innerHTML = inputtedQty
+    //     inputtedUnits = units.value
+    //     unitText = document.createElement("p")
+    //     item.replaceChild(unitText, units)
+    //     unitText.innerHTML = inputtedUnits
+    //     inputtedNotes = notes.value
+    //     notesText = document.createElement("p")
+    //     item.replaceChild(notesText, notes)
+    //     notesText.innerHTML = inputtedNotes
+    //     document.getElementById("edit").onclick = edit(item, nameText, qtyText, unitText, notesText)
+        
+    // }
+
+    // function saveChanges(item, name, qty, units, notes) {
+    //     return function() {
+    //         inputtedName = name.value
+    //         nameText = document.createElement("p")
+    //         item.replaceChild(nameText, name)
+    //         nameText.innerHTML = inputtedName
+    //         inputtedQty = qty.value
+    //         qtyText = document.createElement("p")
+    //         item.replaceChild(qtyText, qty)
+    //         qtyText.innerHTML = inputtedQty
+    //         inputtedUnits = units.value
+    //         unitText = document.createElement("p")
+    //         item.replaceChild(unitText, units)
+    //         unitText.innerHTML = inputtedUnits
+    //         inputtedNotes = notes.value
+    //         notesText = document.createElement("p")
+    //         item.replaceChild(notesText, notes)
+    //         notesText.innerHTML = inputtedNotes
+    //         }
+    //     }
+    
+    
+    
+
+    // function edit(item, name, qty, units, notes){
+    //     return function() {
+    //     currentName = name.innerHTML
+    //     nameInput = document.createElement("input")
+    //     nameInput.value = currentName
+    //     item.replaceChild(nameInput, name)
+    //     currentQty = qty.innerHTML
+    //     qtyInput = document.createElement("input")
+    //     qtyInput.value = currentQty
+    //     item.replaceChild(qtyInput, qty)
+    //     currentUnits = units.innerHTML
+    //     unitsInput = document.createElement("input")
+    //     unitsInput.value = currentUnits
+    //     item.replaceChild(unitsInput, units)
+    //     currentNotes = notes.innerHTML
+    //     notesInput = document.createElement("input")
+    //     notesInput.value = currentNotes
+    //     item.replaceChild(notesInput, notes)
+    //     saveChangesButton = document.createElement("button")
+    //     saveChangesButton.innerHTML = "Save Changes"
+    //     addButton = document.getElementById("addButton")
+    //     item.replaceChild(saveChangesButton, addButton)
+    //     saveChangesButton.onclick = saveChanges(item, nameInput, qtyInput, unitsInput, notesInput )
+    // }
+    // }
+    // }
+    
     function collapse() {
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -108,21 +202,8 @@
 }
     }
 
-    function newItemDropdown() {
-        let btn = document.getElementById("newItem")
-        btn.addEventListener("click", function(){
-            var content = document.getElementById("newItemDetails")
-            if (content.style.display === "block") {
-            content.style.display = "none";
-            } else {
-            content.style.display = "block";
-            }
-            })
-        
-    }
 
-newItemDropdown()
-collapse()
+    collapse()
 
       
 </script>
