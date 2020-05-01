@@ -58,9 +58,14 @@
 
 
 <script>
+    let items = []
+    let itemNumber = 1
+
     function newItemField() {
     let item = document.createElement("div")
     item.className = "listItems"
+    item.id = "Item" + itemNumber
+    itemNumber++
     let list = document.getElementById("groceryList")
     list.appendChild(item)
     var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
@@ -76,23 +81,44 @@
         item.appendChild(label)
         item.appendChild(input)
     }
-        addButton = document.createElement("button")
-        addButton.innerHTML = "Add"
-        addButton.id = "addButton"
-        item.appendChild(addButton)
-        addButton.onclick = addItemDetails(item)
+        addButtons(item,itemNumber)
     }
 
 document.getElementById("newItem").onclick = newItemField
 
-    function addItemDetails(item) {
+    function addButtons(item, itemNumber) {
+        addButton = document.createElement("button")
+        addButton.innerHTML = "Add"
+        addButton.id = "addButton" + itemNumber
+        item.appendChild(addButton)
+        addButton.onclick = addItemDetails(item, itemNumber)
+
+        editButton = document.createElement("button")
+        editButton.id = "editButton" + itemNumber
+        editButton.onclick = edit(item, itemNumber)
+        editButton.innerHTML = "Edit"
+        item.appendChild(editButton)
+        editButton.style.display = "none"
+
+        saveButton = document.createElement("button")
+        saveButton.id = "saveButton" + itemNumber
+        saveButton.onclick = saveChanges(item, itemNumber)
+        saveButton.innerHTML = "Save Changes"
+        item.appendChild(saveButton)
+        saveButton.style.display = "none"
+
+        cancelButton = document.createElement("button")
+        cancelButton.id = "cancelButton" + itemNumber
+        cancelButton.innerHTML = "Cancel"
+        item.appendChild(cancelButton)
+        cancelButton.style.display = "none"
+
+    }
+
+    function addItemDetails(item, itemNumber) {
         return function() {
-            add = document.getElementById("addButton")
-            editButton = document.createElement("button")
-            editButton.id = "editButton"
-            editButton.onclick = edit(item)
-            editButton.innerHTML = "Edit"
-            item.replaceChild(editButton, add)
+            document.getElementById("addButton" + itemNumber).style.display = "none"
+            document.getElementById("editButton" + itemNumber).style.display = "inline-block"
             var fields = item.getElementsByClassName("textInput")
             var fieldsCopy = []
             for (field in fields) {
@@ -108,14 +134,11 @@ document.getElementById("newItem").onclick = newItemField
     }
 }
 
-    function edit(item) {
+    function edit(item, itemNumber) {
         return function() {
-            editButton = document.getElementById("editButton")
-            save = document.createElement("button")
-            save.innerHTML = "Save Changes"
-            save.id = "saveButton"
-            save.onclick = saveChanges(item)
-            item.replaceChild(save, editButton)
+            document.getElementById("editButton" + itemNumber).style.display = "none"
+            document.getElementById("saveButton" + itemNumber).style.display = "inline-block"
+            document.getElementById("cancelButton" + itemNumber).style.display = "inline-block"
             var fields = item.getElementsByClassName("disabledInput")
             var fieldsCopy = []
             for (field in fields) {
@@ -130,14 +153,11 @@ document.getElementById("newItem").onclick = newItemField
         }
     }
 }
-    function saveChanges(item) {
+    function saveChanges(item, itemNumber) {
             return function() {
-                let saveButton = document.getElementById("saveButton")
-                let editButton = document.createElement("button")
-                editButton.id = "editButton"
-                editButton.innerHTML = "Edit"
-                editButton.onclick = edit(item)
-                item.replaceChild(editButton, saveButton)
+                document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+                document.getElementById("saveButton" + itemNumber).style.display = "none"
+                document.getElementById("cancelButton" +itemNumber).style.display = "none"
                 var fields = item.getElementsByClassName("textInput")
                 var fieldsCopy = []
                 for (field in fields) {
