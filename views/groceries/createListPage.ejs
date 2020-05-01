@@ -84,8 +84,15 @@
     }
 
 document.getElementById("newItem").onclick = newItemField
-       function addItemDetails(item) {
+
+    function addItemDetails(item) {
         return function() {
+            add = document.getElementById("addButton")
+            editButton = document.createElement("button")
+            editButton.id = "editButton"
+            editButton.onclick = edit(item)
+            editButton.innerHTML = "Edit"
+            item.replaceChild(editButton, add)
             var fields = item.getElementsByClassName("textInput")
             var fieldsCopy = []
             for (field in fields) {
@@ -95,95 +102,57 @@ document.getElementById("newItem").onclick = newItemField
 
             for (i=0; i< fieldsCopy.length; i++) {
                 input = fieldsCopy[i]
-                inputData = input.value
-                inputText = document.createElement("p")
-                inputText.innerHTML = inputData
-                item.replaceChild(inputText, input)
-            }
+                input.className = "disabledInput"
+                input.disabled = true;
         }
     }
-    
-    //     editButton = document.createElement("button")
-    //     editButton.innerHTML = "Edit"
-    //     item.appendChild(editButton)
-    //     editButton.id = "edit"
-    //  }
+}
 
-    // document.getElementById("newItem").onclick = newItemField
+    function edit(item) {
+        return function() {
+            editButton = document.getElementById("editButton")
+            save = document.createElement("button")
+            save.innerHTML = "Save Changes"
+            save.id = "saveButton"
+            save.onclick = saveChanges(item)
+            item.replaceChild(save, editButton)
+            var fields = item.getElementsByClassName("disabledInput")
+            var fieldsCopy = []
+            for (field in fields) {
+                fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+            }
+            var i
 
-    // function addItemDetails(item, name, qty, units, notes){
-    //     return function() {
-    //     inputtedName = name.value
-    //     nameText = document.createElement("p")
-    //     item.replaceChild(nameText, name)
-    //     nameText.innerHTML = inputtedName
-    //     inputtedQty = qty.value
-    //     qtyText = document.createElement("p")
-    //     item.replaceChild(qtyText, qty)
-    //     qtyText.innerHTML = inputtedQty
-    //     inputtedUnits = units.value
-    //     unitText = document.createElement("p")
-    //     item.replaceChild(unitText, units)
-    //     unitText.innerHTML = inputtedUnits
-    //     inputtedNotes = notes.value
-    //     notesText = document.createElement("p")
-    //     item.replaceChild(notesText, notes)
-    //     notesText.innerHTML = inputtedNotes
-    //     document.getElementById("edit").onclick = edit(item, nameText, qtyText, unitText, notesText)
-        
-    // }
+            for (i=0; i< fieldsCopy.length; i++) {
+                input = fieldsCopy[i]
+                input.className = "textInput"
+                input.disabled = false;
+        }
+    }
+}
+    function saveChanges(item) {
+            return function() {
+                let saveButton = document.getElementById("saveButton")
+                let editButton = document.createElement("button")
+                editButton.id = "editButton"
+                editButton.innerHTML = "Edit"
+                editButton.onclick = edit(item)
+                item.replaceChild(editButton, saveButton)
+                var fields = item.getElementsByClassName("textInput")
+                var fieldsCopy = []
+                for (field in fields) {
+                    fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+                }
+                var i
 
-    // function saveChanges(item, name, qty, units, notes) {
-    //     return function() {
-    //         inputtedName = name.value
-    //         nameText = document.createElement("p")
-    //         item.replaceChild(nameText, name)
-    //         nameText.innerHTML = inputtedName
-    //         inputtedQty = qty.value
-    //         qtyText = document.createElement("p")
-    //         item.replaceChild(qtyText, qty)
-    //         qtyText.innerHTML = inputtedQty
-    //         inputtedUnits = units.value
-    //         unitText = document.createElement("p")
-    //         item.replaceChild(unitText, units)
-    //         unitText.innerHTML = inputtedUnits
-    //         inputtedNotes = notes.value
-    //         notesText = document.createElement("p")
-    //         item.replaceChild(notesText, notes)
-    //         notesText.innerHTML = inputtedNotes
-    //         }
-    //     }
-    
-    
-    
+                for (i=0; i< fieldsCopy.length; i++) {
+                    input = fieldsCopy[i]
+                    input.className = "disabledInput"
+                    input.disabled = true;
+            }
+        }
+    }     
 
-    // function edit(item, name, qty, units, notes){
-    //     return function() {
-    //     currentName = name.innerHTML
-    //     nameInput = document.createElement("input")
-    //     nameInput.value = currentName
-    //     item.replaceChild(nameInput, name)
-    //     currentQty = qty.innerHTML
-    //     qtyInput = document.createElement("input")
-    //     qtyInput.value = currentQty
-    //     item.replaceChild(qtyInput, qty)
-    //     currentUnits = units.innerHTML
-    //     unitsInput = document.createElement("input")
-    //     unitsInput.value = currentUnits
-    //     item.replaceChild(unitsInput, units)
-    //     currentNotes = notes.innerHTML
-    //     notesInput = document.createElement("input")
-    //     notesInput.value = currentNotes
-    //     item.replaceChild(notesInput, notes)
-    //     saveChangesButton = document.createElement("button")
-    //     saveChangesButton.innerHTML = "Save Changes"
-    //     addButton = document.getElementById("addButton")
-    //     item.replaceChild(saveChangesButton, addButton)
-    //     saveChangesButton.onclick = saveChanges(item, nameInput, qtyInput, unitsInput, notesInput )
-    // }
-    // }
-    // }
-    
     function collapse() {
         var coll = document.getElementsByClassName("collapsible");
         var i;

@@ -64,3 +64,13 @@
 .collapse {
     display: none;
 }
+
+.disabledInput {
+    border: none;
+    background-color: transparent;
+}
+
+.textInput {
+    border: 1px solid black;
+    background-color: white;
+}
