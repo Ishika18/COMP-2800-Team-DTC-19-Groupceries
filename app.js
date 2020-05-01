@@ -36,12 +36,12 @@ app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editLis
 app.post("/home", function(req, res) {
     let userId = JSON.parse(JSON.stringify(req.body));
     if (userId.idToken) {
-        authController.login(userId);
+        authController.login(req, res, userId);
     } else {
         authController.logout();
     }
 });
 
 app.listen(PORT, function() {
-    console.log("Server running: Vist localhost:" + PORT + " in your browser.")
-})
+    console.log("Server running: Vist localhost:" + PORT + " in your browser.");
+});

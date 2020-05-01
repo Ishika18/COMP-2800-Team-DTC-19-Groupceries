@@ -22,8 +22,7 @@ let authController = {
     loggerMiddleware: (req, res, next) => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                // user is signed in 
-                console.log(user);
+                // user is signed in
                 // do the rendering or whatever
                 next();
             } else {
@@ -33,11 +32,13 @@ let authController = {
         });
     },
 
-    login: (uId) => {
+    login: (req, res, uId) => {
         var credential = firebase.auth.GoogleAuthProvider.credential(
         uId['idToken']);
         // Sign in with credential from the Google user.
-        firebase.auth().signInWithCredential(credential).catch(function(error) {
+        firebase.auth().signInWithCredential(credential).then(function() {
+            //res.render("groceries/createListPage");
+        }).catch(function(error) {
         // Handle Errors here.
         console.log(error);
         });
