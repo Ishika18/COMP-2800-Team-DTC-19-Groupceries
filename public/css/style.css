@@ -162,7 +162,7 @@ body{
     height: 4.5rem;
     margin: auto;    
     display: block;
-    margin-top: 18rem;
+    margin-top: 1rem;
     margin-bottom: 1.5rem;
 }
 #appTitleContainer {
@@ -202,6 +202,9 @@ body{
     position: fixed;
     left: 80%
 }
+#signInBox {
+    margin-bottom: 5rem;
+}
 #logOutButton {
     font-size: xx-small;
     font-weight: 500;
@@ -222,3 +225,16 @@ body{
 #callFriendButton {
     background-color: blue!important;
 }
+#launchPageItems {
+    margin-top: 15rem;
+    z-index: -1000!important;
+    background-color: #221738;
+}
+#logInSection {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+/* #infoSlides{
+
+} */

@@ -1,10 +1,7 @@
 <!-- SS - create new grocery item page. -->
 <%- include('../partials/appNavbar.ejs'); -%>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet" type="text/css" href=/css/styleCreateListPage.css>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
@@ -35,43 +32,14 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <div id="newItemDetails" class="content">
-           <h3>New Item Details</h3>
-           <label for="itemName">Name</label>
-           <input id="itemName" type="text">
-           <label for="brand">Brand</label>
-           <input id="brand" type="text">
-           <label for="qty">Quantity</label>
-           <input id="qty" type="text"> 
-           <select id="units">
-            <option value="units">Unit(s)</option>
-            <option value="lbs">lb(s)</option>
-            <option value="kgs">kg(s)</option>
-            <option value="g">g(s)</option>
-            <option value="mL">mL(s)</option>
-            <option value="L">L(s)</option>
-           </select><br>
-           <label for="notes">Notes</label>
-           <input id="notes" type="text">
-           <button id="addItem" class="btn btn-dark">Add Item</button>
-        </div>
-             
+                  
         <div id="listArea">
             <div id="buttons">
                 <h2 id="listTitle">My List</h2>
-                <button id="newItem" type="button" class="collapsible">New Item</button>
+                <button id="newItem" type="button">New Item</button>
             </div>
-            <table>
-                <tr>
-                    <th>
-                        one
-                    </th>
-                </tr>
-                <tr>
-                    <td>two</td>
-                    <td>three</td>
-                </tr>
-            </table>
+            <div id="groceryList">
+            </div>
     </div>
     </div>
     <div class="col-lg-3" id="listActions">
@@ -90,40 +58,148 @@
 
 
 <script>
+    let items = []
+    let itemNumber = 1
+
+    function newItemField() {
+        let item = document.createElement("div")
+        item.className = "listItems"
+        item.id = "Item" + itemNumber
+        itemNumber++
+        let list = document.getElementById("groceryList")
+        list.appendChild(item)
+        var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
+        var i
+
+        for(i=0; i <fields.length; i++) {
+            input = document.createElement("input")
+            input.setAttribute("type", "text")
+            input.id = fields[i]
+            input.classList = "textInput"
+            label = document.createElement("label")
+            label.innerHTML = fields[i]
+            label.classList ="listInputLabels"
+            item.appendChild(label)
+            item.appendChild(input)
+        }
+            addButtons(item,itemNumber)
+        }
+
+
+    function addButtons(item, itemNumber) {
+        addButton = document.createElement("button")
+        addButton.innerHTML = "Add"
+        addButton.id = "addButton" + itemNumber
+        item.appendChild(addButton)
+        addButton.onclick = addItemDetails(item, itemNumber)
+
+        editButton = document.createElement("button")
+        editButton.id = "editButton" + itemNumber
+        editButton.onclick = edit(item, itemNumber)
+        editButton.innerHTML = "Edit"
+        item.appendChild(editButton)
+        editButton.style.display = "none"
+
+        saveButton = document.createElement("button")
+        saveButton.id = "saveButton" + itemNumber
+        saveButton.onclick = saveChanges(item, itemNumber)
+        saveButton.innerHTML = "Save Changes"
+        item.appendChild(saveButton)
+        saveButton.style.display = "none"
+
+        cancelButton = document.createElement("button")
+        cancelButton.id = "cancelButton" + itemNumber
+        cancelButton.innerHTML = "Cancel"
+        item.appendChild(cancelButton)
+        cancelButton.style.display = "none"
+
+    }
+
+    function addItemDetails(item, itemNumber) {
+        return function() {
+            document.getElementById("addButton" + itemNumber).style.display = "none"
+            document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+            var fields = item.getElementsByClassName("textInput")
+            var fieldsCopy = []
+            for (field in fields) {
+                fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+            }
+            var i
+
+            for (i=0; i< fieldsCopy.length; i++) {
+                input = fieldsCopy[i]
+                input.className = "disabledInput"
+                input.disabled = true;
+        }
+    }
+}
+
+    function edit(item, itemNumber) {
+        return function() {
+            document.getElementById("editButton" + itemNumber).style.display = "none"
+            document.getElementById("saveButton" + itemNumber).style.display = "inline-block"
+            document.getElementById("cancelButton" + itemNumber).style.display = "inline-block"
+            var fields = item.getElementsByClassName("disabledInput")
+            var fieldsCopy = []
+            for (field in fields) {
+                fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+            }
+            var i
+
+            for (i=0; i< fieldsCopy.length; i++) {
+                input = fieldsCopy[i]
+                input.className = "textInput"
+                input.disabled = false;
+        }
+    }
+}
+    function saveChanges(item, itemNumber) {
+            return function() {
+                document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+                document.getElementById("saveButton" + itemNumber).style.display = "none"
+                document.getElementById("cancelButton" +itemNumber).style.display = "none"
+                var fields = item.getElementsByClassName("textInput")
+                var fieldsCopy = []
+                for (field in fields) {
+                    fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+                }
+                var i
+
+                for (i=0; i< fieldsCopy.length; i++) {
+                    input = fieldsCopy[i]
+                    input.className = "disabledInput"
+                    input.disabled = true;
+            }
+        }
+    }     
 
     function collapse() {
         var coll = document.getElementsByClassName("collapsible");
         var i;
 
         for (i = 0; i < coll.length; i++) {
-        coll[i].onclick = function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-        content.style.display = "none";
-        } else {
-        content.style.display = "block";
-    }
-  };
-}
-    }
-
-    function newItemDropdown() {
-        let btn = document.getElementById("newItem")
-        btn.addEventListener("click", function(){
-            var content = document.getElementById("newItemDetails")
-            if (content.style.display === "block") {
-            content.style.display = "none";
-            } else {
-            content.style.display = "block";
-            }
-            })
-        
+            coll[i].onclick = function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            };
+        }
     }
 
-newItemDropdown()
-collapse()
+    document.getElementById("newItem").onclick = newItemField
+    collapse()
 
       
 </script>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+<script src="/js/firebaseInit.js"></script>
+<script src="/js/database.js"></script>
 <!-- the sidebar is to be included as well. -->
