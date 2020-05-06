@@ -8,11 +8,11 @@
 
 <div class="container" style="margin-top: 20px">
     <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-3" id="left">
     <h3>Shopping Lists</h3><hr>
        <div id="myLists">
            <button id="myLists" class="btn collapsible">My Lists</button>
-           <ul id="lists" class="collapse">
+           <ul id="availableLists" class="collapse">
                 <p>My List</p>
                 <p>List 2</p>
                 <p>List 3</p>
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6" id="middle">
                   
         <div id="listArea">
             <div id="buttons">
@@ -42,7 +42,7 @@
             </div>
     </div>
     </div>
-    <div class="col-lg-3" id="listActions">
+    <div class="col-lg-3" id="right">
         <h3>List Actions</h3><hr><br>
         <ul>
             <label for="readyToggle">Mark as Ready For Purchase</label>
@@ -54,10 +54,40 @@
     </div>
 </div>
 </div>
-
-
+<footer id="buttonBar">
+    <button id="lists">Lists</button>
+    <button id="currentList">Current List</button>
+    <button id="friends">Friends</button>
+</footer>
 
 <script>
+    function listsButton() {
+        document.getElementById("left").style.display = "block"
+        document.getElementById("left").style.textAlign = "center"
+        document.getElementById("left").className = "col-md-12"
+        document.getElementById("middle").style.display = "none"
+        document.getElementById("right").style.display = "none"
+    }
+    document.getElementById("lists").onclick = listsButton
+
+    function currentListButton() {
+        document.getElementById("left").style.display = "none"
+        document.getElementById("middle").style.display = "block"
+        document.getElementById("middle").style.textAlign = "center"
+        document.getElementById("middle").className = "col-md-12"
+        document.getElementById("right").style.display = "none"
+    }
+    document.getElementById("currentList").onclick = currentListButton
+
+    function friendsButton() {
+        document.getElementById("left").style.display = "none"
+        document.getElementById("middle").style.display = "none"
+        document.getElementById("right").style.display = "block"
+        document.getElementById("right").style.textAlign = "center"
+        document.getElementById("right").className = "col-md-12"
+    }
+    document.getElementById("friends").onclick = friendsButton
+
     let database = [{itemNumber:1, name: "ketchup", qty: 1, units: "bottle", notes: "pls"}, {itemNumber:2, name: "lettuce", qty: 1, units: "bag", notes: "pls"}]
     let itemNumber = 1
 

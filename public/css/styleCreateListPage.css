@@ -101,3 +101,12 @@
     width: 20%;
 }
 
+#buttonBar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 30px;
+}
+
