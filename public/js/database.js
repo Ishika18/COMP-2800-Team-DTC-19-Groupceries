@@ -12,7 +12,7 @@ function write(user, groceryList, itemList){
     .catch(function(error) {
         console.error(error);
     });
-}
+};
 
 function read(user){
     db.collection(user).get().then(function(querySnapshot) {
@@ -22,7 +22,19 @@ function read(user){
             console.log(doc.id, " => ", doc.data());
         });
     });
-}
+};
+
+function addItem(user, groceryList, item){
+    db.collection(user).doc(groceryList).update({
+        items: firebase.firestore.FieldValue.arrayUnion(item)
+    });
+};
+
+function removeItem(user, groceryList, item){
+    db.collection(user).doc(groceryList).update({
+        items: firebase.firestore.FieldValue.arrayRemove(item)
+    });
+};
 
 // for demo
 console.log("Here is some code to demonstrate the working database. Please open 'https://console.firebase.google.com/project/groupceries-f6189/database' in another tab.")
