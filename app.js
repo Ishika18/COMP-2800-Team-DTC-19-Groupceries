@@ -4,11 +4,17 @@ const app = express();
 const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
+const userController = require('./controllers/userController');
 
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
 
 const PORT = process.env.PORT || 3000;
+
+// send all the users to algolia
+userController.listAllUsers().then( (allUsers) => {
+    console.log(allUsers);
+});
 
 app.use(bodyParser.json());
 
@@ -44,4 +50,4 @@ app.post("/home", function(req, res) {
 
 app.listen(PORT, function() {
     console.log("Server running: Vist localhost:" + PORT + " in your browser.")
-})
+});

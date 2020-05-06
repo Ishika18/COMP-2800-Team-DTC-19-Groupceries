@@ -18,7 +18,7 @@ if (!firebase.apps.length) {
 
 const admin = require('firebase-admin');
 
-let serviceAccount = require(".././groupceries-f6189-firebase-adminsdk-cxupm-fa31b03012.json.json");
+let serviceAccount = require(".././groupceries-f6189-firebase-adminsdk-cxupm-fa31b03012.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
