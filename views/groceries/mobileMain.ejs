@@ -1,0 +1,228 @@
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<!-- <link rel="stylesheet" type="text/css" href="css/styleCreateListPage.css"> -->
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="container-fluid col" id="topbar">
+            <%- include('../partials/mobileHeader.ejs'); -%>
+            <div id="itemsArea" class="col align-items-center">
+                <div class="d-flex addListBox">
+                    <div class="mr-auto p-2"><p>Donkey</p></div>
+                    <div class="p-2 ml-auto rightMostButton"><button class="addButton">View List</button></div>
+                </div>
+                <div class="d-flex addListBox">
+                    <div class="p-2"><p>Puss In Boots Grocery</p></div>
+                    <div class="p-2 ml-auto rightMostButton"><button class="addButton">View List</button></div>
+                </div>
+                <div class="d-flex addListBox">
+                    <div class="p-2"><p>Fiona</p></div>
+                    <div class="p-2 ml-auto rightMostButton"><button class="addButton">View List</button></div>
+                </div>
+            </div>
+            <%- include('../partials/list of friends.ejs'); -%>
+            <%- include('../partials/list of groceries.ejs'); -%>
+            <%- include('../partials/merge lists.ejs'); -%>
+        </div>
+    </div>
+    <div class="row fixed-bottom">
+        <%- include('../partials/MergePageButtons.ejs'); -%>
+        <%- include('../partials/appNavbar.ejs'); -%>
+    </div>
+</div>
+<!-- <div class="container" style="margin-top: 20px">
+    <div class="row">
+    <div class="col-lg-3">
+    <h3>Shopping Lists</h3><hr>
+       <div id="myLists">
+           <button id="myLists" class="btn collapsible">My Lists</button>
+           <ul id="lists" class="collapse">
+                <p>My List</p>
+                <p>List 2</p>
+                <p>List 3</p>
+           </ul>
+        </div>
+        <div id="friendLists">
+            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
+            <div class="collapse">
+            <ul id="shagun" class="collapsible">Shagun's Lists</ul>
+                <p class="collapse">List 1</p>
+            <ul id="ronald" class="collapsible">Ronald's Lists</ul>
+                <p class="collapse">List 1</p>
+            <ul id="eric" class="collapsible">Eric's Lists</ul>
+                <p class="collapse">List 1</p>
+           </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+                  
+        <div id="listArea">
+            <div id="buttons">
+                <h2 id="listTitle">My List</h2>
+                <button id="newItem" type="button">New Item</button>
+            </div>
+            <div id="groceryList">
+            </div>
+    </div>
+    </div>
+    <div class="col-lg-3" id="listActions">
+        <h3>List Actions</h3><hr><br>
+        <ul>
+            <label for="readyToggle">Mark as Ready For Purchase</label>
+            <input id="readyToggle" type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
+            <label for="readyToggle">Shopping Mode</label>
+            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
+            <label for="merge">Merge List</label>
+        </ul>
+    </div>
+</div>
+</div> -->
+<script>
+    let items = []
+    let itemNumber = 1
+
+    function newItemField() {
+        let item = document.createElement("div")
+        item.className = "listItems"
+        item.id = "Item" + itemNumber
+        itemNumber++
+        let list = document.getElementById("groceryList")
+        list.appendChild(item)
+        var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
+        var i
+
+        for(i=0; i <fields.length; i++) {
+            input = document.createElement("input")
+            input.setAttribute("type", "text")
+            input.id = fields[i]
+            input.classList = "textInput"
+            label = document.createElement("label")
+            label.innerHTML = fields[i]
+            label.classList ="listInputLabels"
+            item.appendChild(label)
+            item.appendChild(input)
+        }
+            addButtons(item,itemNumber)
+        }
+
+
+    function addButtons(item, itemNumber) {
+        addButton = document.createElement("button")
+        addButton.innerHTML = "Add"
+        addButton.id = "addButton" + itemNumber
+        item.appendChild(addButton)
+        addButton.onclick = addItemDetails(item, itemNumber)
+
+        editButton = document.createElement("button")
+        editButton.id = "editButton" + itemNumber
+        editButton.onclick = edit(item, itemNumber)
+        editButton.innerHTML = "Edit"
+        item.appendChild(editButton)
+        editButton.style.display = "none"
+
+        saveButton = document.createElement("button")
+        saveButton.id = "saveButton" + itemNumber
+        saveButton.onclick = saveChanges(item, itemNumber)
+        saveButton.innerHTML = "Save Changes"
+        item.appendChild(saveButton)
+        saveButton.style.display = "none"
+
+        cancelButton = document.createElement("button")
+        cancelButton.id = "cancelButton" + itemNumber
+        cancelButton.innerHTML = "Cancel"
+        item.appendChild(cancelButton)
+        cancelButton.style.display = "none"
+
+    }
+
+    function addItemDetails(item, itemNumber) {
+        return function() {
+            document.getElementById("addButton" + itemNumber).style.display = "none"
+            document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+            var fields = item.getElementsByClassName("textInput")
+            var fieldsCopy = []
+            for (field in fields) {
+                fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+            }
+            var i
+
+            for (i=0; i< fieldsCopy.length; i++) {
+                input = fieldsCopy[i]
+                input.className = "disabledInput"
+                input.disabled = true;
+        }
+    }
+}
+
+    function edit(item, itemNumber) {
+        return function() {
+            document.getElementById("editButton" + itemNumber).style.display = "none"
+            document.getElementById("saveButton" + itemNumber).style.display = "inline-block"
+            document.getElementById("cancelButton" + itemNumber).style.display = "inline-block"
+            var fields = item.getElementsByClassName("disabledInput")
+            var fieldsCopy = []
+            for (field in fields) {
+                fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+            }
+            var i
+
+            for (i=0; i< fieldsCopy.length; i++) {
+                input = fieldsCopy[i]
+                input.className = "textInput"
+                input.disabled = false;
+        }
+    }
+}
+    function saveChanges(item, itemNumber) {
+            return function() {
+                document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+                document.getElementById("saveButton" + itemNumber).style.display = "none"
+                document.getElementById("cancelButton" +itemNumber).style.display = "none"
+                var fields = item.getElementsByClassName("textInput")
+                var fieldsCopy = []
+                for (field in fields) {
+                    fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+                }
+                var i
+
+                for (i=0; i< fieldsCopy.length; i++) {
+                    input = fieldsCopy[i]
+                    input.className = "disabledInput"
+                    input.disabled = true;
+            }
+        }
+    }     
+
+    function collapse() {
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].onclick = function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            };
+        }
+    }
+
+    document.getElementById("newItem").onclick = newItemField
+    collapse()
+
+      
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+<script src="/js/firebaseInit.js"></script>
+<script src="/js/database.js"></script>
+<!-- the sidebar is to be included as well. -->

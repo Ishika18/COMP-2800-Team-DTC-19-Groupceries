@@ -29,6 +29,9 @@ app.get("/", groceriesController.home);
 // SS - create list page
 app.get("/groceries/createListPage", loggerMiddleware, groceriesController.createListPage);
 
+// SS - mobile main page
+app.get("/groceries/m", loggerMiddleware, groceriesController.m);
+
 // SS - edit list page
 app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editListPage);
 

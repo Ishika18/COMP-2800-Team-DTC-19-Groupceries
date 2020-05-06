@@ -32,6 +32,11 @@ let groceriesController = {
         res.render('groceries/createListPage', database);
     },
 
+    m: (req, res) => {
+        // instead of grocery list user email could be passed because firestore data has to be edited.
+        res.render('groceries/mobileMain', database);
+    },
+
     editListPage: (req, res) => {
         // instead of grocery list user email could be passed because firestore data has to be edited.
         res.render('groceries/editListPage', database);
