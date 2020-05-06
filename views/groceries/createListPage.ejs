@@ -58,7 +58,7 @@
 
 
 <script>
-    let database = [{itemNumber:1, name: "ketchup", qty: 1, units: "bottle", notes: "pls"}]
+    let database = [{itemNumber:1, name: "ketchup", qty: 1, units: "bottle", notes: "pls"}, {itemNumber:2, name: "lettuce", qty: 1, units: "bag", notes: "pls"}]
     let itemNumber = 1
 
     function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
@@ -91,6 +91,8 @@
                 listItem.appendChild(input)
         }
             addButtons(listItem, database[item].itemNumber, database[item])
+            document.getElementById("addButton" + database[item].itemNumber).style.display = "none"
+            document.getElementById("editButton" + database[item].itemNumber).style.display = "inline-block"
             fillFields(database[item].itemNumber, database[item])
         }
 
