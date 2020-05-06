@@ -27,36 +27,34 @@ let authController = {
                 next();
             } else {
                 // redirect to the home page.
-                res.render("groceries/home");
+                res.redirect("/");
             }
         });
     },
 
-    login: (req, res, uId) => {
+    login: (uId) => {
         var credential = firebase.auth.GoogleAuthProvider.credential(
-        uId['idToken']);
+            uId['idToken']);
         // Sign in with credential from the Google user.
-        firebase.auth().signInWithCredential(credential).then(function() {
-            //res.render("groceries/createListPage");
-        }).catch(function(error) {
-        // Handle Errors here.
-        console.log(error);
-        });
-    },
-
-    logout: () => {
-        firebase.auth().signOut().then(function() {
-            console.log('sign out successfull');
-        }, function(error) {
+        firebase.auth().signInWithCredential(credential).then(function(user) {
+            console.log("this is the user id token: ", firebase.auth().currentUser.uid);
+        }).catch(function (error) {
+            // Handle Errors here.
             console.log(error);
         });
     },
 
-    user: firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            return user;
-        }
-    })
+    logout: () => {
+        firebase.auth().signOut().then(function () {
+            console.log('sign out successfull');
+        }, function (error) {
+            console.log(error);
+        });
+    },
+
+    user: () => {
+        return firebase.auth().currentUser;
+    }
 }
 
 module.exports = authController;

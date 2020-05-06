@@ -36,8 +36,9 @@ app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editLis
 app.post("/home", function(req, res) {
     let userId = JSON.parse(JSON.stringify(req.body));
     if (userId.idToken) {
-        authController.login(req, res, userId);
-    } else {
+        console.log("we got the id and logged in the user");
+        authController.login(userId);
+    } else if (userId.idToken === false) {
         authController.logout();
     }
 });
