@@ -16,25 +16,59 @@ function write(user, groceryList, itemList){
 
 function read(user){
     db.collection(user).get().then(function(querySnapshot) {
-        console.log()
         console.log(querySnapshot.length)
         querySnapshot.forEach(function(doc) {
             console.log(doc.id, " => ", doc.data());
         });
+    })
+    .catch(function(error) {
+        console.error(error);
     });
 };
 
 function addItem(user, groceryList, item){
     db.collection(user).doc(groceryList).update({
         items: firebase.firestore.FieldValue.arrayUnion(item)
+    }).then(function() {
+        console.log("Write success, the database should now contain this entry.")
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+        
+    })
+    .catch(function(error) {
+        console.error(error);
     });
 };
 
 function removeItem(user, groceryList, item){
     db.collection(user).doc(groceryList).update({
         items: firebase.firestore.FieldValue.arrayRemove(item)
+    })
+    .then(function() {
+        console.log("Write success, the database should now have removed contain this entry.")
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+        
+    })
+    .catch(function(error) {
+        console.error(error);
     });
 };
+
+function addGroceryList(user, groceryList){
+    let GROCERY_LIST_INITIAL_STATE = {
+        items: [],
+        ready_to_buy: false,
+    };
+    db.collection(user).doc(groceryList).set(GROCERY_LIST_INITIAL_STATE)
+    .then(function() {
+        console.log("Write success, the database should now contain this entry.")
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+        
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+};
+
 
 // for demo
 console.log("Here is some code to demonstrate the working database. Please open 'https://console.firebase.google.com/project/groupceries-f6189/database' in another tab.")

@@ -23,7 +23,6 @@ let authController = {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 // user is signed in 
-                console.log(user);
                 // do the rendering or whatever
                 next();
             } else {
