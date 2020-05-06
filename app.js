@@ -4,6 +4,7 @@ const app = express();
 const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
+const favicon = require('serve-favicon');
 
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
@@ -17,6 +18,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended: true}));
 
 app.use(ejsLayouts);
+
+// set up favicon
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 // set up template engine
 app.set('view engine', 'ejs');
