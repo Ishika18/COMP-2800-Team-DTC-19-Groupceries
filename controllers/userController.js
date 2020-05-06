@@ -24,3 +24,38 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://groupceries-f6189.firebaseio.com"
 });
+
+let userController = {
+    listAllUsers: (nextPageToken) => {
+      let allUsers = [];
+      // List batch of users, 1000 at a time.
+      return admin.auth().listUsers(1000, nextPageToken)
+        .then(function (listUsersResult) {
+          listUsersResult.users.forEach(function (userRecord) {
+            let userInfo = userRecord.toJSON();
+            allUsers.push({ name: userInfo.displayName, email: userInfo.email, dp: userInfo.photoURL, objectID: userInfo.uid });
+          });
+          if (listUsersResult.pageToken) {
+            // List next batch of users.
+            listAllUsers(listUsersResult.pageToken);
+          }
+          return allUsers;
+        })
+        .catch(function (error) {
+          console.log('Error listing users:', error);
+        });
+    },
+  
+    getUID: (email) => {
+      return admin.auth().getUserByEmail(email)
+        .then(function (userRecord) {
+          // See the UserRecord reference doc for the contents of userRecord.
+          return userRecord.toJSON().uid;
+        })
+        .catch(function (error) {
+          console.log('Error fetching user data:', error);
+        });
+    }
+  }
+  
+  module.exports = userController;
