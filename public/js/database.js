@@ -62,11 +62,25 @@ function addGroceryList(user, groceryList){
     .then(function() {
         console.log("Write success, the database should now contain this entry.")
         console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
-        
     })
     .catch(function(error) {
         console.error(error);
     });
+};
+
+function deleteGroceryList(user, groceryList){
+    db.collection(user).doc(groceryList).delete().then(function() {
+        console.log("Delete success, the database should no longer contain this entry");
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+    }).catch(function(error) {
+        console.error(error);
+    });
+};
+
+// inefficicent, but firebase has a 1-second delay on editing items within an array, additionally editing maps (objects) inside of arrays are inefficient.
+function editItem(user, groceryList, oldItem, newItem){
+    removeItem(user, groceryList, oldItem);
+    addItem(user, groceryList, newItem);
 };
 
 
