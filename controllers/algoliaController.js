@@ -10,7 +10,8 @@ let algoliaController = {
             .saveObjects(users, { autoGenerateObjectIDIfNotExist: true })
             .then(({ objectIDs }) => {
                 console.log(objectIDs);
-            });;
+            })
+            .catch( (error) => { console.log(error) });
     },
 
     setSearchAttributes: () => {
@@ -22,7 +23,7 @@ let algoliaController = {
     },
 
     removeCurrentUser: (currentUserID) => {
-        index.deleteObject(currentUserID);
+        index.deleteObject(currentUserID).catch( (error) => { console.log(error) });
     }
 }
 
