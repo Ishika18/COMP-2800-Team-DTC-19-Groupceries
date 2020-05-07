@@ -1,4 +1,4 @@
-const client = algoliasearch('691PDCNR9Q', 'cc9618d9eb730c8f4d8773b668175030');
+const client = algoliasearch('latency', 'getyourownclientid');
 const users = client.initIndex('users');
 
 autocomplete('#aa-search-input', {}, [
@@ -16,3 +16,28 @@ autocomplete('#aa-search-input', {}, [
       }
     },
 ]);
+
+function sendRequest() {
+    let email = document.getElementById("aa-search-input").value;
+    console.log(email);
+    clearInput();
+    // make a post request of that email and do things with it.
+    sendFriendEmail(email);
+}
+
+function sendFriendEmail(email) {
+    $.ajax({
+        type: 'POST',
+        url: '/home/user',
+        data: {friendEmail: email},
+        success: function(data){
+          console.log(data);
+          //do something with the data via front-end framework
+          location.reload();
+        }
+      });
+}
+
+function clearInput() {
+    document.getElementById("aa-search-input").value = "";
+}
