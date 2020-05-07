@@ -10,6 +10,13 @@
                         <button class="rectangularButton pagination-centered" id="signOut" onclick={signOut()} style="display: none;">
                             Sign Out
                         </button>
+                        <!-- buttons to go other pages -->
+                        <form action="/groceries/editListPage" method="get">
+                            <button id="navBarEdit" class="btn navbar-brand text-dark d-inline" type="submit">Edit</button>
+                        </form>
+                        <form action="/groceries/createListPage" method="get">
+                            <button id="navBarCreate" class="btn navbar-brand text-dark d-inline" type="submit">Create</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -55,20 +62,16 @@
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="/images/placeholder.png" class="d-block w-100" alt="...">
+                        <img src="/images/laptopmock.png" class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="/images/placeholder.png" class="d-block w-100" alt="...">
+                        <img src="/images/phonemock.png" class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="/images/placeholder.png" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/images/placeholder.png" class="d-block w-100" alt="...">
+                        <img src="/images/phonemock2.png" class="d-block w-100" alt="...">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
