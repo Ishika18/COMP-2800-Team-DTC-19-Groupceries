@@ -1,4 +1,4 @@
-let database = {lastItemNum: 2, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]}
+let database = {user: 123, listName: "My List", lastItemNum: 2, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]}
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.itemNumber = null
@@ -29,7 +29,7 @@ function loadItems() { //runs when page loads and loads all items from database 
             listItem.appendChild(label)
             listItem.appendChild(input)
         }
-        addButtons(listItem, database.items[item].itemNumber, database.items[item])
+        addButtons(listItem, database.items[item].itemNumber)
         document.getElementById("addButton" + database.items[item].itemNumber).style.display = "none"
         document.getElementById("editButton" + database.items[item].itemNumber).style.display = "inline-block"
         fillFields(database.items[item].itemNumber, database.items[item])
@@ -45,15 +45,13 @@ function fillFields(itemNum, item) { //called by each list item loaded from data
     document.getElementById("Notes(Optional)" + itemNum).value = item.notes
 }
 
-function editDBEntry(itemNumber, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+
+function getFieldData(itemNumber) { //helper function for editDBEntry()
     let name = document.getElementById("Name" + itemNumber).value
     let qty = document.getElementById("Quantity" + itemNumber).value
     let units = document.getElementById("Units" + itemNumber).value
     let notes = document.getElementById("Notes(Optional)" + itemNumber).value
-    dbEntry.name = name
-    dbEntry.qty = qty
-    dbEntry.units = units
-    dbEntry.notes = notes
+    return [name, qty, units, notes]
 }
 
 function newItemField() {
@@ -63,9 +61,7 @@ function newItemField() {
     item.id = "Item" + database.lastItemNum
     let list = document.getElementById("groceryList")
     list.appendChild(item)
-    let dbEntry = new databaseListItem()
-    dbEntry.itemNumber = database.lastItemNum
-    database.items.push(dbEntry)
+    
     var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
     var i
 
@@ -80,16 +76,68 @@ function newItemField() {
         item.appendChild(label)
         item.appendChild(input)
     }
-    addButtons(item, dbEntry.itemNumber, dbEntry)
+    addButtons(item, database.lastItemNum)
 }
 
+function createEntryInDB() {
+    let dbEntry = new databaseListItem()
+    dbEntry.itemNumber = database.lastItemNum
+    database.items.push(dbEntry)
+    return dbEntry
+}
 
-function addButtons(item, itemNumber, dbEntry) {
+function addItemDetails(item) {
+    return function () {
+        dbEntry = createEntryInDB()
+        let itemNumber = dbEntry.itemNumber
+        editDBEntry(dbEntry)
+        document.getElementById("addButton" + itemNumber).style.display = "none"
+        document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+        toggleInputClass(item)
+        console.log(database)
+    }
+}
+
+function editDBEntry(dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+    fieldData = getFieldData(dbEntry.itemNumber)
+    dbEntry.name = fieldData[0]
+    dbEntry.qty = fieldData[1]
+    dbEntry.units = fieldData[2]
+    dbEntry.notes = fieldData[3]
+}
+
+function toggleInputClass(item) { //disable or enable inputs as necessary, helper function for many other functions
+    var fields = item.getElementsByClassName("textInput")
+    if (fields.length == 0) {
+        fields = item.getElementsByClassName("disabledInput")
+    } //this section of code determines which class of input is currently present.
+    var fieldsCopy = []
+    for (field in fields) {
+        fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+    }
+    var i
+
+    for (i = 0; i < fieldsCopy.length; i++) {
+        input = fieldsCopy[i]
+        if (input.className == "textInput") {
+            input.className = "disabledInput"
+        }else {
+            input.className = "textInput" //if input is an active text box, change it's styling to make it look inactive
+        }
+        if (input.disabled == true){
+            input.disabled = false
+        }else {
+            input.disabled = true// this part actually disables or enables the textbox (depending on its current state) by changing the 'disabled' property
+        }
+    }
+}
+
+function addButtons(item, itemNumber) { //creates all of the necessary buttons for the list field
     addButton = document.createElement("button")
     addButton.innerHTML = "Add"
     addButton.id = "addButton" + itemNumber
     item.appendChild(addButton)
-    addButton.onclick = addItemDetails(item, itemNumber, dbEntry)
+    addButton.onclick = addItemDetails(item)
 
     editButton = document.createElement("button")
     editButton.id = "editButton" + itemNumber
@@ -113,64 +161,28 @@ function addButtons(item, itemNumber, dbEntry) {
 
 }
 
-function addItemDetails(item, itemNumber, dbEntry) {
-    return function () {
-        editDBEntry(itemNumber, dbEntry)
-        document.getElementById("addButton" + itemNumber).style.display = "none"
-        document.getElementById("editButton" + itemNumber).style.display = "inline-block"
-        var fields = item.getElementsByClassName("textInput")
-        var fieldsCopy = []
-        for (field in fields) {
-            fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
-        }
-        var i
-
-        for (i = 0; i < fieldsCopy.length; i++) {
-            input = fieldsCopy[i]
-            input.className = "disabledInput"
-            input.disabled = true;
-        }
-    }
-}
-
-
 
 function edit(item, itemNumber) {
     return function () {
         document.getElementById("editButton" + itemNumber).style.display = "none"
         document.getElementById("saveButton" + itemNumber).style.display = "inline-block"
         document.getElementById("cancelButton" + itemNumber).style.display = "inline-block"
-        var fields = item.getElementsByClassName("disabledInput")
-        var fieldsCopy = []
-        for (field in fields) {
-            fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
-        }
-        var i
-
-        for (i = 0; i < fieldsCopy.length; i++) {
-            input = fieldsCopy[i]
-            input.className = "textInput"
-            input.disabled = false;
-        }
+        toggleInputClass(item)
     }
 }
 function saveChanges(item, itemNumber) {
     return function () {
+        for (listItem in database.items) {
+            if (database.items[listItem].itemNumber == itemNumber){
+               var dbEntry = database.items[listItem] 
+            } // had no other way of passing the item's database entry to this function, so this for loop searches the items list for the item whose itemNumber matches the one it was passed.
+        }
         document.getElementById("editButton" + itemNumber).style.display = "inline-block"
         document.getElementById("saveButton" + itemNumber).style.display = "none"
         document.getElementById("cancelButton" + itemNumber).style.display = "none"
-        var fields = item.getElementsByClassName("textInput")
-        var fieldsCopy = []
-        for (field in fields) {
-            fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
-        }
-        var i
-
-        for (i = 0; i < fieldsCopy.length; i++) {
-            input = fieldsCopy[i]
-            input.className = "disabledInput"
-            input.disabled = true;
-        }
+        toggleInputClass(item)
+        editDBEntry(dbEntry)
+        console.log(database)
     }
 }
 
