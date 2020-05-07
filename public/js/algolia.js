@@ -1,4 +1,4 @@
-const client = algoliasearch('latency', 'getyourownclientid');
+const client = algoliasearch('691PDCNR9Q', 'cc9618d9eb730c8f4d8773b668175030');
 const users = client.initIndex('users');
 
 autocomplete('#aa-search-input', {}, [
