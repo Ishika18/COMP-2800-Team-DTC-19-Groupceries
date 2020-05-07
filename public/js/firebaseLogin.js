@@ -34,8 +34,8 @@ function signOut() {
 }
 
 function logOutInServer() {
-  // send back a null user id.
-  let id = {idToken: null};
+  // send back false instead of user id.
+  let id = {idToken: false};
   $.ajax({
     type: 'POST',
     url: '/home',

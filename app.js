@@ -41,13 +41,14 @@ app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editLis
 // SS - login / logout the user ( get user id from post request )
 app.post("/home", function(req, res) {
     let userId = JSON.parse(JSON.stringify(req.body));
-    if (userId.idToken) {
-        authController.login(userId);
-    } else {
+    console.log(userId['idToken']);
+    if (userId['idToken'] == 'false') {
         authController.logout();
+    } else {
+        authController.login(userId);
     }
 });
 
 app.listen(PORT, function() {
-    console.log("Server running: Vist localhost:" + PORT + " in your browser.")
+    console.log("Server running: Vist localhost:" + PORT + " in your browser.");
 });
