@@ -1,4 +1,4 @@
-let database = {user: 123, listName: "My List", lastItemNum: 2, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]}
+let database = { user: 123, listName: "Silvana's List", lastItemNum: 2, readyToPurchase: false, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.itemNumber = null
@@ -32,13 +32,16 @@ function loadItems() { //runs when page loads and loads all items from database 
         addButtons(listItem, database.items[item].itemNumber)
         document.getElementById("addButton" + database.items[item].itemNumber).style.display = "none"
         document.getElementById("editButton" + database.items[item].itemNumber).style.display = "inline-block"
-        fillFields(database.items[item].itemNumber, database.items[item])
+        document.getElementById("deleteButton" + database.items[item].itemNumber).style.display = "inline-block"
+        fillFields(database.items[item])
+        document.getElementById("listTitle").innerHTML = database.listName
     }
 
 }
 document.onload = loadItems()
 
-function fillFields(itemNum, item) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
+function fillFields(item) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
+    let itemNum = item.itemNumber
     document.getElementById("Name" + itemNum).value = item.name
     document.getElementById("Quantity" + itemNum).value = item.qty
     document.getElementById("Units" + itemNum).value = item.units
@@ -61,7 +64,7 @@ function newItemField() {
     item.id = "Item" + database.lastItemNum
     let list = document.getElementById("groceryList")
     list.appendChild(item)
-    
+
     var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
     var i
 
@@ -93,6 +96,7 @@ function addItemDetails(item) {
         editDBEntry(dbEntry)
         document.getElementById("addButton" + itemNumber).style.display = "none"
         document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
         toggleInputClass(item)
         console.log(database)
     }
@@ -121,69 +125,83 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
         input = fieldsCopy[i]
         if (input.className == "textInput") {
             input.className = "disabledInput"
-        }else {
+        } else {
             input.className = "textInput" //if input is an active text box, change it's styling to make it look inactive
         }
-        if (input.disabled == true){
+        if (input.disabled == true) {
             input.disabled = false
-        }else {
+        } else {
             input.disabled = true// this part actually disables or enables the textbox (depending on its current state) by changing the 'disabled' property
         }
     }
 }
 
 function addButtons(item, itemNumber) { //creates all of the necessary buttons for the list field
-    addButton = document.createElement("button")
-    addButton.innerHTML = "Add"
-    addButton.id = "addButton" + itemNumber
-    item.appendChild(addButton)
-    addButton.onclick = addItemDetails(item)
+    let buttonInnerHTML = ["Add", "Edit", "Save Changes", "Cancel", "Delete Item"]
+    let buttonID = ["addButton", "editButton", "saveButton", "cancelButton", "deleteButton"]
+    let buttonFunctions = [addItemDetails(item), edit(item, itemNumber), saveChanges(item, itemNumber), cancelListEditing(item, itemNumber), deleteListItem(item, itemNumber)]
+    let initialButtonDisplay = ["inline-block", "none", "none", "none", "none"]
+    var i 
 
-    editButton = document.createElement("button")
-    editButton.id = "editButton" + itemNumber
-    editButton.onclick = edit(item, itemNumber)
-    editButton.innerHTML = "Edit"
-    item.appendChild(editButton)
-    editButton.style.display = "none"
-
-    saveButton = document.createElement("button")
-    saveButton.id = "saveButton" + itemNumber
-    saveButton.onclick = saveChanges(item, itemNumber)
-    saveButton.innerHTML = "Save Changes"
-    item.appendChild(saveButton)
-    saveButton.style.display = "none"
-
-    cancelButton = document.createElement("button")
-    cancelButton.id = "cancelButton" + itemNumber
-    cancelButton.innerHTML = "Cancel"
-    item.appendChild(cancelButton)
-    cancelButton.style.display = "none"
-
+    for(i=0; i<buttonInnerHTML.length; i++) {
+        let button = document.createElement("button")
+        button.innerHTML = buttonInnerHTML[i]
+        button.id = buttonID[i] + itemNumber
+        item.appendChild(button)
+        button.onclick = buttonFunctions[i]
+        button.style.display = initialButtonDisplay[i]
+    }
 }
 
+function deleteListItem(item, itemNumber) {
+    return function() {
+        let dbEntry = getDbEntryFromItemNumber(itemNumber)
+        item.remove()
+        delete database.items[dbEntry]
+    }
+}
+
+function cancelListEditing(item, itemNumber) {
+    return function () {
+        dbEntry = getDbEntryFromItemNumber(itemNumber)
+        fillFields(dbEntry)
+        toggleInputClass(item)
+        document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
+        document.getElementById("saveButton" + itemNumber).style.display = "none"
+        document.getElementById("cancelButton" + itemNumber).style.display = "none"
+    }
+}
 
 function edit(item, itemNumber) {
     return function () {
         document.getElementById("editButton" + itemNumber).style.display = "none"
         document.getElementById("saveButton" + itemNumber).style.display = "inline-block"
         document.getElementById("cancelButton" + itemNumber).style.display = "inline-block"
+        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
         toggleInputClass(item)
     }
 }
 function saveChanges(item, itemNumber) {
     return function () {
-        for (listItem in database.items) {
-            if (database.items[listItem].itemNumber == itemNumber){
-               var dbEntry = database.items[listItem] 
-            } // had no other way of passing the item's database entry to this function, so this for loop searches the items list for the item whose itemNumber matches the one it was passed.
-        }
+        dbEntry = getDbEntryFromItemNumber(itemNumber)
         document.getElementById("editButton" + itemNumber).style.display = "inline-block"
+        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
         document.getElementById("saveButton" + itemNumber).style.display = "none"
         document.getElementById("cancelButton" + itemNumber).style.display = "none"
         toggleInputClass(item)
         editDBEntry(dbEntry)
         console.log(database)
     }
+}
+
+function getDbEntryFromItemNumber(itemNumber) {//helper function 
+    for (listItem in database.items) {
+        if (database.items[listItem].itemNumber == itemNumber) {
+            var dbEntry = database.items[listItem]
+        } // had no other way of passing the item's database entry to this function, so this for loop searches the items list for the item whose itemNumber matches the one it was passed.
+    }
+    return dbEntry
 }
 
 function collapse() {
