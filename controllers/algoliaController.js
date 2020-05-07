@@ -20,6 +20,10 @@ let algoliaController = {
     setCustomRankings: () => {
         index.setSettings({ customRanking: ["desc(name, email)"] }).catch(error => {console.log(error)});
     },
+
+    removeCurrentUser: (currentUserID) => {
+        index.deleteObject(currentUserID);
+    }
 }
 
 module.exports = algoliaController;
