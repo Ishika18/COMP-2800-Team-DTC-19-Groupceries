@@ -1,73 +1,77 @@
 <!-- SS - create new grocery item page. -->
-<%- include('../partials/appNavbar.ejs'); -%>
+
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <link rel="stylesheet" type="text/css" href=/css/styleCreateListPage.css>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-
-
-<div class="container" style="margin-top: 20px">
+<div class="container-fluid">
     <div class="row">
-    <div class="col-lg-3" id="left">
-    <h3>Shopping Lists</h3><hr>
-       <div id="myLists">
-           <button id="myLists" class="btn collapsible">My Lists</button>
-           <ul id="availableLists" class="collapse">
-                <p>My List</p>
-                <p>List 2</p>
-                <p>List 3</p>
-           </ul>
-        </div>
-        <div id="friendLists">
-            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
-            <div class="collapse">
-                <ul id="shagun" class="collapsible">Shagun's Lists</ul>
-                    <p class="collapse">List 1</p>
-                <ul id="ronald" class="collapsible">Ronald's Lists</ul>
-                    <p class="collapse">List 1</p>
-                <ul id="eric" class="collapsible">Eric's Lists</ul>
-                    <p class="collapse">List 1</p>
-                </ul>
+        <div class="container-fluid col" id="topbar">
+            <%- include('../partials/mobileMainHeader.ejs'); -%>
+            <%- include('../partials/appNavbar.ejs'); -%>
+            <div id="itemsArea" class="col align-items-center bg-light">
+                    <div class="col-lg-3" id="left">
+                        <h3>Shopping Lists</h3><hr>
+                        <div id="myLists">
+                            <button id="myLists" class="btn collapsible">My Lists</button>
+                            <ul id="availableLists" class="collapse">
+                                    <p>My List</p>
+                                    <p>List 2</p>
+                                    <p>List 3</p>
+                            </ul>
+                        </div>
+                        <div id="friendLists">
+                            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
+                            <div class="collapse">
+                                <ul id="shagun" class="collapsible">Shagun's Lists</ul>
+                                    <p class="collapse">List 1</p>
+                                <ul id="ronald" class="collapsible">Ronald's Lists</ul>
+                                    <p class="collapse">List 1</p>
+                                <ul id="eric" class="collapsible">Eric's Lists</ul>
+                                    <p class="collapse">List 1</p>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" id="middle">
+                        <div id="listArea">
+                            <div id="buttons">
+                                <h2 id="listTitle">My List</h2>
+                                <button id="newItem" type="button">New Item</button>
+                            </div>
+                            <div id="groceryList">
+                                <div id="mobileButtonBar" class="col-md-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3" id="right">
+                        <h3 id="rightDesktop">List Actions</h3><hr><br>
+                        <ul id="actionList">
+                            <label id="readyToggle">Mark as Ready For Purchase
+                            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
+                            </label>
+                            <br>
+                            <label id="shoppingToggle">Shopping Mode
+                            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
+                            </label>
+                            <br>
+                            <label id="desktopMerge">Merge List</label>
+                        </ul>
+                    </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-6" id="middle">
-                  
-        <div id="listArea">
-            <div id="buttons">
-                <h2 id="listTitle">My List</h2>
-                <button id="newItem" type="button">New Item</button>
-            </div>
-            <div id="groceryList">
-                <div id="mobileButtonBar" class="col-md-12">
-
-                </div>
-            </div>
-        
-        </div>
-    </div>
-    <div class="col-lg-3" id="right">
-        <h3 id="rightDesktop">List Actions</h3><hr><br>
-        <h3 id="rightMobile">Friends</h3>
-        <ul id="actionList">
-            <label id="readyToggle">Mark as Ready For Purchase
-            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
-            </label>
-            <br>
-            <label id="shoppingToggle">Shopping Mode
-            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
-            </label>
-            <br>
-            <label id="desktopMerge">Merge List</label>
-        </ul>
     </div>
 </div>
-</div>
-<footer id="buttonFooter">
+<!-- <footer id="buttonFooter">
     <button id="lists">Lists</button>
     <button id="currentList">Current List</button>
     <button id="friends">Friends</button>
-</footer>
+</footer> -->
+<div class="row fixed-bottom" id="buttonFooter">
+    <%- include('../partials/mobileMainButtons.ejs'); -%>
+    <%- include('../partials/mobileNavbar.ejs'); -%>
+</div>
 
 
 <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>

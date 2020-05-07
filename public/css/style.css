@@ -1,249 +1,415 @@
-body{
-    background-color:#140A26;
+#newItemDetails {
+    display: none;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
+
+#notes {
+    display: table-cell;
+    width: 100%;
+}
+
+#addItem {
+    display: table-cell;
+    width: 100%;
+    margin-top: 5px;
+
+}
+
 #listArea {
     border: 1px solid black;
-    border: 16px;
+    border-radius: 16px;
+    height: 650px;
+    overflow: auto;
 }
-#topbar {
-    background-color: #140A26;
-    position: fixed;
-}
-#appTitle {
-    color: white;
-    text-align: center;
-}
-#pageTitle {
-    color: white;
-    text-align: center;
-    padding-bottom: 0.625rem;
-}
-#appContextTitle p{
-    background-color: rgb(0, 0, 0);
-    color: red;
-    margin-top: 0.625rem;
-    margin-bottom: 0.625rem;
-}
-.addListBox {
-    background-color: white;
-    margin-top: 0.625rem;
-    margin-bottom: 1.25rem;
-}
-.addListBox p{
-    font-weight: bold;
-    width: 100%;
-    margin: 0;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-}
-.addListBox button{
-    height: 100%;
-}
-.removeListBox {
-    color: white;
-    background-color: grey;
-    margin-top: 0.625rem;
-    margin-bottom: 1.25rem;
-}
-.removeListBox p{
-    font-weight: bold;
-    width: 100%;
-    margin: 0;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-}
-.removeListBox button{
-    height: 100%;
-}
-.p-2 {
-    padding-top: 0!important;
-    padding-bottom: 0!important;
-}
-.rightMostButton {
-    padding-right: 0!important;
-}
-.addButton {
-    background-color: green;
-    font-weight: bold;
-    border-color: green;
-    color: white;
-}
-.editAmount {
-    font-weight: 500;
-    width: 100%;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    background-color: white;
-    border-color: black;
-    border-top: 0;
-    border-bottom: 0;
-    border-right: 1px;
-    color: black;
-}
-.removeButton {
-    background-color: red;
-    font-weight: bold;
-    border-color: red;
-    color: white;
-}
-#centerbuttonbar {
-    margin-bottom: 3.125rem;
-    background-color: #140A26;
-    color:white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#centerRightButton {
-    background-color: green;
-    color:white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    margin-left: 0.5rem;
-    font-size: small;
-}
-#centerLeftButton {
-    background-color: red;
-    color:white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    margin-right: 0.5rem;
-    font-size: x-small;
-}
-.rectangularButton {
-    background-color: #5B3E96;
-    border: none;
-    color: white;
-    width: 25vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-    margin-top: 0.625rem;
-    margin-bottom: 0.625rem;
-    font-weight: 500;
-    border-radius: 1rem;
-}
-.mobileNavbar { 
-    padding: 0!important;
-}
-.mobileNavbar form{ 
-    display: flex;
-}
-.navbar { 
-    flex-wrap: unset;
-}
-.navbarItem{
-    padding: .5rem 1rem;
-    margin: 0;
-    float: left;
-    height: max-content;
-    background-color: #20187A;
-    color: #ffffff;
-    border: none;
-}
-.navbarItemActive{
-    padding: .5rem 1rem;
-    margin: 0;
-    float: left;
-    height: max-content;
-    background-color: #ffffff;
-    color: #20187A;
-    border: none;
-}
-.navbar-brand {
-    width: 33.3%;
-    text-align: center;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-}
-#logoIcon {
-    width: 7.5rem;
-    height: 4.5rem;
-    margin: auto;    
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-}
-#appTitleContainer {
-    margin-bottom: 1rem;
-}
-#appContextContainer {
-    background-color: rgb(0, 0, 0);
-}
-#itemsArea{
-    background-color:#221738;
-    overflow-y:scroll;
-    width:100%;
-    height:calc(100vh - 16.5rem);
-  }
-.toggle.ios, .toggle-on.ios, .toggle-off.ios {
-    border-radius: 2rem;
-    width: 11rem;
-    padding-top: 1rem;
-}
-.btn-primary {
-    border-color: #20187A!important;
-    background-color: #20187A!important;
-    color: #fff!important;
-}
-#centerbuttonbar .btn {
-    background-color: white;
-    color: black;
-}
-#centerbuttonbar .toggle {
-    overflow: hidden;
-}
-#itemValue {
-    position: fixed;
-    left: 70%
-}
-#itemValueUnit {
-    position: fixed;
-    left: 80%
-}
-#signInBox {
-    margin-bottom: 5rem;
-}
-#logOutButton {
-    font-size: xx-small;
-    font-weight: 500;
-    float: right;
-    height: 2.79rem;
-    background-color: black;
-    border: black;
-    color: white;
-}
-#removeFriendButton {
-    background-color: red!important;
-}
-#addFriendButton {
-    background-color: green!important;
-    margin-right: 1.5rem;
-    margin-left: 1.5rem;
-}
-#callFriendButton {
-    background-color: blue!important;
-}
-#launchPageItems {
-    margin-top: 15rem;
-    z-index: -1000!important;
-    background-color: #221738;
-}
-#logInSection {
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-}
-/* #infoSlides{
 
-} */
+#buttons {
+    border-bottom: 1px solid grey;
+    height: 75px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: "one two three four";
+}
+
+#newItem {
+    grid-area: four;
+}
+
+#listTitle {
+    grid-area: one;
+    margin-left: 15px;
+    margin-top: 15px
+}
+
+.custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
+    text-indent: -3.9em;
+    border-radius: 20px;
+    width:11em;
+}
+.custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
+    border-radius: 20px;
+    width:4em
+}
+.custom-size-flipswitch.ui-flipswitch {
+    width: 11em;
+    border-radius: 20px;
+}
+.custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
+    padding-left: 7em;
+    width: 11em;
+    border-radius: 20px;
+}
+
+.collapse {
+    display: none;
+}
+
+.disabledInput {
+    border: none;
+    background-color: transparent;
+    margin-left: 8px;
+}
+
+.textInput {
+    border: 1px solid grey;
+    border-radius: 5px;
+    background-color: white;
+    margin: 5px;
+}
+
+.listItems {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid indigo;
+    border-radius: 5px;
+}
+
+.listInputLabels {
+    font-weight: bold;
+    color: indigo;
+}
+
+.textInput[id |= "Name"] {
+    display: table-cell;
+    width: 50%;
+}
+
+.textInput[id |= "Quantity"] {
+    display: table-cell;
+    width: 20%;
+}
+
+#buttonFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 30px;
+}
+
+@media (min-width: 1025px) {
+
+    #buttonFooter {
+        display: none;
+    }
+    #rightMobile {
+        display: none;
+    }
+    #rightDesktop {
+        display: block
+    }
+    #mobileButtonBar {
+        display:none
+    }
+    #mobileBottomNav {
+        display: none;
+    }
+    #mobileHeader {
+        display: none;
+    }
+    #centerbuttonbar {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    #desktopNavbar {
+        display: none;
+    }
+    #left {
+        display:none;
+    }
+    #right {
+        display:none;
+    }
+    #rightDesktop {
+        display: none
+    }
+
+    #mobileButtonBar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background-color: rebeccapurple;
+        color: white;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+    }
+    body{
+        background-color:#140A26;
+    }
+    #listArea {
+        border: 1px solid black;
+        border: 16px;
+    }
+    #topbar {
+        background-color: #140A26;
+        position: fixed;
+    }
+    #appTitle {
+        color: white;
+        text-align: center;
+    }
+    #pageTitle {
+        color: white;
+        text-align: center;
+        padding-bottom: 0.625rem;
+    }
+    #appContextTitle p{
+        background-color: rgb(0, 0, 0);
+        color: red;
+        margin-top: 0.625rem;
+        margin-bottom: 0.625rem;
+    }
+    .addListBox {
+        background-color: white;
+        margin-top: 0.625rem;
+        margin-bottom: 1.25rem;
+    }
+    .addListBox p{
+        font-weight: bold;
+        width: 100%;
+        margin: 0;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+    .addListBox button{
+        height: 100%;
+    }
+    .removeListBox {
+        color: white;
+        background-color: grey;
+        margin-top: 0.625rem;
+        margin-bottom: 1.25rem;
+    }
+    .removeListBox p{
+        font-weight: bold;
+        width: 100%;
+        margin: 0;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+    .removeListBox button{
+        height: 100%;
+    }
+    .p-2 {
+        padding-top: 0!important;
+        padding-bottom: 0!important;
+    }
+    .rightMostButton {
+        padding-right: 0!important;
+    }
+    .addButton {
+        background-color: green;
+        font-weight: bold;
+        border-color: green;
+        color: white;
+    }
+    .editAmount {
+        font-weight: 500;
+        width: 100%;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        background-color: white;
+        border-color: black;
+        border-top: 0;
+        border-bottom: 0;
+        border-right: 1px;
+        color: black;
+    }
+    .removeButton {
+        background-color: red;
+        font-weight: bold;
+        border-color: red;
+        color: white;
+    }
+    #centerbuttonbar {
+        margin-bottom: 3.125rem;
+        background-color: #140A26;
+        color:white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #centerRightButton {
+        background-color: green;
+        color:white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        margin-left: 0.5rem;
+        font-size: small;
+    }
+    #centerLeftButton {
+        background-color: red;
+        color:white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        margin-right: 0.5rem;
+        font-size: x-small;
+    }
+    .rectangularButton {
+        background-color: #5B3E96;
+        border: none;
+        color: white;
+        width: 25vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+        margin-top: 0.625rem;
+        margin-bottom: 0.625rem;
+        font-weight: 500;
+        border-radius: 1rem;
+    }
+    .mobileNavbar { 
+        padding: 0!important;
+    }
+    .mobileNavbar form{ 
+        display: flex;
+    }
+    .navbar { 
+        flex-wrap: unset;
+    }
+    .navbarItem{
+        padding: .5rem 1rem;
+        margin: 0;
+        float: left;
+        height: max-content;
+        background-color: #20187A;
+        color: #ffffff;
+        border: none;
+    }
+    .navbarItemActive{
+        padding: .5rem 1rem;
+        margin: 0;
+        float: left;
+        height: max-content;
+        background-color: #ffffff;
+        color: #20187A;
+        border: none;
+    }
+    .navbar-brand {
+        width: 33.3%;
+        text-align: center;
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+    }
+    #logoIcon {
+        width: 7.5rem;
+        height: 4.5rem;
+        margin: auto;    
+        display: block;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    #appTitleContainer {
+        margin-bottom: 1rem;
+    }
+    #appContextContainer {
+        background-color: rgb(0, 0, 0);
+    }
+    #itemsArea{
+        background-color:#221738;
+        overflow-y:scroll;
+        width:100%;
+        height:calc(100vh - 16.5rem);
+      }
+    .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+        border-radius: 2rem;
+        width: 11rem;
+        padding-top: 1rem;
+    }
+    .btn-primary {
+        border-color: #20187A!important;
+        background-color: #20187A!important;
+        color: #fff!important;
+    }
+    #centerbuttonbar .btn {
+        background-color: white;
+        color: black;
+    }
+    #centerbuttonbar .toggle {
+        overflow: hidden;
+    }
+    #itemValue {
+        position: fixed;
+        left: 70%
+    }
+    #itemValueUnit {
+        position: fixed;
+        left: 80%
+    }
+    #signInBox {
+        margin-bottom: 5rem;
+    }
+    #logOutButton {
+        font-size: xx-small;
+        font-weight: 500;
+        float: right;
+        height: 2.79rem;
+        background-color: black;
+        border: black;
+        color: white;
+    }
+    #removeFriendButton {
+        background-color: red!important;
+    }
+    #addFriendButton {
+        background-color: green!important;
+        margin-right: 1.5rem;
+        margin-left: 1.5rem;
+    }
+    #callFriendButton {
+        background-color: blue!important;
+    }
+    #launchPageItems {
+        margin-top: 15rem;
+        z-index: -1000!important;
+        background-color: #221738;
+    }
+    #logInSection {
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+    /* #infoSlides{
+    
+    } */
+    
+}
+
+
