@@ -133,23 +133,32 @@ body{
     font-weight: 500;
     border-radius: 1rem;
 }
-#navbar { 
-    padding: 0;
+.mobileNavbar { 
+    padding: 0!important;
+}
+.mobileNavbar form{ 
+    display: flex;
 }
 .navbar { 
     flex-wrap: unset;
 }
-#navbarItem{
+.navbarItem{
+    padding: .5rem 1rem;
     margin: 0;
     float: left;
     height: max-content;
+    background-color: #20187A;
+    color: #ffffff;
+    border: none;
 }
-#navbarItemActive{
+.navbarItemActive{
+    padding: .5rem 1rem;
     margin: 0;
-    background-color: white;
-    color: #20187A;
     float: left;
     height: max-content;
+    background-color: #ffffff;
+    color: #20187A;
+    border: none;
 }
 .navbar-brand {
     width: 33.3%;

@@ -4,7 +4,7 @@ const app = express();
 const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
-
+const favicon = require('serve-favicon');
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
 
@@ -18,6 +18,9 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(ejsLayouts);
 
+// use favicon
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
+
 // set up template engine
 app.set('view engine', 'ejs');
 
@@ -26,11 +29,11 @@ app.set('view engine', 'ejs');
 // SS - landing / home page.
 app.get("/", groceriesController.home);
 
+// SS - mobile main page
+app.get("/groceries/mobileMain", loggerMiddleware, groceriesController.mobileMain);
+
 // SS - create list page
 app.get("/groceries/createListPage", loggerMiddleware, groceriesController.createListPage);
-
-// SS - mobile main page
-app.get("/groceries/m", loggerMiddleware, groceriesController.m);
 
 // SS - edit list page
 app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editListPage);

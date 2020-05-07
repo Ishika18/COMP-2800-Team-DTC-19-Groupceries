@@ -1,15 +1,14 @@
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<!-- <link rel="stylesheet" type="text/css" href="css/styleCreateListPage.css"> -->
-<link rel="stylesheet" type="text/css" href="css/style.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-
 <div class="container-fluid">
     <div class="row">
         <div class="container-fluid col" id="topbar">
-            <%- include('../partials/mobileHeader.ejs'); -%>
-            <div id="itemsArea" class="col align-items-center">
-                <div class="d-flex addListBox">
+            <div class="row" id="appTitleContainer">
+                <div class="col align-items-center">
+                    <h2 id="appTitle">Groupceries</h2>
+                </div>
+            </div>
+            <%- include('../partials/mobileMainHeader.ejs'); -%>
+            <div id="itemsArea" class="col align-items-center bg-light">
+                <!-- <div class="d-flex addListBox">
                     <div class="mr-auto p-2"><p>Donkey</p></div>
                     <div class="p-2 ml-auto rightMostButton"><button class="addButton">View List</button></div>
                 </div>
@@ -20,84 +19,102 @@
                 <div class="d-flex addListBox">
                     <div class="p-2"><p>Fiona</p></div>
                     <div class="p-2 ml-auto rightMostButton"><button class="addButton">View List</button></div>
+                </div> -->
+                <div class="col-lg-6">
+                    <div id="listArea">
+                        <div id="buttons">
+                            <h2 id="listTitle">My List</h2>
+                            <button id="newItem" type="button">New Item</button>
+                        </div>
+                        <div id="groceryList">
+                        </div>
                 </div>
             </div>
-            <%- include('../partials/list of friends.ejs'); -%>
-            <%- include('../partials/list of groceries.ejs'); -%>
-            <%- include('../partials/merge lists.ejs'); -%>
         </div>
     </div>
     <div class="row fixed-bottom">
-        <%- include('../partials/MergePageButtons.ejs'); -%>
-        <%- include('../partials/appNavbar.ejs'); -%>
+        <%- include('../partials/mobileMainButtons.ejs'); -%>
+        <%- include('../partials/mobileNavbar.ejs'); -%>
     </div>
 </div>
-<!-- <div class="container" style="margin-top: 20px">
-    <div class="row">
-    <div class="col-lg-3">
-    <h3>Shopping Lists</h3><hr>
-       <div id="myLists">
-           <button id="myLists" class="btn collapsible">My Lists</button>
-           <ul id="lists" class="collapse">
-                <p>My List</p>
-                <p>List 2</p>
-                <p>List 3</p>
-           </ul>
-        </div>
-        <div id="friendLists">
-            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
-            <div class="collapse">
-            <ul id="shagun" class="collapsible">Shagun's Lists</ul>
-                <p class="collapse">List 1</p>
-            <ul id="ronald" class="collapsible">Ronald's Lists</ul>
-                <p class="collapse">List 1</p>
-            <ul id="eric" class="collapsible">Eric's Lists</ul>
-                <p class="collapse">List 1</p>
-           </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-                  
-        <div id="listArea">
-            <div id="buttons">
-                <h2 id="listTitle">My List</h2>
-                <button id="newItem" type="button">New Item</button>
-            </div>
-            <div id="groceryList">
-            </div>
-    </div>
-    </div>
-    <div class="col-lg-3" id="listActions">
-        <h3>List Actions</h3><hr><br>
-        <ul>
-            <label for="readyToggle">Mark as Ready For Purchase</label>
-            <input id="readyToggle" type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
-            <label for="readyToggle">Shopping Mode</label>
-            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
-            <label for="merge">Merge List</label>
-        </ul>
-    </div>
-</div>
-</div> -->
+
 <script>
-    let items = []
+    let database = [{itemNumber:1, name: "ketchup", qty: 1, units: "bottle", notes: "pls"}, {itemNumber:2, name: "lettuce", qty: 1, units: "bag", notes: "pls"}]
     let itemNumber = 1
+
+    function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
+        this.itemNumber = null
+        this.name = " "
+        this.qty = null
+        this.units = " "
+        this.notes = ""
+    }
+    
+    function loadItems() { //runs when page loads and loads all items from database and makes them visible on list.
+        for (item in database) {
+            listItem = document.createElement("div")
+            listItem.className = "listItems"
+            let list = document.getElementById("groceryList")
+            list.appendChild(listItem)
+            var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
+            var i
+        
+            for(i=0; i < fields.length; i++) {
+                input = document.createElement("input")
+                input.setAttribute("type", "text")
+                input.id = fields[i] + database[item].itemNumber
+                input.classList = "disabledInput"
+                input.disabled = true
+                label = document.createElement("label")
+                label.innerHTML = fields[i]
+                label.classList ="listInputLabels"
+                listItem.appendChild(label)
+                listItem.appendChild(input)
+        }
+            addButtons(listItem, database[item].itemNumber, database[item])
+            document.getElementById("addButton" + database[item].itemNumber).style.display = "none"
+            document.getElementById("editButton" + database[item].itemNumber).style.display = "inline-block"
+            fillFields(database[item].itemNumber, database[item])
+        }
+
+        }
+    document.onload = loadItems()
+
+    function fillFields(itemNum, item) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
+        document.getElementById("Name" + itemNum).value = item.name
+        document.getElementById("Quantity" + itemNum).value = item.qty
+        document.getElementById("Units" + itemNum).value = item.units
+        document.getElementById("Notes(Optional)" + itemNum).value = item.notes
+    }
+
+    function editDBEntry (itemNumber, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+        let name = document.getElementById("Name" + itemNumber).value
+        let qty = document.getElementById("Quantity" + itemNumber).value
+        let units = document.getElementById("Units" + itemNumber).value
+        let notes = document.getElementById("Notes(Optional)" + itemNumber).value
+        dbEntry.name = name
+        dbEntry.qty = qty
+        dbEntry.units = units
+        dbEntry.notes = notes
+    }
 
     function newItemField() {
         let item = document.createElement("div")
         item.className = "listItems"
         item.id = "Item" + itemNumber
-        itemNumber++
         let list = document.getElementById("groceryList")
         list.appendChild(item)
+        let dbEntry = new databaseListItem()
+        dbEntry.itemNumber = itemNumber
+        itemNumber++
+        database.push(dbEntry)
         var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
         var i
 
         for(i=0; i <fields.length; i++) {
             input = document.createElement("input")
             input.setAttribute("type", "text")
-            input.id = fields[i]
+            input.id = fields[i] + itemNumber
             input.classList = "textInput"
             label = document.createElement("label")
             label.innerHTML = fields[i]
@@ -105,16 +122,16 @@
             item.appendChild(label)
             item.appendChild(input)
         }
-            addButtons(item,itemNumber)
+            addButtons(item, dbEntry.itemNumber, dbEntry)
         }
 
 
-    function addButtons(item, itemNumber) {
+    function addButtons(item, itemNumber, dbEntry) {
         addButton = document.createElement("button")
         addButton.innerHTML = "Add"
         addButton.id = "addButton" + itemNumber
         item.appendChild(addButton)
-        addButton.onclick = addItemDetails(item, itemNumber)
+        addButton.onclick = addItemDetails(item, itemNumber, dbEntry)
 
         editButton = document.createElement("button")
         editButton.id = "editButton" + itemNumber
@@ -138,8 +155,9 @@
 
     }
 
-    function addItemDetails(item, itemNumber) {
+    function addItemDetails(item, itemNumber, dbEntry) {
         return function() {
+            editDBEntry(itemNumber, dbEntry)
             document.getElementById("addButton" + itemNumber).style.display = "none"
             document.getElementById("editButton" + itemNumber).style.display = "inline-block"
             var fields = item.getElementsByClassName("textInput")
@@ -156,6 +174,8 @@
         }
     }
 }
+
+    
 
     function edit(item, itemNumber) {
         return function() {
@@ -218,11 +238,3 @@
 
       
 </script>
-
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
-<script src="/js/firebaseInit.js"></script>
-<script src="/js/database.js"></script>
-<!-- the sidebar is to be included as well. -->
