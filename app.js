@@ -5,15 +5,20 @@ const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
+const algoliaController = require('./controllers/algoliaController');
 
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
+let currentUserID = user.uid;
 
 const PORT = process.env.PORT || 3000;
 
 // send all the users to algolia
-userController.listAllUsers().then( (allUsers) => {
-    console.log(allUsers);
+userController.listAllUsers().then( (users) => {
+    algoliaController.addData(users);
+    algoliaController.setSearchAttributes();
+    algoliaController.setCustomRankings();
+    algoliaController.removeCurrentUser(currentUserID);
 });
 
 app.use(bodyParser.json());
