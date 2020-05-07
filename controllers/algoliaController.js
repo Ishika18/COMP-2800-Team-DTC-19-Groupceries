@@ -12,6 +12,10 @@ let algoliaController = {
                 console.log(objectIDs);
             });;
     },
+
+    setSearchAttributes: () => {
+        index.setSettings({ searchableAttributes: ["name", "email"] }).catch(error => { console.log(error) });
+    },
 }
 
 module.exports = algoliaController;
