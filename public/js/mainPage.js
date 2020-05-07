@@ -156,8 +156,10 @@ function addButtons(item, itemNumber) { //creates all of the necessary buttons f
 function deleteListItem(item, itemNumber) {
     return function() {
         let dbEntry = getDbEntryFromItemNumber(itemNumber)
+        let dbEntryLocation = database.items.indexOf(dbEntry)
         item.remove()
-        delete database.items[dbEntry]
+        database.items.splice(dbEntryLocation, 1)
+        console.log(database)
     }
 }
 
