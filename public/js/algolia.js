@@ -16,3 +16,28 @@ autocomplete('#aa-search-input', {}, [
       }
     },
 ]);
+
+function sendRequest() {
+    let email = document.getElementById("aa-search-input").value;
+    console.log(email);
+    clearInput();
+    // make a post request of that email and do things with it.
+    sendFriendEmail(email);
+}
+
+function sendFriendEmail(email) {
+    $.ajax({
+        type: 'POST',
+        url: '/home/user',
+        data: {friendEmail: email},
+        success: function(data){
+          console.log(data);
+          //do something with the data via front-end framework
+          location.reload();
+        }
+      });
+}
+
+function clearInput() {
+    document.getElementById("aa-search-input").value = "";
+}
