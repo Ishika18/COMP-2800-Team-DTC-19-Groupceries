@@ -1,5 +1,4 @@
-let database = {itemNumber: 2, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]}
-let itemNumber = 1
+let database = {lastItemNum: 2, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]}
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.itemNumber = null
@@ -59,13 +58,13 @@ function editDBEntry(itemNumber, dbEntry) { //called when a user clicks "Add" on
 
 function newItemField() {
     let item = document.createElement("div")
-    database.itemNumber++
+    database.lastItemNum++
     item.className = "listItems"
-    item.id = "Item" + database.itemNumber
+    item.id = "Item" + database.lastItemNum
     let list = document.getElementById("groceryList")
     list.appendChild(item)
     let dbEntry = new databaseListItem()
-    dbEntry.itemNumber = database.itemNumber
+    dbEntry.itemNumber = database.lastItemNum
     database.items.push(dbEntry)
     var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
     var i
@@ -73,7 +72,7 @@ function newItemField() {
     for (i = 0; i < fields.length; i++) {
         input = document.createElement("input")
         input.setAttribute("type", "text")
-        input.id = fields[i] + database.itemNumber
+        input.id = fields[i] + database.lastItemNum
         input.classList = "textInput"
         label = document.createElement("label")
         label.innerHTML = fields[i]
