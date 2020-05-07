@@ -16,6 +16,10 @@ let algoliaController = {
     setSearchAttributes: () => {
         index.setSettings({ searchableAttributes: ["name", "email"] }).catch(error => { console.log(error) });
     },
+
+    setCustomRankings: () => {
+        index.setSettings({ customRanking: ["desc(name, email)"] }).catch(error => {console.log(error)});
+    },
 }
 
 module.exports = algoliaController;
