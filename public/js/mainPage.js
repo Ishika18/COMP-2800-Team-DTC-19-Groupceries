@@ -1,4 +1,4 @@
-let database = [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]
+let database = {itemNumber: 2, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]}
 let itemNumber = 1
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
@@ -10,7 +10,7 @@ function databaseListItem() {         // object constructor for new database ent
 }
 
 function loadItems() { //runs when page loads and loads all items from database and makes them visible on list.
-    for (item in database) {
+    for (item in database.items) {
         listItem = document.createElement("div")
         listItem.className = "listItems"
         let list = document.getElementById("groceryList")
@@ -21,7 +21,7 @@ function loadItems() { //runs when page loads and loads all items from database 
         for (i = 0; i < fields.length; i++) {
             input = document.createElement("input")
             input.setAttribute("type", "text")
-            input.id = fields[i] + database[item].itemNumber
+            input.id = fields[i] + database.items[item].itemNumber
             input.classList = "disabledInput"
             input.disabled = true
             label = document.createElement("label")
@@ -30,10 +30,10 @@ function loadItems() { //runs when page loads and loads all items from database 
             listItem.appendChild(label)
             listItem.appendChild(input)
         }
-        addButtons(listItem, database[item].itemNumber, database[item])
-        document.getElementById("addButton" + database[item].itemNumber).style.display = "none"
-        document.getElementById("editButton" + database[item].itemNumber).style.display = "inline-block"
-        fillFields(database[item].itemNumber, database[item])
+        addButtons(listItem, database.items[item].itemNumber, database.items[item])
+        document.getElementById("addButton" + database.items[item].itemNumber).style.display = "none"
+        document.getElementById("editButton" + database.items[item].itemNumber).style.display = "inline-block"
+        fillFields(database.items[item].itemNumber, database.items[item])
     }
 
 }
@@ -59,21 +59,21 @@ function editDBEntry(itemNumber, dbEntry) { //called when a user clicks "Add" on
 
 function newItemField() {
     let item = document.createElement("div")
+    database.itemNumber++
     item.className = "listItems"
-    item.id = "Item" + itemNumber
+    item.id = "Item" + database.itemNumber
     let list = document.getElementById("groceryList")
     list.appendChild(item)
     let dbEntry = new databaseListItem()
-    dbEntry.itemNumber = itemNumber
-    itemNumber++
-    database.push(dbEntry)
+    dbEntry.itemNumber = database.itemNumber
+    database.items.push(dbEntry)
     var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
     var i
 
     for (i = 0; i < fields.length; i++) {
         input = document.createElement("input")
         input.setAttribute("type", "text")
-        input.id = fields[i] + itemNumber
+        input.id = fields[i] + database.itemNumber
         input.classList = "textInput"
         label = document.createElement("label")
         label.innerHTML = fields[i]
