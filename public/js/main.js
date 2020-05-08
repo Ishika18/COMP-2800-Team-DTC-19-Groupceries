@@ -14,8 +14,8 @@ function onSignIn(googleUser) {
 function logInFirebase(id_token) {
   let credential = firebase.auth.GoogleAuthProvider.credential(id_token);
   firebase.auth().signInWithCredential(credential).then(function (user) {
-    // this is where the user id can be found for database purpose.
-    console.log("this is the user id token: ", firebase.auth().currentUser.uid);
+    // store uid on local storage.
+    window.localStorage.setItem('uid', firebase.auth().currentUser.uid);
   }).catch(function (error) {
     // Handle Errors here.
     console.log(error);
@@ -67,9 +67,4 @@ function logOutInServer() {
       location.reload();
     }
   });
-}
-
-// how to use the currentUser
-document.getElementById("lists").onclick = function () {
-  console.log(firebase.auth().currentUser.uid);
 }
