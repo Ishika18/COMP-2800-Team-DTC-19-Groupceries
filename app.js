@@ -5,10 +5,17 @@ const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
 const favicon = require('serve-favicon');
+const userController = require('./controllers/userController');
+
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
 
 const PORT = process.env.PORT || 3000;
+
+// send all the users to algolia
+userController.listAllUsers().then( (allUsers) => {
+    console.log(allUsers);
+});
 
 app.use(bodyParser.json());
 

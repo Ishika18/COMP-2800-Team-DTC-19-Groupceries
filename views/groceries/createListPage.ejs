@@ -1,7 +1,6 @@
 <!-- SS - create new grocery item page. -->
 
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<link rel="stylesheet" type="text/css" href=/css/styleCreateListPage.css>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <div class="container-fluid">
@@ -9,7 +8,7 @@
         <div class="container-fluid col" id="topbar">
             <%- include('../partials/mobileMainHeader.ejs'); -%>
             <%- include('../partials/appNavbar.ejs'); -%>
-            <div id="itemsArea" class="col align-items-center bg-light">
+            <div class="col bg-light itemsArea">
                     <div class="col-lg-3" id="left">
                         <h3>Shopping Lists</h3><hr>
                         <div id="myLists">
@@ -33,18 +32,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6" id="middle">
-                        <div id="listArea">
-                            <div id="buttons">
-                                <h2 id="listTitle">My List</h2>
-                                <button id="newItem" type="button">New Item</button>
-                            </div>
-                            <div id="groceryList">
-                                <div id="mobileButtonBar" class="col-md-12">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-lg-3" id="right">
                         <h3 id="rightDesktop">List Actions</h3><hr><br>
                         <ul id="actionList">
@@ -59,15 +46,52 @@
                             <label id="desktopMerge">Merge List</label>
                         </ul>
                     </div>
+                    <div class="col-lg-6" id="middle">
+                        <div id="listArea" class="itemsArea">
+                            <div id="buttons">
+                                <div class="d-flex addListBox">
+                                    <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
+                                    <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">New Item</button><button class="viewButton collapsible">View</button>
+                                </div>
+                            </div>
+                            <div id="groceryList">
+                                <!-- <div class="listItems">
+                                    <div class="p-2">
+                                        <label class="listInputLabels">Name</label>
+                                        <input type="text" id="Name1" class="disabledInput" disabled="">
+                                    </div>
+                                    <div class="p-2">
+                                        <label class="listInputLabels">Name</label>
+                                        <input type="text" id="Name1" class="disabledInput" disabled="">
+                                    </div>
+                                    <div class="p-2">
+                                        <label class="listInputLabels">Quantity</label>
+                                        <input type="text" id="Quantity1" class="disabledInput" disabled="">
+                                    </div>
+                                    <div class="p-2">
+                                        <label class="listInputLabels">Units</label>
+                                        <input type="text" id="Units1" class="disabledInput" disabled="">
+                                    </div>
+                                    <div class="p-2">
+                                        <label class="listInputLabels">Notes(Optional)</label>
+                                        <input type="text" id="Notes(Optional)1" class="disabledInput" disabled="">
+                                    </div>
+                                    <div class="p-2">
+                                        <button id="saveButton1" style="display: none;">Save Changes</button>
+                                        <button id="cancelButton1" style="display: none;">Cancel</button>
+                                    </div>
+                                    <div class="p-2">
+                                        <button id="addButton1" style="display: none;">Add</button>
+                                        <button id="editButton1" style="display: inline-block;">Edit</button>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
 </div>
-<!-- <footer id="buttonFooter">
-    <button id="lists">Lists</button>
-    <button id="currentList">Current List</button>
-    <button id="friends">Friends</button>
-</footer> -->
 <div class="row fixed-bottom" id="buttonFooter">
     <%- include('../partials/mobileMainButtons.ejs'); -%>
     <%- include('../partials/mobileNavbar.ejs'); -%>

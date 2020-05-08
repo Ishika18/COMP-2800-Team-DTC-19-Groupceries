@@ -1,0 +1,282 @@
+#desktopNavbar {
+    display: none!important;
+}
+#left {
+    display:none!important;
+}
+#right {
+    display:none!important;
+}
+#rightDesktop {
+    display: none!important;
+}
+#friendlists {
+    display: none!important;
+}
+#mobileButtonBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: rebeccapurple;
+    color: white;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+body{
+    background-color:#140A26;
+}
+#listArea {
+    border: 1px solid black;
+    border: 16px;
+}
+#topbar {
+    background-color: #140A26;
+    position: fixed;
+}
+#appTitle {
+    color: white;
+    text-align: center;
+}
+#pageTitle {
+    color: white;
+    text-align: center;
+    padding-bottom: 0.625rem;
+}
+#appContextTitle p{
+    background-color: rgb(0, 0, 0);
+    color: red;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+}
+.addListBox {
+    background-color: white;
+    margin-top: 0.625rem;
+    margin-bottom: 1.25rem;
+}
+.addListBox p{
+    font-weight: bold;
+    width: 100%;
+    margin: 0;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+}
+.addListBox button{
+    height: 100%;
+}
+.removeListBox {
+    color: white;
+    background-color: grey;
+    margin-top: 0.625rem;
+    margin-bottom: 1.25rem;
+}
+.removeListBox p{
+    font-weight: bold;
+    width: 100%;
+    margin: 0;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+}
+.removeListBox button{
+    height: 100%;
+}
+.p-2 {
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+}
+.rightMostButton {
+    padding-right: 0!important;
+}
+.addButton {
+    background-color: green;
+    font-weight: bold;
+    border-color: green;
+    color: white;
+}
+.editAmount {
+    font-weight: 500;
+    width: 100%;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    background-color: white;
+    border-color: black;
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 1px;
+    color: black;
+}
+.removeButton {
+    background-color: red;
+    font-weight: bold;
+    border-color: red;
+    color: white;
+}
+#centerbuttonbar {
+    margin-bottom: 3.125rem;
+    background-color: #140A26;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#centerRightButton {
+    background-color: green;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin-left: 0.5rem;
+    font-size: small;
+}
+#centerLeftButton {
+    background-color: red;
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin-right: 0.5rem;
+    font-size: x-small;
+}
+.rectangularButton {
+    background-color: #5B3E96;
+    border: none;
+    color: white;
+    width: 25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    font-weight: 500;
+    border-radius: 1rem;
+}
+.mobileNavbar { 
+    padding: 0!important;
+}
+.mobileNavbar form{ 
+    display: flex;
+}
+.navbar { 
+    flex-wrap: unset;
+}
+.navbarItem{
+    padding: .5rem 1rem;
+    margin: 0;
+    float: left;
+    height: max-content;
+    background-color: #20187A;
+    color: #ffffff;
+    border: none;
+}
+.navbarItemActive{
+    padding: .5rem 1rem;
+    margin: 0;
+    float: left;
+    height: max-content;
+    background-color: #ffffff;
+    color: #20187A;
+    border: none;
+}
+.navbar-brand {
+    width: 33.3%;
+    text-align: center;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+}
+#logoIcon {
+    width: 7.5rem;
+    height: 4.5rem;
+    margin: auto;    
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+#appTitleContainer {
+    margin-bottom: 1rem;
+}
+#appContextContainer {
+    background-color: rgb(0, 0, 0);
+}
+.itemsArea{
+    background-color:#221738!important;
+    overflow-y:scroll;
+    width:100%;
+    height:calc(100vh - 16.5rem);
+}
+.itemsArea label{
+color: white;
+}
+.itemsArea input{
+display: flex;
+float: right;
+}
+.listItems {
+    display: relative;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+}
+.toggle.ios, .toggle-on.ios, .toggle-off.ios {
+    border-radius: 2rem;
+    width: 11rem;
+    padding-top: 1rem;
+}
+.btn-primary {
+    border-color: #20187A!important;
+    background-color: #20187A!important;
+    color: #fff!important;
+}
+#centerbuttonbar .btn {
+    background-color: white;
+    color: black;
+}
+#centerbuttonbar .toggle {
+    overflow: hidden;
+}
+#itemValue {
+    position: fixed;
+    left: 70%
+}
+#itemValueUnit {
+    position: fixed;
+    left: 80%
+}
+#signInBox {
+    margin-bottom: 5rem;
+}
+#logOutButton {
+    font-size: xx-small;
+    font-weight: 500;
+    float: right;
+    height: 2.79rem;
+    background-color: black;
+    border: black;
+    color: white;
+}
+#removeFriendButton {
+    background-color: red!important;
+}
+#addFriendButton {
+    background-color: green!important;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+#callFriendButton {
+    background-color: blue!important;
+}
+#logInSection {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+#launchPageItems {
+    margin-top: 19rem;
+}

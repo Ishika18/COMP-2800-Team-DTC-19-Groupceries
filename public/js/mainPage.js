@@ -19,6 +19,8 @@ function loadItems() { //runs when page loads and loads all items from database 
         var i
 
         for (i = 0; i < fields.length; i++) {
+            container = document.createElement("div")
+            container.classList = "p-2"
             input = document.createElement("input")
             input.setAttribute("type", "text")
             input.id = fields[i] + database[item].itemNumber
@@ -27,8 +29,9 @@ function loadItems() { //runs when page loads and loads all items from database 
             label = document.createElement("label")
             label.innerHTML = fields[i]
             label.classList = "listInputLabels"
-            listItem.appendChild(label)
-            listItem.appendChild(input)
+            container.appendChild(label)
+            container.appendChild(input)
+            listItem.appendChild(container)
         }
         addButtons(listItem, database[item].itemNumber, database[item])
         document.getElementById("addButton" + database[item].itemNumber).style.display = "none"
@@ -71,6 +74,8 @@ function newItemField() {
     var i
 
     for (i = 0; i < fields.length; i++) {
+        inputContainer = document.createElement("div")
+        inputContainer.classList = "p-2"
         input = document.createElement("input")
         input.setAttribute("type", "text")
         input.id = fields[i] + itemNumber
@@ -78,8 +83,9 @@ function newItemField() {
         label = document.createElement("label")
         label.innerHTML = fields[i]
         label.classList = "listInputLabels"
-        item.appendChild(label)
-        item.appendChild(input)
+        inputContainer.appendChild(label)
+        inputContainer.appendChild(input)
+        item.appendChild(inputContainer)
     }
     addButtons(item, dbEntry.itemNumber, dbEntry)
 }

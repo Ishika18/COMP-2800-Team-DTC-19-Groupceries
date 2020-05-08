@@ -1,117 +1,119 @@
-#newItemDetails {
-    display: none;
-    border: 1px solid grey;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-#notes {
-    display: table-cell;
-    width: 100%;
-}
-
-#addItem {
-    display: table-cell;
-    width: 100%;
-    margin-top: 5px;
-
-}
-
-#listArea {
-    border: 1px solid black;
-    border-radius: 16px;
-    height: 650px;
-    overflow: auto;
-}
-
-#buttons {
-    border-bottom: 1px solid grey;
-    height: 75px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas: "one two three four";
-}
-
-#newItem {
-    grid-area: four;
-}
-
-#listTitle {
-    grid-area: one;
-    margin-left: 15px;
-    margin-top: 15px
-}
-
-.custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
-    text-indent: -3.9em;
-    border-radius: 20px;
-    width:11em;
-}
-.custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
-    border-radius: 20px;
-    width:4em
-}
-.custom-size-flipswitch.ui-flipswitch {
-    width: 11em;
-    border-radius: 20px;
-}
-.custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
-    padding-left: 7em;
-    width: 11em;
-    border-radius: 20px;
-}
-
-.collapse {
-    display: none;
-}
-
-.disabledInput {
-    border: none;
-    background-color: transparent;
-    margin-left: 8px;
-}
-
-.textInput {
-    border: 1px solid grey;
-    border-radius: 5px;
-    background-color: white;
-    margin: 5px;
-}
-
-.listItems {
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid indigo;
-    border-radius: 5px;
-}
-
-.listInputLabels {
-    font-weight: bold;
-    color: indigo;
-}
-
-.textInput[id |= "Name"] {
-    display: table-cell;
-    width: 50%;
-}
-
-.textInput[id |= "Quantity"] {
-    display: table-cell;
-    width: 20%;
-}
-
-#buttonFooter {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 30px;
-}
-
 @media (min-width: 1025px) {
-
+    .viewButton {
+        display: none;
+    }
+    #right {
+        z-index: 1000;
+        float: right;
+    }
+    #left {
+        z-index: 1000;
+        float: left;
+    }
+    #newItemDetails {
+        display: none;
+        border: 1px solid grey;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    #notes {
+        display: table-cell;
+        width: 100%;
+    }
+    
+    #addItem {
+        display: table-cell;
+        width: 100%;
+        margin-top: 5px;
+    
+    }
+    
+    #listArea {
+        border: 1px solid black;
+        border-radius: 16px;
+        height: 80vh;
+        overflow: auto;
+        margin: 0!important;
+    }
+    
+    #buttons {
+        border-bottom: 1px solid grey;
+        height: 75px;
+    }
+    #newItem {
+        grid-area: four;
+    }
+    
+    #listTitle {
+        font-size: x-large;
+        font-weight: bold;
+        grid-area: one;
+        margin-left: 15px;
+        margin-top: 15px
+    }
+    
+    .custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
+        text-indent: -3.9em;
+        border-radius: 20px;
+        width:11em;
+    }
+    .custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
+        border-radius: 20px;
+        width:4em
+    }
+    .custom-size-flipswitch.ui-flipswitch {
+        width: 11em;
+        border-radius: 20px;
+    }
+    .custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
+        padding-left: 7em;
+        width: 11em;
+        border-radius: 20px;
+    }
+    
+    .collapse {
+        display: none;
+    }
+    
+    .textInput {
+        border: 1px solid grey;
+        border-radius: 5px;
+        background-color: white;
+    }
+    
+    .listItems {
+        padding: 10px;
+        border: 1px solid indigo;
+        border-radius: 5px;
+        display: relative;
+        margin-top: 1rem;
+    }
+    
+    .listInputLabels {
+        font-weight: bold;
+        color: indigo;
+    }
+    
+    .textInput[id |= "Name"] {
+        display: table-cell;
+        width: 50%;
+    }
+    
+    .textInput[id |= "Quantity"] {
+        display: table-cell;
+        width: 20%;
+    }
+    
+    #buttonFooter {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 30px;
+    }
     #buttonFooter {
         display: none;
     }
@@ -137,18 +139,20 @@
 
 @media (max-width: 1024px) {
     #desktopNavbar {
-        display: none;
+        display: none!important;
     }
     #left {
-        display:none;
+        display:none!important;
     }
     #right {
-        display:none;
+        display:none!important;
     }
     #rightDesktop {
-        display: none
+        display: none!important;
     }
-
+    #friendlists {
+        display: none!important;
+    }
     #mobileButtonBar {
         position: fixed;
         bottom: 0;
@@ -158,6 +162,7 @@
         background-color: rebeccapurple;
         color: white;
         display: grid;
+        font: medium;
         grid-template-columns: repeat(3,1fr);
     }
     body{
@@ -174,6 +179,7 @@
     #appTitle {
         color: white;
         text-align: center;
+        font-size: xx-large;
     }
     #pageTitle {
         color: white;
@@ -217,18 +223,8 @@
     .removeListBox button{
         height: 100%;
     }
-    .p-2 {
-        padding-top: 0!important;
-        padding-bottom: 0!important;
-    }
     .rightMostButton {
         padding-right: 0!important;
-    }
-    .addButton {
-        background-color: green;
-        font-weight: bold;
-        border-color: green;
-        color: white;
     }
     .editAmount {
         font-weight: 500;
@@ -342,16 +338,23 @@
     #appContextContainer {
         background-color: rgb(0, 0, 0);
     }
-    #itemsArea{
-        background-color:#221738;
+    .itemsArea{
+        background-color:#221738!important;
         overflow-y:scroll;
         width:100%;
         height:calc(100vh - 16.5rem);
-      }
+        align-self: center;
+    }
+
+    .listItems {
+        display: relative;
+        margin-top: 1rem;
+        margin-bottom: 4rem;
+    }
     .toggle.ios, .toggle-on.ios, .toggle-off.ios {
-        border-radius: 2rem;
-        width: 11rem;
-        padding-top: 1rem;
+        border-radius: 2rem!important;
+        width: 11rem!important;
+        padding-top: 1rem!important;
     }
     .btn-primary {
         border-color: #20187A!important;
@@ -396,20 +399,38 @@
     #callFriendButton {
         background-color: blue!important;
     }
-    #launchPageItems {
-        margin-top: 15rem;
-        z-index: -1000!important;
-        background-color: #221738;
-    }
     #logInSection {
         position: fixed;
         top: 0;
         z-index: 1000;
     }
-    /* #infoSlides{
-    
-    } */
-    
+    .itemsArea label{
+        color: white;
+    }
+    p {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
 }
-
-
+.addButton, .viewButton{
+    background-color: green;
+    font-weight: bold;
+    border: none;
+    color: white;
+    height: 3.5rem;
+}
+.viewButton {
+    background-color: lightskyblue;
+}   
+#middle {
+   max-width: none;
+}
+.p-2 {
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    padding-right: 0!important;
+}
+.itemsArea input{
+    display: flex;
+    float: right;
+}
