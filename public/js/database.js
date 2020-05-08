@@ -83,6 +83,7 @@ function editItem(user, groceryList, oldItem, newItem){
     addItem(user, groceryList, newItem);
 };
 
+//scripts below here
 //debug to return the names of all items in Chris/dinner on change
 db.collection("Chris").doc("dinner")
     .onSnapshot(function(doc) {
