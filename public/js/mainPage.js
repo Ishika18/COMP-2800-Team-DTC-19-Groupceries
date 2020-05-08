@@ -66,9 +66,52 @@ function getFieldData(item) { //helper function for editDBEntry()
     return [name, qty, units, notes]
 }
 
+function findDifference(DBItems){
+    let clientItems = parseAllItemsToDB;
+    let inDBnotClient = DBItems.filter(item => !clientItems.includes(item)); //all items in DB but not in client
+    let differentItems = [];
+    if (inDBnotClient.length != 0){ // if at least one item in DB not in client
+        for (item in inDBnotClient){
+            differentItems.push(item);
+        };
+        return [differentItems, true] // bool represents if different items are in DB
+    } else { // if client has all DB items, client must also have an additional item (otherwise there would be no change)
+        for (item in clientItems.filter(item => !DBItems.includes(item))){
+            differentItems.push(item);
+        }; // all items in client not in DB
+        return [differentItems, false] // bool represents if different items are in DB
+    }
+}
+
+function parseAllItemsToDB(){
+    let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
+    listItemsAsDB = [];
+    for (item in listItems){
+        listItemsAsDB.push(itemasDBObject(item));
+    };
+    return listItemsAsDB
+}
+
+function itemAsDBObject(item) { //helper function for editDBEntry()
+    let nameField = item.getElementsByClassName("Name");
+    let itemName = nameField[0].value;
+    let qtyField = item.getElementsByClassName("Quantity");
+    let itemQty = qtyField[0].value;
+    let unitsField = item.getElementsByClassName("Units");
+    let itemUnits = unitsField[0].value;
+    let notesField = item.getElementsByClassName("Notes(Optional)");
+    let itemNotes = notesField[0].value;
+    return {name: itemName, 
+        found: null, 
+        quantity: {
+            amount: itemQty,
+            unit: itemUnits
+        }, 
+        notes: itemNotes}
+}
+
 function newItemField() {
     let item = document.createElement("div")
-    database.lastItemNum++
     item.className = "listItems"
     let list = document.getElementById("groceryList")
     list.appendChild(item)
