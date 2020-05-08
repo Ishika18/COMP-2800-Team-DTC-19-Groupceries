@@ -113,6 +113,8 @@ function instantiateNewItem(DBSnapshot){ //snapshot should only contain items in
             notes: item.getElementsByClassName("notes")[0] //need to add corresponding entry in DB
         }
         existingItemsAsDBObj.push(itemAsDBObject)
+        // make a list of objects from front end
+        // if dbobject not in front end, make front end item
         for (DBitem in DBSnapshot){
             if(!(DBitem in existingItemsAsDBObj)){
                 console.log("x") //placeholder for code to instantiate object in front end
@@ -120,8 +122,9 @@ function instantiateNewItem(DBSnapshot){ //snapshot should only contain items in
         }
     }
 }
-
 //scripts below here
+console.log(localStorage.getItem('uid'));
+
 //debug to return the names of all items in Chris/dinner on change
 db.collection("Chris").doc("dinner")
     .onSnapshot(function(doc) {
@@ -131,14 +134,20 @@ db.collection("Chris").doc("dinner")
         }
     });
 
-console.log(localStorage.getItem('uid'));
-db.collection("Chris").where("ready_to_buy", "==", false)
+
+db.collection("Chris")
     .onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
             // call relevant create/delete functions here
+            // dont forget about instantiating lists.
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
         });
     });
+
+db.collection("Chris").doc("friends")
+    .onSnapshot(function(doc){
+
+    })
 // for demo
 console.log("Here is some code to demonstrate the working database. Please open 'https://console.firebase.google.com/project/groupceries-f6189/database' in another tab.")
 console.log("Please initialize the following code in the console of the groceries/createListPage page.")
