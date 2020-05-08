@@ -9,15 +9,18 @@
                         <h2 id="appTitle">Groupceries</h2>
                         <div class="row justify-content-center mt-4" id="signInBox">
                             <div class="g-signin2" id="signIn" data-onsuccess="onSignIn" data-theme="dark"></div>
-                            <button class="rectangularButton pagination-centered" id="signOut" onclick={signOut()} style="display: none;">
+                            <button class="rectangularButton pagination-centered launchpageBtn" id="signOut" onclick={signOut()} style="display: none;">
                                 Sign Out
                             </button>
                             <!-- buttons to go other pages -->
-                            <form action="/groceries/editListPage" method="get">
-                                <button id="navBarEdit" class="btn navbar-brand text-dark d-inline" type="submit">Edit</button>
+                            <form id="launchPageEditBtn" action="/groceries/editListPage" method="get">
+                                <button id="navBarEdit" class="rectangularButton pagination-centered d-inline launchpageBtn" type="submit"">Edit</button>
                             </form>
-                            <form action="/groceries/createListPage" method="get">
-                                <button id="navBarCreate" class="btn navbar-brand text-dark d-inline" type="submit">Create</button>
+                            <form id="launchPageCreateBtn" action="/groceries/createListPage" method="get">
+                                <button id="navBarCreate" class="rectangularButton pagination-centered d-inline launchpageBtn" type="submit">Create</button>
+                            </form>
+                            <form id="aboutUsLaunchPageBtn" action="/groceries/aboutUsPage" method="get">
+                                <button class="rectangularButton pagination-centered d-inline launchpageBtn">About Us</button>
                             </form>
                         </div>
                     </div>
@@ -31,7 +34,7 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-4 mb-3">
                     <div class="card border border-dark h-100">
-                        <img class="card-img-top rounded mx-auto w-50" src="/images/merge.png" alt="Card image cap">
+                        <img class="card-img-top rounded mx-auto w-50 launchpageImg" src="/images/merge.png" alt="Card image cap">
                         <div class="card-body">
                             <h2 class="card-title">All Your Items in One Place</h2>
                             <p class="card-text">Groupceries lets you merge grocery lists, making it easier to keep track of multiple lists.</p>
@@ -40,7 +43,7 @@
                 </div>
                 <div class="col-lg-4 mb-3">
                     <div class="card border border-dark h-100">
-                        <img class="card-img-top rounded mx-auto w-50" src="/images/shopping.png" alt="Card image cap">
+                        <img class="card-img-top rounded mx-auto w-50 launchpageImg" src="/images/shopping.png" alt="Card image cap">
                         <div class="card-body">
                             <h2 class="card-title">Shopping Mode</h2>
                             <p class="card-text">Check items off the list as you shop to stay organized.</p>
@@ -48,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 mb-3">
-                    <div class="card border border-dark h-100">
+                    <div class="card border border-dark h-100 launchpageImg">
                         <img class="card-img-top rounded mx-auto w-50" src="/images/phone.png" alt="Card image cap">
                         <div class="card-body">
                             <h2 class="card-title">Keeping You Connected</h2>
