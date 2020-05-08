@@ -62,14 +62,17 @@
                     <div class="col-lg-6" id="middle">
                         <div id="listArea" class="itemsArea">
                             <div class="groceryList">
-                                <div id="buttons">
-                                    <div class="d-flex addListBox">
-                                        <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
-                                        <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button class="viewButton btn collapsible">View</button>
+                                    <div id="buttons">
+                                        <div class="d-flex addListBox">
+                                            <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
+                                            <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button type="button" class="deleteButton">Delete</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="groceryList" class="collapse" style="display: block;">
-                                </div>
+                                    <details open id="myList" class="viewButton">
+                                        <div id="groceryList">
+                                        </div>
+                                    </details>
+
                             </div>
                         </div>
                     </div>

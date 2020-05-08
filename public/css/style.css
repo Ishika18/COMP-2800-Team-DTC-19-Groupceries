@@ -267,8 +267,11 @@
         margin-right: 0.5rem;
         font-size: x-small;
     }
-    .addButton, .viewButton{
-        width: 13vw;
+    .addButton, .editButton {
+        width: 13vw!important;
+    }
+    .deleteButton{
+        width: 19vw!important;
     }
     .rectangularButton {
         background-color: #5B3E96;
@@ -410,8 +413,7 @@
         display: block;
     }
 }
-.addButton, .viewButton{
-    background-color: green;
+.addButton, .editButton, .deleteButton, .saveButton, .cancelButton{
     font-weight: bold;
     border: none;
     color: white;
@@ -420,7 +422,16 @@
 }
 .viewButton {
     background-color: lightskyblue;
-}   
+}
+.deleteButton, .cancelButton {
+    background-color: red;
+} 
+.editButton {
+    background-color: rgb(50, 131, 238);
+} 
+.addButton, .saveButton {
+    background-color: green;
+} 
 #middle {
    max-width: none;
 }
