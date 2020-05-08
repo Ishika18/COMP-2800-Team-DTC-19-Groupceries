@@ -1,6 +1,6 @@
 const algoliasearch = require('algoliasearch');
 
-const client = algoliasearch('691PDCNR9Q', 'cc9618d9eb730c8f4d8773b668175030');
+const client = algoliasearch('691PDCNR9Q', 'ef82543d210b0a8d6b19f2fdaa58d84f');
 // name of the index to add objects to.
 const index = client.initIndex('users');
 

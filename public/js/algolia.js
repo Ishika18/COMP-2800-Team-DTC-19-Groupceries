@@ -29,7 +29,7 @@ function sendFriendEmail(email) {
     $.ajax({
         type: 'POST',
         url: '/home/user',
-        data: {friendEmail: email},
+        data: {friendEmail: email, currentUser: localStorage.getItem('uid')},
         success: function(data){
           console.log(data);
           //do something with the data via front-end framework

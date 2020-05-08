@@ -35,7 +35,7 @@ let friendController = {
         // send the friend a notification
 
         // add the friend uid to the cuurent users' sent
-        currentUserDocs.set({ sent: [friendID] }, { merge: true }).catch((error) => { console.log(error) });
+        currentUserDocs.set({ sent: firebase.firestore.FieldValue.arrayUnion(friendID) }, { merge: true }).catch((error) => { console.log(error) });
     },
 
     undoSentRequest: (currentUser, friendID) => {
