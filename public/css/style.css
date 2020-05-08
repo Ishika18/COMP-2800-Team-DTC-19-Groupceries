@@ -223,9 +223,6 @@
     .removeListBox button{
         height: 100%;
     }
-    .rightMostButton {
-        padding-right: 0!important;
-    }
     .editAmount {
         font-weight: 500;
         width: 100%;
@@ -275,6 +272,9 @@
         height: 3rem;
         margin-right: 0.5rem;
         font-size: x-small;
+    }
+    .addButton, .viewButton{
+        width: 13vw;
     }
     .rectangularButton {
         background-color: #5B3E96;
@@ -417,7 +417,8 @@
     font-weight: bold;
     border: none;
     color: white;
-    height: 3.5rem;
+    height: 100%;
+    width: max-content;
 }
 .viewButton {
     background-color: lightskyblue;
@@ -430,7 +431,14 @@
     padding-bottom: 0!important;
     padding-right: 0!important;
 }
-.itemsArea input{
+.itemsArea input ,select{
     display: flex;
     float: right;
+}
+.itemsArea .itemInfo {
+    width: 161px;
+    height: 22px;
+}
+.rightMostButton {
+    width: fit-content;
 }

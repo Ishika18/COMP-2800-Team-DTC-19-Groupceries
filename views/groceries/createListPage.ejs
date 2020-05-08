@@ -50,15 +50,11 @@
                             <div id="buttons">
                                 <div class="d-flex addListBox">
                                     <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
-                                    <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">New Item</button><button class="viewButton collapsible">View</button>
+                                    <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button class="viewButton collapsible">View</button>
                                 </div>
                             </div>
                             <div id="groceryList">
-                                <!-- <div class="listItems">
-                                    <div class="p-2">
-                                        <label class="listInputLabels">Name</label>
-                                        <input type="text" id="Name1" class="disabledInput" disabled="">
-                                    </div>
+                                <div class="listItems">
                                     <div class="p-2">
                                         <label class="listInputLabels">Name</label>
                                         <input type="text" id="Name1" class="disabledInput" disabled="">
@@ -69,21 +65,40 @@
                                     </div>
                                     <div class="p-2">
                                         <label class="listInputLabels">Units</label>
-                                        <input type="text" id="Units1" class="disabledInput" disabled="">
+                                        <select class="disabledInput" id="units1" disabled="">
+                                            <option>
+                                                Units
+                                            </option>
+                                            <option>
+                                                kg
+                                            </option>
+                                            <option>
+                                                grams
+                                            </option>
+                                            <option>
+                                                l
+                                            </option>
+                                            <option>
+                                                ml
+                                            </option>
+                                            <option>
+                                                cups
+                                            </option>
+                                            <option>
+                                                oz
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="p-2">
                                         <label class="listInputLabels">Notes(Optional)</label>
                                         <input type="text" id="Notes(Optional)1" class="disabledInput" disabled="">
                                     </div>
-                                    <div class="p-2">
-                                        <button id="saveButton1" style="display: none;">Save Changes</button>
-                                        <button id="cancelButton1" style="display: none;">Cancel</button>
-                                    </div>
-                                    <div class="p-2">
-                                        <button id="addButton1" style="display: none;">Add</button>
-                                        <button id="editButton1" style="display: inline-block;">Edit</button>
-                                    </div>
-                                </div> -->
+                                    <button id="addButton1" style="display: none;">Add</button>
+                                    <button id="editButton1" style="display: inline-block;">Edit</button>
+                                    <button id="saveButton1" style="display: none;">Save Changes</button>
+                                    <button id="cancelButton1" style="display: none;">Cancel</button>
+                                    <button id="deleteButton1" style="display: inline-block;">Delete Item</button>
+                                </div>
                             </div>
                         </div>
                     </div>

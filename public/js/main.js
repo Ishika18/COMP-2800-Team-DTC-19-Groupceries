@@ -68,8 +68,3 @@ function logOutInServer() {
     }
   });
 }
-
-// how to use the currentUser
-document.getElementById("lists").onclick = function () {
-  console.log(firebase.auth().currentUser.uid);
-}
