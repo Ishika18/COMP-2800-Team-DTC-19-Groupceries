@@ -12,18 +12,94 @@ function write(user, groceryList, itemList){
     .catch(function(error) {
         console.error(error);
     });
-}
+};
 
 function read(user){
     db.collection(user).get().then(function(querySnapshot) {
-        console.log()
         console.log(querySnapshot.length)
         querySnapshot.forEach(function(doc) {
             console.log(doc.id, " => ", doc.data());
         });
+    })
+    .catch(function(error) {
+        console.error(error);
     });
-}
+};
 
+function addItem(user, groceryList, item){
+    db.collection(user).doc(groceryList).update({
+        items: firebase.firestore.FieldValue.arrayUnion(item)
+    }).then(function() {
+        console.log("Write success, the database should now contain this entry.")
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+        
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+};
+
+function removeItem(user, groceryList, item){
+    db.collection(user).doc(groceryList).update({
+        items: firebase.firestore.FieldValue.arrayRemove(item)
+    })
+    .then(function() {
+        console.log("Write success, the database should now have removed contain this entry.")
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+        
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+};
+
+function addGroceryList(user, groceryList){
+    let GROCERY_LIST_INITIAL_STATE = {
+        items: [],
+        ready_to_buy: false,
+    };
+    db.collection(user).doc(groceryList).set(GROCERY_LIST_INITIAL_STATE)
+    .then(function() {
+        console.log("Write success, the database should now contain this entry.")
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+};
+
+function deleteGroceryList(user, groceryList){
+    db.collection(user).doc(groceryList).delete().then(function() {
+        console.log("Delete success, the database should no longer contain this entry");
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
+    }).catch(function(error) {
+        console.error(error);
+    });
+};
+
+// inefficicent, but firebase has a 1-second delay on editing items within an array, additionally editing maps (objects) inside of arrays are inefficient.
+function editItem(user, groceryList, oldItem, newItem){
+    removeItem(user, groceryList, oldItem);
+    addItem(user, groceryList, newItem);
+};
+
+//scripts below here
+//debug to return the names of all items in Chris/dinner on change
+db.collection("Chris").doc("dinner")
+    .onSnapshot(function(doc) {
+    objects = doc.data().items
+        for(item in objects){
+            console.log(objects[item].name);
+        }
+    });
+
+console.log(localStorage.getItem('uid'));
+db.collection("Chris").where("ready_to_buy", "==", false)
+    .onSnapshot(function(snapshot) {
+        snapshot.docChanges().forEach(function(change) {
+            console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
+        });
+    });
 // for demo
 console.log("Here is some code to demonstrate the working database. Please open 'https://console.firebase.google.com/project/groupceries-f6189/database' in another tab.")
 console.log("Please initialize the following code in the console of the groceries/createListPage page.")
