@@ -1,4 +1,4 @@
-let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{name: "cabbage", quantity: {amount: 5, unit: "units"}, notes: "note" }, {name: "beef", quantity: {amount: 3, unit: "kg"}, notes: "note" }] }
+let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
@@ -235,6 +235,7 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+    addItem("Chris", "dinner", itemAsDBObject(item));
     fieldData = getFieldData(item)
     dbEntry.name = fieldData[0]
     dbEntry.quantity.amount = parseFloat(fieldData[1])
@@ -290,6 +291,7 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 
 function deleteListItem(item) {
     return function() {
+        removeItem("Chris", "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
         let quantity = parseFloat(itemData[1])
