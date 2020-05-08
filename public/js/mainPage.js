@@ -85,7 +85,7 @@ function newItemField() {
         label.classList = "listInputLabels"
         container.appendChild(label)
         container.appendChild(input)
-        listItem.appendChild(container)
+        item.appendChild(container)
     }
     addButtons(item, dbEntry.itemNumber, dbEntry)
 }
