@@ -32,76 +32,48 @@
                         </div>
                     </div>
                     <div class="col-lg-3" id="right">
-                        <h3 id="rightDesktop">List Actions</h3><hr><br>
-                        <ul id="actionList">
-                            <label id="readyToggle">Mark as Ready For Purchase
-                            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
-                            </label>
-                            <br>
-                            <label id="shoppingToggle">Shopping Mode
-                            <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
-                            </label>
-                            <br>
-                            <label id="desktopMerge">Merge List</label>
-                        </ul>
+                        <div id="rightDesktop">
+                            <h3>List Actions</h3><hr><br>
+                            <ul id="actionList">
+                                <label id="readyToggle">Mark as Ready For Purchase
+                                <input type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
+                                </label>
+                                <br>
+                                <label id="shoppingToggle">Shopping Mode
+                                <input type="checkbox" data-role="flipswitch" name="flip-checkbox-4" id="flip-checkbox-4" checked=""><br>
+                                </label>
+                                <br>
+                                <label id="desktopMerge">Merge List</label>
+                            </ul>
+                        </div>
+                        <div id="friend">
+                            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
+                            <div class="collapse">
+                                <ul id="shagun" class="collapsible">Shagun's Lists</ul>
+                                    <p class="collapse">List 1</p>
+                                <ul id="ronald" class="collapsible">Ronald's Lists</ul>
+                                    <p class="collapse">List 1</p>
+                                <ul id="eric" class="collapsible">Eric's Lists</ul>
+                                    <p class="collapse">List 1</p>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6" id="middle">
                         <div id="listArea" class="itemsArea">
-                            <div id="buttons">
-                                <div class="d-flex addListBox">
-                                    <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
-                                    <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button class="viewButton collapsible">View</button>
+                            <div class="groceryList">
+                                <div id="buttons">
+                                    <div class="d-flex addListBox">
+                                        <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
+                                        <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button class="viewButton btn collapsible">View</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="groceryList">
-                                <div class="listItems">
-                                    <div class="p-2">
-                                        <label class="listInputLabels">Name</label>
-                                        <input type="text" id="Name1" class="disabledInput" disabled="">
-                                    </div>
-                                    <div class="p-2">
-                                        <label class="listInputLabels">Quantity</label>
-                                        <input type="text" id="Quantity1" class="disabledInput" disabled="">
-                                    </div>
-                                    <div class="p-2">
-                                        <label class="listInputLabels">Units</label>
-                                        <select class="disabledInput" id="units1" disabled="">
-                                            <option>
-                                                Units
-                                            </option>
-                                            <option>
-                                                kg
-                                            </option>
-                                            <option>
-                                                grams
-                                            </option>
-                                            <option>
-                                                l
-                                            </option>
-                                            <option>
-                                                ml
-                                            </option>
-                                            <option>
-                                                cups
-                                            </option>
-                                            <option>
-                                                oz
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="p-2">
-                                        <label class="listInputLabels">Notes(Optional)</label>
-                                        <input type="text" id="Notes(Optional)1" class="disabledInput" disabled="">
-                                    </div>
-                                    <button id="addButton1" style="display: none;">Add</button>
-                                    <button id="editButton1" style="display: inline-block;">Edit</button>
-                                    <button id="saveButton1" style="display: none;">Save Changes</button>
-                                    <button id="cancelButton1" style="display: none;">Cancel</button>
-                                    <button id="deleteButton1" style="display: inline-block;">Delete Item</button>
+                                <div id="groceryList" class="collapse" style="display: block;">
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

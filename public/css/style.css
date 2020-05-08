@@ -1,4 +1,9 @@
 @media (min-width: 1025px) {
+    #buttons {
+        border-bottom: 1px solid grey;
+        height: 75px;
+        display: block;
+    }
     .viewButton {
         display: none;
     }
@@ -36,11 +41,6 @@
         height: 80vh;
         overflow: auto;
         margin: 0!important;
-    }
-    
-    #buttons {
-        border-bottom: 1px solid grey;
-        height: 75px;
     }
     #newItem {
         grid-area: four;
@@ -141,17 +141,11 @@
     #desktopNavbar {
         display: none!important;
     }
-    #left {
-        display:none!important;
-    }
-    #right {
-        display:none!important;
+    #left, #right, #rightDesktop, #friendlists, #myLists, #avalibleLists, #friendLists{
+        color: white!important;
     }
     #rightDesktop {
-        display: none!important;
-    }
-    #friendlists {
-        display: none!important;
+        display: none;
     }
     #mobileButtonBar {
         position: fixed;
@@ -410,6 +404,10 @@
     p {
         margin-top: 0;
         margin-bottom: 0.5rem;
+    }
+    .groceryList {
+        border-bottom: 1px solid grey;
+        display: block;
     }
 }
 .addButton, .viewButton{

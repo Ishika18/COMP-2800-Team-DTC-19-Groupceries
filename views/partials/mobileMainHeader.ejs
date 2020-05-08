@@ -10,14 +10,14 @@
         </div>
     </div>
     <nav class="navbar navbar-inverse mobileNavbar" style="background:#20187A">
-        <form>
+        <form action="/" method="get">
             <button class="navbar-brand navbarItem">About Us</button>
         </form>
-        <form>
+        <form action="/" method="get">
             <button class="navbar-brand navbarItem">Home</button>  
         </form>
-        <form>
-            <button class="navbar-brand navbarItem">Log Out</button>
+        <form id="signOut" onclick={signOut()}>
+            <button class="navbar-brand navbarItem" onclick={signOut()}>Log Out</button>
         </form>
     </nav>
     
