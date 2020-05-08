@@ -74,8 +74,8 @@ function newItemField() {
     var i
 
     for (i = 0; i < fields.length; i++) {
-        inputContainer = document.createElement("div")
-        inputContainer.classList = "p-2"
+        container = document.createElement("div")
+        container.classList = "p-2"
         input = document.createElement("input")
         input.setAttribute("type", "text")
         input.id = fields[i] + itemNumber
@@ -83,9 +83,9 @@ function newItemField() {
         label = document.createElement("label")
         label.innerHTML = fields[i]
         label.classList = "listInputLabels"
-        inputContainer.appendChild(label)
-        inputContainer.appendChild(input)
-        item.appendChild(inputContainer)
+        container.appendChild(label)
+        container.appendChild(input)
+        listItem.appendChild(container)
     }
     addButtons(item, dbEntry.itemNumber, dbEntry)
 }

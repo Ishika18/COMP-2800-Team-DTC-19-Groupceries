@@ -6,15 +6,20 @@ const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
 const favicon = require('serve-favicon');
 const userController = require('./controllers/userController');
+const algoliaController = require('./controllers/algoliaController');
 
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
+let currentUserID = user.uid;
 
 const PORT = process.env.PORT || 3000;
 
 // send all the users to algolia
-userController.listAllUsers().then( (allUsers) => {
-    console.log(allUsers);
+userController.listAllUsers().then( (users) => {
+    algoliaController.addData(users);
+    algoliaController.setSearchAttributes();
+    algoliaController.setCustomRankings();
+    algoliaController.removeCurrentUser(currentUserID);
 });
 
 app.use(bodyParser.json());
@@ -35,9 +40,6 @@ app.set('view engine', 'ejs');
 
 // SS - landing / home page.
 app.get("/", groceriesController.home);
-
-// SS - mobile main page
-app.get("/groceries/mobileMain", loggerMiddleware, groceriesController.mobileMain);
 
 // SS - create list page
 app.get("/groceries/createListPage", loggerMiddleware, groceriesController.createListPage);
