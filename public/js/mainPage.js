@@ -1,4 +1,4 @@
-let database = { user: 123, listName: "Silvana's List", lastItemNum: 2, readyToPurchase: false, items: [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }] }
+let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, {name: "lettuce", qty: 1, units: "bag", notes: "pls" }] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.itemNumber = null
@@ -20,8 +20,8 @@ function loadItems() { //runs when page loads and loads all items from database 
         for (i = 0; i < fields.length; i++) {
             input = document.createElement("input")
             input.setAttribute("type", "text")
-            input.id = fields[i] + database.items[item].itemNumber
-            input.classList = "disabledInput"
+            input.classList = fields[i]
+            input.classList.add("disabledInput")
             input.disabled = true
             label = document.createElement("label")
             label.innerHTML = fields[i]
@@ -29,31 +29,41 @@ function loadItems() { //runs when page loads and loads all items from database 
             listItem.appendChild(label)
             listItem.appendChild(input)
         }
-        addButtons(listItem, database.items[item].itemNumber)
-        document.getElementById("addButton" + database.items[item].itemNumber).style.display = "none"
-        document.getElementById("editButton" + database.items[item].itemNumber).style.display = "inline-block"
-        document.getElementById("deleteButton" + database.items[item].itemNumber).style.display = "inline-block"
-        fillFields(database.items[item])
+        addButtons(listItem)
+        let addButton = listItem.getElementsByClassName("addButton")
+        addButton[0].style.display = "none"
+        let editButton = listItem.getElementsByClassName("editButton")
+        editButton[0].style.display = "inline-block"
+        let deleteButton = listItem.getElementsByClassName("deleteButton")
+        deleteButton[0].style.display = "inline-block"
+        fillFields(listItem, database.items[item])
         document.getElementById("listTitle").innerHTML = database.listName
     }
 
 }
 document.onload = loadItems()
 
-function fillFields(item) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
-    let itemNum = item.itemNumber
-    document.getElementById("Name" + itemNum).value = item.name
-    document.getElementById("Quantity" + itemNum).value = item.qty
-    document.getElementById("Units" + itemNum).value = item.units
-    document.getElementById("Notes(Optional)" + itemNum).value = item.notes
+function fillFields(item, DBitem) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
+    let nameField = item.getElementsByClassName("Name")
+    nameField[0].value = DBitem.name
+    let qtyField = item.getElementsByClassName("Quantity")
+    qtyField[0].value = DBitem.qty
+    let unitsField = item.getElementsByClassName("Units")
+    unitsField[0].value = DBitem.units
+    let notes = item.getElementsByClassName("Notes(Optional)")
+    notes[0].value = DBitem.notes
 }
 
 
-function getFieldData(itemNumber) { //helper function for editDBEntry()
-    let name = document.getElementById("Name" + itemNumber).value
-    let qty = document.getElementById("Quantity" + itemNumber).value
-    let units = document.getElementById("Units" + itemNumber).value
-    let notes = document.getElementById("Notes(Optional)" + itemNumber).value
+function getFieldData(item) { //helper function for editDBEntry()
+    let nameField = item.getElementsByClassName("Name")
+    let name = nameField.value
+    let qtyField = item.getElementsByClassName("Quantity")
+    let qty = qtyField.value
+    let unitsField = item.getElementsByClassName("Units")
+    let units = unitsField.value
+    let notesField = item.getElementsByClassName("Notes(Optional)")
+    let notes = notesField.value
     return [name, qty, units, notes]
 }
 
@@ -61,7 +71,6 @@ function newItemField() {
     let item = document.createElement("div")
     database.lastItemNum++
     item.className = "listItems"
-    item.id = "Item" + database.lastItemNum
     let list = document.getElementById("groceryList")
     list.appendChild(item)
 
@@ -71,7 +80,7 @@ function newItemField() {
     for (i = 0; i < fields.length; i++) {
         input = document.createElement("input")
         input.setAttribute("type", "text")
-        input.id = fields[i] + database.lastItemNum
+        input.classList = fields[i]
         input.classList = "textInput"
         label = document.createElement("label")
         label.innerHTML = fields[i]
@@ -79,12 +88,11 @@ function newItemField() {
         item.appendChild(label)
         item.appendChild(input)
     }
-    addButtons(item, database.lastItemNum)
+    addButtons(item)
 }
 
 function createEntryInDB() {
     let dbEntry = new databaseListItem()
-    dbEntry.itemNumber = database.lastItemNum
     database.items.push(dbEntry)
     return dbEntry
 }
@@ -92,18 +100,21 @@ function createEntryInDB() {
 function addItemDetails(item) {
     return function () {
         dbEntry = createEntryInDB()
-        let itemNumber = dbEntry.itemNumber
-        editDBEntry(dbEntry)
-        document.getElementById("addButton" + itemNumber).style.display = "none"
-        document.getElementById("editButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
+        editDBEntry(item, dbEntry)
+        let addButton = item.getElementsByClassName("addButton")
+        addButton[0].style.display = "none"
+        let editButton = item.getElementsByClassName("editButton")
+        editButton[0].style.display = "inline-block"
+        let deleteButton = item.getElementsByClassName("deleteButton")
+        deleteButton[0].style.display = "inline-block"
         toggleInputClass(item)
         console.log(database)
     }
 }
 
-function editDBEntry(dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
-    fieldData = getFieldData(dbEntry.itemNumber)
+function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+    fieldData = getFieldData(item)
+    console.log(dbEntry)
     dbEntry.name = fieldData[0]
     dbEntry.qty = fieldData[1]
     dbEntry.units = fieldData[2]
@@ -123,10 +134,12 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
 
     for (i = 0; i < fieldsCopy.length; i++) {
         input = fieldsCopy[i]
-        if (input.className == "textInput") {
-            input.className = "disabledInput"
+        if (input.classList.contains("textInput")) {
+            input.classList.toggle("textInput")
+            input.classList = "disabledInput"
         } else {
-            input.className = "textInput" //if input is an active text box, change it's styling to make it look inactive
+            input.classList.toggle("disabledInput") 
+            input.classList= "textInput" //if input is an active text box, change it's styling to make it look inactive
         }
         if (input.disabled == true) {
             input.disabled = false
@@ -136,63 +149,68 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
     }
 }
 
-function addButtons(item, itemNumber) { //creates all of the necessary buttons for the list field
+function addButtons(item) { //creates all of the necessary buttons for the list field
     let buttonInnerHTML = ["Add", "Edit", "Save Changes", "Cancel", "Delete Item"]
-    let buttonID = ["addButton", "editButton", "saveButton", "cancelButton", "deleteButton"]
-    let buttonFunctions = [addItemDetails(item), edit(item, itemNumber), saveChanges(item, itemNumber), cancelListEditing(item, itemNumber), deleteListItem(item, itemNumber)]
+    let buttonClass = ["addButton", "editButton", "saveButton", "cancelButton", "deleteButton"]
+    let buttonFunctions = [addItemDetails(item), edit(item), saveChanges(item), cancelListEditing(item), deleteListItem(item)]
     let initialButtonDisplay = ["inline-block", "none", "none", "none", "none"]
     var i 
 
     for(i=0; i<buttonInnerHTML.length; i++) {
         let button = document.createElement("button")
         button.innerHTML = buttonInnerHTML[i]
-        button.id = buttonID[i] + itemNumber
+        button.classList = buttonClass[i]
         item.appendChild(button)
         button.onclick = buttonFunctions[i]
         button.style.display = initialButtonDisplay[i]
     }
 }
 
-function deleteListItem(item, itemNumber) {
+function deleteListItem(item) {
     return function() {
-        let dbEntry = getDbEntryFromItemNumber(itemNumber)
-        let dbEntryLocation = database.items.indexOf(dbEntry)
+        let itemData = getFieldData(item)
+        let dbEntryLocation = database.items.indexOf({name: itemData[0], qty: itemData[1], units: itemData[2], notes: itemData[3]})
         item.remove()
         database.items.splice(dbEntryLocation, 1)
         console.log(database)
     }
 }
 
-function cancelListEditing(item, itemNumber) {
+function cancelListEditing(item) {//needs to be re-done
     return function () {
-        dbEntry = getDbEntryFromItemNumber(itemNumber)
-        fillFields(dbEntry)
-        toggleInputClass(item)
-        document.getElementById("editButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("saveButton" + itemNumber).style.display = "none"
-        document.getElementById("cancelButton" + itemNumber).style.display = "none"
+      console.log("hi")
     }
 }
 
-function edit(item, itemNumber) {
+function edit(item) {
     return function () {
-        document.getElementById("editButton" + itemNumber).style.display = "none"
-        document.getElementById("saveButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("cancelButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
+        let editButton = item.getElementsByClassName("editButton")
+        editButton[0].style.display = "none"
+        let saveButton = item.getElementsByClassName("saveButton")
+        saveButton[0].style.display = "inline-block"
+        let cancelButton = item.getElementsByClassName("cancelButton")
+        cancelButton[0].style.display = "inline-block"
+        let deleteButton = item.getElementsByClassName("deleteButton")
+        deleteButton[0].style.display = "inline-block"
         toggleInputClass(item)
     }
 }
-function saveChanges(item, itemNumber) {
+function saveChanges(item) {
     return function () {
-        dbEntry = getDbEntryFromItemNumber(itemNumber)
-        document.getElementById("editButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("deleteButton" + itemNumber).style.display = "inline-block"
-        document.getElementById("saveButton" + itemNumber).style.display = "none"
-        document.getElementById("cancelButton" + itemNumber).style.display = "none"
+        let editButton = item.getElementsByClassName("editButton")
+        editButton[0].style.display = "inline-block"
+        let deleteButton = item.getElementsByClassName("deleteButton")
+        deleteButton[0].style.display = "inline-block"
+        let saveButton = item.getElementsByClassName("saveButton")
+        saveButton[0].style.display = "none"
+        let cancelButton = item.getElementsByClassName("cancelButton")
+        cancelButton[0].style.display = "none"
         toggleInputClass(item)
-        editDBEntry(dbEntry)
+        let itemData = getFieldData(item)
+        console.log(itemData)
+        let dbEntryLocation = database.items.indexOf({name: itemData[0], qty: itemData[1], units: itemData[2], notes: itemData[3]})
+        console.log(dbEntryLocation)
+        editDBEntry(item, database.items[dbEntryLocation])
         console.log(database)
     }
 }
