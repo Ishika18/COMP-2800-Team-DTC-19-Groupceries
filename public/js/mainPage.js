@@ -1,7 +1,6 @@
 let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, {name: "lettuce", qty: 1, units: "bag", notes: "pls" }] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
-    this.itemNumber = null
     this.name = " "
     this.qty = null
     this.units = " "
@@ -57,13 +56,13 @@ function fillFields(item, DBitem) { //called by each list item loaded from datab
 
 function getFieldData(item) { //helper function for editDBEntry()
     let nameField = item.getElementsByClassName("Name")
-    let name = nameField.value
+    let name = nameField[0].value
     let qtyField = item.getElementsByClassName("Quantity")
-    let qty = qtyField.value
+    let qty = qtyField[0].value
     let unitsField = item.getElementsByClassName("Units")
-    let units = unitsField.value
+    let units = unitsField[0].value
     let notesField = item.getElementsByClassName("Notes(Optional)")
-    let notes = notesField.value
+    let notes = notesField[0].value
     return [name, qty, units, notes]
 }
 
@@ -81,7 +80,7 @@ function newItemField() {
         input = document.createElement("input")
         input.setAttribute("type", "text")
         input.classList = fields[i]
-        input.classList = "textInput"
+        input.classList.add("textInput")
         label = document.createElement("label")
         label.innerHTML = fields[i]
         label.classList = "listInputLabels"
@@ -114,6 +113,7 @@ function addItemDetails(item) {
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
     fieldData = getFieldData(item)
+    console.log(fieldData)
     console.log(dbEntry)
     dbEntry.name = fieldData[0]
     dbEntry.qty = fieldData[1]
@@ -169,7 +169,8 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 function deleteListItem(item) {
     return function() {
         let itemData = getFieldData(item)
-        let dbEntryLocation = database.items.indexOf({name: itemData[0], qty: itemData[1], units: itemData[2], notes: itemData[3]})
+        let quantity = parseInt(itemData)
+        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.qty === quantity && obj.units === itemData[2] && obj.notes === itemData[3])
         item.remove()
         database.items.splice(dbEntryLocation, 1)
         console.log(database)
@@ -206,22 +207,7 @@ function saveChanges(item) {
         let cancelButton = item.getElementsByClassName("cancelButton")
         cancelButton[0].style.display = "none"
         toggleInputClass(item)
-        let itemData = getFieldData(item)
-        console.log(itemData)
-        let dbEntryLocation = database.items.indexOf({name: itemData[0], qty: itemData[1], units: itemData[2], notes: itemData[3]})
-        console.log(dbEntryLocation)
-        editDBEntry(item, database.items[dbEntryLocation])
-        console.log(database)
     }
-}
-
-function getDbEntryFromItemNumber(itemNumber) {//helper function 
-    for (listItem in database.items) {
-        if (database.items[listItem].itemNumber == itemNumber) {
-            var dbEntry = database.items[listItem]
-        } // had no other way of passing the item's database entry to this function, so this for loop searches the items list for the item whose itemNumber matches the one it was passed.
-    }
-    return dbEntry
 }
 
 function collapse() {
