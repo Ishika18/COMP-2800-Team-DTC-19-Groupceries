@@ -83,6 +83,44 @@ function editItem(user, groceryList, oldItem, newItem){
     addItem(user, groceryList, newItem);
 };
 
+function deleteOldItem(DBSnapshot){ //snapshot should only contain items in array
+    let existingItems = document.getElementById("groceryList").getElementsByClassName("listItems") //arr?
+    for (item in existingItems){
+        itemAsDBObject = {name: item.getElementsByClassName("name")[0], //need correct class name
+            found: null,
+            quantity: {
+                amount: item.getElementsByClassName("quantity")[0], //need correct class name
+                unit: item.getElementsByClassName("unit")[0] //need correct class name
+            },
+            notes: item.getElementsByClassName("notes")[0] //need to add corresponding entry in DB
+        }
+        if(!(itemAsDBObject in DBSnapshot)){
+            console.log("x") //placeholder for code to delete object in front end
+        }
+    }
+}
+
+function instantiateNewItem(DBSnapshot){ //snapshot should only contain items in array
+    let existingItems = document.getElementById("groceryList").getElementsByClassName("listItems") //arr?
+    let existingItemsAsDBObj = []
+    for (item in existingItems){
+        itemAsDBObject = {name: item.getElementsByClassName("name")[0], //need correct class name
+            found: null,
+            quantity: {
+                amount: item.getElementsByClassName("quantity")[0], //need correct class name
+                unit: item.getElementsByClassName("unit")[0] //need correct class name
+            },
+            notes: item.getElementsByClassName("notes")[0] //need to add corresponding entry in DB
+        }
+        existingItemsAsDBObj.push(itemAsDBObject)
+        for (DBitem in DBSnapshot){
+            if(!(DBitem in existingItemsAsDBObj)){
+                console.log("x") //placeholder for code to instantiate object in front end
+            }
+        }
+    }
+}
+
 //scripts below here
 //debug to return the names of all items in Chris/dinner on change
 db.collection("Chris").doc("dinner")
@@ -97,6 +135,7 @@ console.log(localStorage.getItem('uid'));
 db.collection("Chris").where("ready_to_buy", "==", false)
     .onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
+            // call relevant create/delete functions here
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
         });
     });
