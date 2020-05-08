@@ -83,8 +83,22 @@ function editItem(user, groceryList, oldItem, newItem){
     addItem(user, groceryList, newItem);
 };
 
-console.log(localStorage.getItem('uid'));
+//debug to return the names of all items in Chris/dinner on change
+db.collection("Chris").doc("dinner")
+    .onSnapshot(function(doc) {
+    objects = doc.data().items
+        for(item in objects){
+            console.log(objects[item].name);
+        }
+    });
 
+console.log(localStorage.getItem('uid'));
+db.collection("Chris").where("ready_to_buy", "==", false)
+    .onSnapshot(function(snapshot) {
+        snapshot.docChanges().forEach(function(change) {
+            console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
+        });
+    });
 // for demo
 console.log("Here is some code to demonstrate the working database. Please open 'https://console.firebase.google.com/project/groupceries-f6189/database' in another tab.")
 console.log("Please initialize the following code in the console of the groceries/createListPage page.")

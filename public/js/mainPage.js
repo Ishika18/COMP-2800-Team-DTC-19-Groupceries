@@ -1,6 +1,6 @@
 let database = [{ itemNumber: 1, name: "ketchup", qty: 1, units: "bottle", notes: "pls" }, { itemNumber: 2, name: "lettuce", qty: 1, units: "bag", notes: "pls" }]
 let itemNumber = 1
-
+console.log(localStorage.getItem('uid'));
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.itemNumber = null
     this.name = " "
