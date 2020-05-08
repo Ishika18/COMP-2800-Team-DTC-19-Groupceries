@@ -81,7 +81,11 @@ let friendController = {
         currentUserDocs.update({ recieved: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
     },
 
-    
+    unfriend: (currentUser, friendID) => {
+        // delete the emails from the accepted.
+        currentUserDocs.update({ accepted: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
+        friendDocs.update({ accepted: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
+    }
 }
 
 module.exports = friendController;
