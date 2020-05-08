@@ -6,10 +6,9 @@ const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
 const algoliaController = require('./controllers/algoliaController');
+const friendController = require('./controllers/friendController');
 
 const loggerMiddleware = authController.loggerMiddleware;
-const user = authController.user;
-let currentUserID = user.uid;
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,7 +17,7 @@ userController.listAllUsers().then( (users) => {
     algoliaController.addData(users);
     algoliaController.setSearchAttributes();
     algoliaController.setCustomRankings();
-    algoliaController.removeCurrentUser(currentUserID);
+    //algoliaController.removeCurrentUser(currentUserID);
 });
 
 app.use(bodyParser.json());
@@ -52,6 +51,16 @@ app.post("/home", function(req, res) {
     } else {
         authController.login(userId);
     }
+});
+
+// SS - user send friend request.
+app.post("/home/user", function (req, res) {
+    let friendEmail = JSON.parse(JSON.stringify(req.body)).friendEmail;
+    let currentUserID = JSON.parse(JSON.stringify(req.body)).currentUser;
+    // find the user id using the email of the user.
+    userController.getUID(friendEmail).then((friendID) => {
+        friendController.sendRequest(currentUserID, friendID);
+    }).catch( (error) => { console.log(error) });
 });
 
 app.listen(PORT, function() {
