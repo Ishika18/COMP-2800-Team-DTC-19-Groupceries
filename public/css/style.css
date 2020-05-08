@@ -1,6 +1,13 @@
 @media (min-width: 1025px) {
+    #aboutUsPage h1{
+        color: black;
+    }
+    #aboutUsPage p{
+        color: black;
+    }
     .card {
         width: 14rem;
+        color: black;
     }
     #buttons {
         border-bottom: 1px solid grey;
