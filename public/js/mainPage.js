@@ -6,8 +6,8 @@ function databaseListItem() {         // object constructor for new database ent
     this.notes = ""
 }
 
-function loadItems() { //runs when page loads and loads all items from database and makes them visible on list.
-    for (item in database.items) {
+function loadItems(data) { //runs when page loads and loads all items from database and makes them visible on list.
+    for (item in data.items) {
         let listItem = document.createElement("div")
         listItem.className = "listItems"
         let list = document.getElementById("groceryList")
@@ -52,12 +52,11 @@ function loadItems() { //runs when page loads and loads all items from database 
         editButton[0].style.display = "inline-block"
         let deleteButton = listItem.getElementsByClassName("deleteButton")
         deleteButton[0].style.display = "inline-block"
-        fillFields(listItem, database.items[item])
-        document.getElementById("listTitle").innerHTML = database.listName
+        fillFields(listItem, data.items[item])
     }
 
 }
-document.onload = loadItems()
+document.onload = loadItems(database)
 
 function fillFields(item, DBitem) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
     let nameField = item.getElementsByClassName("Name")
@@ -87,14 +86,14 @@ function updateClient(DBItems){
     let discrepencies = findDifference(DBItems);
     if (discrepencies[1]){ // if DB has items not in client, must add items to client
         for(item in discrepencies[0]){
-            console.log(item) // placeholder to add item
-        }
+            loadItems({items: [item]});
+        };
     } else { // if client has items not in DB, must delete those items
         for(item in discrepencies[0]){
             let itemToDelete = findItemInClient(item);
-            console.log(itemToDelete); // placeholder to delete item
-        }
-    }
+            itemToDelete.delete();
+        };
+    };
 };
 
 function findItemInClient(DBItem){
@@ -133,7 +132,7 @@ function parseAllItemsToDB(){
     return listItemsAsDB
 };
 
-function itemAsDBObject(item) { //helper function for editDBEntry()
+function itemAsDBObject(item) {
     let nameField = item.getElementsByClassName("Name");
     let itemName = nameField[0].value;
     let qtyField = item.getElementsByClassName("Quantity");
