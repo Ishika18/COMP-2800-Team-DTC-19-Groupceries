@@ -1,13 +1,13 @@
-let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{name: "ketchup", qty: {amount: 1, unit: "units"}, notes: "pls" }, {name: "lettuce", qty: {amount: 1, unit: "L"}, notes: "pls" }] }
+let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
-    this.qty = {amount: null, unit: undefined}
+    this.quantity = {amount: null, unit: undefined}
     this.notes = ""
 }
 
-function loadItems() { //runs when page loads and loads all items from database and makes them visible on list.
-    for (item in database.items) {
+function loadItems(data) { //runs when page loads and loads all items from database and makes them visible on list.
+    for (item in data.items) {
         let listItem = document.createElement("div")
         listItem.className = "listItems"
         let list = document.getElementById("groceryList")
@@ -59,20 +59,19 @@ function loadItems() { //runs when page loads and loads all items from database 
         editButton[0].style.display = "inline-block"
         let deleteButton = listItem.getElementsByClassName("deleteButton")
         deleteButton[0].style.display = "inline-block"
-        fillFields(listItem, database.items[item])
-        document.getElementById("listTitle").innerHTML = database.listName
+        fillFields(listItem, data.items[item])
     }
 
 }
-document.onload = loadItems()
+document.onload = loadItems(database)
 
 function fillFields(item, DBitem) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
     let nameField = item.getElementsByClassName("Name")
     nameField[0].value = DBitem.name
     let qtyField = item.getElementsByClassName("Quantity")
-    qtyField[0].value = DBitem.qty.amount
+    qtyField[0].value = DBitem.quantity.amount
     let unitsField = item.getElementsByClassName("Units")
-    unitsField[0].value = DBitem.qty.unit
+    unitsField[0].value = DBitem.quantity.unit
     let notes = item.getElementsByClassName("Notes(Optional)")
     notes[0].value = DBitem.notes
 }
@@ -89,6 +88,97 @@ function getFieldData(item) { //helper function for editDBEntry()
     let notes = notesField[0].value
     return [name, qty, units, notes]
 }
+
+function updateClient(DBItems){
+    let discrepencies = findDifference(DBItems);
+    console.log(1, discrepencies)
+    if (discrepencies[1]){ // if DB has items not in client, must add items to client
+        for(item in discrepencies[0]){
+            loadItems({items: [discrepencies[0][item]]}); // this structure is required for loadItems to work. will need to refactor later
+        };
+    } else { // if client has items not in DB, must delete those items
+        for(item in discrepencies[0]){
+            let itemToDelete = findItemInClient(item);
+            itemToDelete.delete();
+        };
+    };
+};
+
+function findItemInClient(DBItem){
+    let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
+    for(item in listItems){
+        if(itemAsDBObject(item) == DBItem){
+            return item
+        };
+    };
+};
+
+
+function findDifference(DBItems){
+    let clientItems = parseAllItemsToDB();
+    console.log("client", clientItems)
+    let inDBnotClient = DBItems.filter(item => !contains(item, clientItems)); //all items in DB but not in client
+    console.log("indbnotclient", inDBnotClient)
+    let differentItems = [];
+    if (inDBnotClient.length != 0){ // if at least one item in DB not in client
+        for (item in inDBnotClient){
+            differentItems.push(inDBnotClient[item]);
+        };
+        return [differentItems, true] // bool represents if different items are in DB
+    } else { // if client has all DB items, client must also have an additional item (otherwise there would be no change)
+        let inClientNotDB = clientItems.filter(item => !contains(item, DBItems));
+        for (item in inClientNotDB){
+            differentItems.push(inClientNotDB[item]);
+        }; // all items in client not in DB
+        return [differentItems, false] // bool represents if different items are in DB
+    }
+};
+
+function contains(item, items){
+    for (let i = 0; i < items.length; i++){
+        if (_.isEqual(item, items[i])){
+            return true
+        } 
+    };
+    return false
+}
+
+function stringifyDB(DBItems){ // deprecated for now
+    let DBItemsAsStrings = [];
+    for (let i = 0; i < DBItems.length; i++){
+        console.log("item2", JSON.stringify(DBItems[i]))
+        DBItemsAsStrings.push(JSON.stringify(DBItems[i]))
+    };
+    console.log("a", DBItemsAsStrings);
+    return DBItemsAsStrings;
+}
+
+function parseAllItemsToDB(){
+    let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
+    listItemsAsDB = [];
+    for (let i = 0; i < listItems.length; i++){
+        listItemsAsDB.push(itemAsDBObject(listItems[i]));
+    };
+    return listItemsAsDB
+};
+
+function itemAsDBObject(item) {
+    let nameField = item.getElementsByClassName("Name");
+    let itemName = nameField[0].value;
+    let qtyField = item.getElementsByClassName("Quantity");
+    let itemQty = parseFloat(qtyField[0].value);
+    let unitsField = item.getElementsByClassName("Units");
+    let itemUnits = unitsField[0].value;
+    let notesField = item.getElementsByClassName("Notes(Optional)");
+    let itemNotes = notesField[0].value;
+    return {name: itemName, 
+        found: null, 
+        quantity: {
+            amount: itemQty,
+            unit: itemUnits
+        }, 
+        notes: itemNotes}
+};
 
 function newItemField() {
     let item = document.createElement("div")
@@ -159,10 +249,11 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+    addItem("Chris", "dinner", itemAsDBObject(item));
     fieldData = getFieldData(item)
     dbEntry.name = fieldData[0]
-    dbEntry.qty.amount = parseInt(fieldData[1])
-    dbEntry.qty.unit = fieldData[2]
+    dbEntry.quantity.amount = parseFloat(fieldData[1])
+    dbEntry.quantity.unit = fieldData[2]
     dbEntry.notes = fieldData[3]
     console.log(database)
 }
@@ -214,10 +305,11 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 
 function deleteListItem(item) {
     return function() {
+        removeItem("Chris", "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
-        let quantity = parseInt(itemData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.qty.amount === quantity && obj.qty.unit === itemData[2] && obj.notes === itemData[3])
+        let quantity = parseFloat(itemData[1])
+        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
         item.remove()
         database.items.splice(dbEntryLocation, 1)
         console.log(database)
@@ -265,13 +357,13 @@ function saveChanges(item, currentFieldData) {
         let cancelButton = item.getElementsByClassName("cancelButton")
         cancelButton[0].style.display = "none"   
         toggleInputClass(item)
-        let quantity = parseInt(currentFieldData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.qty.amount === quantity && obj.qty.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
+        let quantity = parseFloat(currentFieldData[1])
+        let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.quantity.amount === quantity && obj.quantity.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
         let userChanges = getFieldData(item)
         let dbEntry = database.items[dbEntryLocation]
         dbEntry.name = userChanges[0]
-        dbEntry.qty.amount = parseInt(userChanges[1])
-        dbEntry.qty.unit = userChanges[2]
+        dbEntry.quantity.amount = parseFloat(userChanges[1])
+        dbEntry.quantity.unit = userChanges[2]
         dbEntry.notes = userChanges[3]
         console.log(database)
     }
