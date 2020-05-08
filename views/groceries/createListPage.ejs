@@ -12,6 +12,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <div class="container-fluid">
     <div class="row">
+<<<<<<< HEAD
         <div class="container-fluid col" id="topbar">
             <%- include('../partials/mobileMainHeader.ejs'); -%>
             <%- include('../partials/appNavbar.ejs'); -%>
@@ -65,6 +66,42 @@
                             <label id="desktopMerge">Merge List</label>
                         </ul>
                     </div>
+=======
+    <div class="col-lg-3" id="left">
+    <h3>Shopping Lists</h3><hr>
+       <div id="myLists">
+           <button id="myLists" class="btn collapsible">My Lists</button>
+           <ul id="availableLists" class="collapse">
+                <p>My List</p>
+                <p>List 2</p>
+                <p>List 3</p>
+           </ul>
+        </div>
+        <div id="friendLists">
+            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
+            <div class="collapse">
+            <ul id="shagun" class="collapsible">Shagun's Lists</ul>
+                <p class="collapse">List 1</p>
+            <ul id="ronald" class="collapsible">Ronald's Lists</ul>
+                <p class="collapse">List 1</p>
+            <ul id="eric" class="collapsible">Eric's Lists</ul>
+                <p class="collapse">List 1</p>
+           </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" id="middle">
+                  
+        <div id="listArea">
+            <div id="buttons">
+                <h2 id="listTitle"></h2>
+                <button id="newItem" type="button">New Item</button>
+            </div>
+            <div id="groceryList">
+                <div id="mobileButtonBar" class="col-md-12">
+
+                </div>
+>>>>>>> dev
             </div>
         </div>
     </div>
