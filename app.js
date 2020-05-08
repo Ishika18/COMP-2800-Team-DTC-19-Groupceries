@@ -8,8 +8,6 @@ const userController = require('./controllers/userController');
 const algoliaController = require('./controllers/algoliaController');
 
 const loggerMiddleware = authController.loggerMiddleware;
-const user = authController.user;
-let currentUserID = user.uid;
 
 const PORT = process.env.PORT || 3000;
 
@@ -52,6 +50,15 @@ app.post("/home", function(req, res) {
     } else {
         authController.login(userId);
     }
+});
+
+// SS - user send friend request.
+app.post("/home/user", function (req, res) {
+    let friendEmail = JSON.parse(JSON.stringify(req.body)).friendEmail;
+    // find the user id using the email of the user.
+    userController.getUID(friendEmail).then((friendID) => {
+        friendController.sendRequest(currentUserID, friendID);
+    }).catch( (error) => { console.log(error) });
 });
 
 app.listen(PORT, function() {
