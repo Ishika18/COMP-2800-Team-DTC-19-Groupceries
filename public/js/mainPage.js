@@ -284,8 +284,7 @@ function collapse() {
     for (i = 0; i < coll.length; i++) {
         coll[i].onclick = function () {
             this.classList.toggle("active");
-            // var content = this.nextElementSibling;
-            var content = this.getElementsByClassName("collapse")
+            let content = this.nextElementSibling;
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
