@@ -66,6 +66,30 @@ function getFieldData(item) { //helper function for editDBEntry()
     return [name, qty, units, notes]
 }
 
+function updateClient(DBItems){
+    let discrepencies = findDifference(DBItems);
+    if (discrepencies[1]){ // if DB has items not in client, must add items to client
+        for(item in discrepencies[0]){
+            console.log(item) // placeholder to add item
+        }
+    } else { // if client has items not in DB, must delete those items
+        for(item in discrepencies[0]){
+            let itemToDelete = findItemInClient(item);
+            console.log(itemToDelete); // placeholder to delete item
+        }
+    }
+};
+
+function findItemInClient(DBItem){
+    let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
+    for(item in listItems){
+        if(itemAsDBObject(item) == DBItem){
+            return item
+        };
+    };
+};
+
+
 function findDifference(DBItems){
     let clientItems = parseAllItemsToDB;
     let inDBnotClient = DBItems.filter(item => !clientItems.includes(item)); //all items in DB but not in client
@@ -81,7 +105,7 @@ function findDifference(DBItems){
         }; // all items in client not in DB
         return [differentItems, false] // bool represents if different items are in DB
     }
-}
+};
 
 function parseAllItemsToDB(){
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
@@ -90,7 +114,7 @@ function parseAllItemsToDB(){
         listItemsAsDB.push(itemasDBObject(item));
     };
     return listItemsAsDB
-}
+};
 
 function itemAsDBObject(item) { //helper function for editDBEntry()
     let nameField = item.getElementsByClassName("Name");
@@ -108,7 +132,7 @@ function itemAsDBObject(item) { //helper function for editDBEntry()
             unit: itemUnits
         }, 
         notes: itemNotes}
-}
+};
 
 function newItemField() {
     let item = document.createElement("div")
