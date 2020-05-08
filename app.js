@@ -1,9 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
+const bodyParser = require('body-parser');
 const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
+const favicon = require('serve-favicon');
 const userController = require('./controllers/userController');
 const algoliaController = require('./controllers/algoliaController');
 const friendController = require('./controllers/friendController');
@@ -27,6 +28,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended: true}));
 
 app.use(ejsLayouts);
+
+// use favicon
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 // set up template engine
 app.set('view engine', 'ejs');

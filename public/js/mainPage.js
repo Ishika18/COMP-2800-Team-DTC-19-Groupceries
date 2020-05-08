@@ -16,10 +16,13 @@ function loadItems(data) { //runs when page loads and loads all items from datab
         var i
 
         for (i = 0; i < fields.length; i++) {
+            container = document.createElement("div")
+            container.classList = "p-2"
             if (fields[i] === "Units") {
                 let possibleUnits = ["units", "pack", "kg", "g", "L", "mL", ]
                 let input = document.createElement("select")
                 input.classList = fields[i]
+                input.classList.add("itemInfo")
                 input.classList.add("disabledInput")
                 input.disabled = true
                 let label = document.createElement("label")
@@ -31,18 +34,22 @@ function loadItems(data) { //runs when page loads and loads all items from datab
                     option.value = possibleUnits[unit]
                     input.appendChild(option)
                 }
-                listItem.appendChild(input)
+                container.appendChild(label)
+                container.appendChild(input)
+                listItem.appendChild(container)
             } else {
                 let input = document.createElement("input")
                 input.setAttribute("type", "text")
                 input.classList = fields[i]
+                input.classList.add("itemInfo")
                 input.classList.add("disabledInput")
                 input.disabled = true
                 let label = document.createElement("label")
                 label.innerHTML = fields[i]
                 label.classList = "listInputLabels"
-                listItem.appendChild(label)
-                listItem.appendChild(input)
+                container.appendChild(label)
+                container.appendChild(input)
+                listItem.appendChild(container)
             }
         }
         addButtons(listItem)
@@ -183,10 +190,13 @@ function newItemField() {
     var i
 
     for (i = 0; i < fields.length; i++) {
+        container = document.createElement("div")
+        container.classList = "p-2"
         if (fields[i] === "Units") {
             let possibleUnits = ["units", "pack", "kg", "g", "L", "mL", ]
             let input = document.createElement("select")
             input.classList = fields[i]
+            input.classList.add("itemInfo")
             input.classList.add("textInput")
             let label = document.createElement("label")
             label.innerHTML = fields[i]
@@ -197,17 +207,21 @@ function newItemField() {
                 option.value = possibleUnits[unit]
                 input.appendChild(option)
             }
-            item.appendChild(input)
+            container.appendChild(label)
+            container.appendChild(input)
+            item.appendChild(container)
         } else {
         let input = document.createElement("input")
         input.setAttribute("type", "text")
         input.classList = fields[i]
         input.classList.add("textInput")
+        input.classList.add("itemInfo")
         let label = document.createElement("label")
         label.innerHTML = fields[i]
         label.classList = "listInputLabels"
-        item.appendChild(label)
-        item.appendChild(input)
+        container.appendChild(label)
+        container.appendChild(input)
+        item.appendChild(container)
     }
 }
     addButtons(item)
@@ -304,14 +318,14 @@ function deleteListItem(item) {
 
 function cancelListEditing(item, currentFieldData) {//needs to be re-done
     return function () {
-        let nameField = item.getElementsByClassName("Name")
-        nameField.value = currentFieldData[0]
-        let qtyField = item.getElementsByClassName("Quantity")
-        qtyField.value = currentFieldData[1]
-        let unitsField = items.getElementsByClassName("Units")
-        unitsField.value = currentFieldData[2]
-        let noteField = items.getElementsByClassName("Notes(Optional)")
-        noteField.value = currentFieldData[3]
+        let editButton = item.getElementsByClassName("editButton")
+        editButton[0].style.display = "inline-block"
+        let deleteButton = item.getElementsByClassName("deleteButton")
+        deleteButton[0].style.display = "inline-block"
+        let saveButton = item.getElementsByClassName("saveButton")
+        saveButton[0].style.display = "none"
+        let cancelButton = item.getElementsByClassName("cancelButton")
+        cancelButton[0].style.display = "none"   
         toggleInputClass(item)
     }
 }
@@ -362,7 +376,7 @@ function collapse() {
     for (i = 0; i < coll.length; i++) {
         coll[i].onclick = function () {
             this.classList.toggle("active");
-            var content = this.nextElementSibling;
+            let content = this.nextElementSibling;
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
@@ -374,4 +388,3 @@ function collapse() {
 
 document.getElementById("newItem").onclick = newItemField
 collapse()
-

@@ -1,0 +1,24 @@
+<mobileHeader id="mobileHeader">
+    <div class="row" id="appTitleContainer">
+        <div class="col align-items-center">
+            <h2 id="appTitle">Groupceries</h2>
+        </div>
+    </div>
+    <div class="row" id="pageTitleContainer">
+        <div class="col align-items-center">
+            <h4 id="pageTitle">Shrek's Groceries</h4>
+        </div>
+    </div>
+    <nav class="navbar navbar-inverse mobileNavbar" style="background:#20187A">
+        <form action="/" method="get">
+            <button class="navbar-brand navbarItem">About Us</button>
+        </form>
+        <form action="/" method="get">
+            <button class="navbar-brand navbarItem">Home</button>  
+        </form>
+        <form id="signOut" onclick={signOut()}>
+            <button class="navbar-brand navbarItem" onclick={signOut()}>Log Out</button>
+        </form>
+    </nav>
+    
+</mobileHeader>
