@@ -4,13 +4,10 @@ const app = express();
 const ejsLayouts = require('express-ejs-layouts');
 const groceriesController = require('./controllers/groceriesController');
 const authController = require('./controllers/authController');
-<<<<<<< HEAD
 const favicon = require('serve-favicon');
-=======
 const userController = require('./controllers/userController');
 const algoliaController = require('./controllers/algoliaController');
 
->>>>>>> dev
 const loggerMiddleware = authController.loggerMiddleware;
 const user = authController.user;
 let currentUserID = user.uid;
