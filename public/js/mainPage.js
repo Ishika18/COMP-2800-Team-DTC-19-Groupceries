@@ -91,24 +91,24 @@ function getFieldData(item) { //helper function for editDBEntry()
 
 function updateClient(DBItems){
     let discrepencies = findDifference(DBItems);
-    console.log(1, discrepencies)
     if (discrepencies[1]){ // if DB has items not in client, must add items to client
         for(item in discrepencies[0]){
             loadItems({items: [discrepencies[0][item]]}); // this structure is required for loadItems to work. will need to refactor later
         };
     } else { // if client has items not in DB, must delete those items
         for(item in discrepencies[0]){
-            let itemToDelete = findItemInClient(item);
-            itemToDelete.delete();
+            let itemToDelete = findItemInClient(discrepencies[0][item]);
+            itemToDelete.remove();
         };
     };
 };
 
 function findItemInClient(DBItem){
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
-    for(item in listItems){
-        if(itemAsDBObject(item) == DBItem){
-            return item
+    console.log(listItems)
+    for(let i = 0; i < listItems.length; i++){
+        if(_.isEqual(itemAsDBObject(listItems[i]), DBItem)){
+            return listItems[i];
         };
     };
 };
@@ -116,9 +116,7 @@ function findItemInClient(DBItem){
 
 function findDifference(DBItems){
     let clientItems = parseAllItemsToDB();
-    console.log("client", clientItems)
     let inDBnotClient = DBItems.filter(item => !contains(item, clientItems)); //all items in DB but not in client
-    console.log("indbnotclient", inDBnotClient)
     let differentItems = [];
     if (inDBnotClient.length != 0){ // if at least one item in DB not in client
         for (item in inDBnotClient){
@@ -149,7 +147,6 @@ function stringifyDB(DBItems){ // deprecated for now
         console.log("item2", JSON.stringify(DBItems[i]))
         DBItemsAsStrings.push(JSON.stringify(DBItems[i]))
     };
-    console.log("a", DBItemsAsStrings);
     return DBItemsAsStrings;
 }
 
@@ -170,7 +167,7 @@ function itemAsDBObject(item) {
     let unitsField = item.getElementsByClassName("Units");
     let itemUnits = unitsField[0].value;
     let notesField = item.getElementsByClassName("Notes(Optional)");
-    let itemNotes = notesField[0].value;
+    let itemNotes = notesField[0].value;    
     return {name: itemName, 
         found: null, 
         quantity: {

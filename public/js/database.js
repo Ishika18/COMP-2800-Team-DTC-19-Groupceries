@@ -27,9 +27,9 @@ function read(user){
 };
 
 function addItem(user, groceryList, item){
-    db.collection(user).doc(groceryList).update({
+    db.collection(user).doc(groceryList).set({
         items: firebase.firestore.FieldValue.arrayUnion(item)
-    }).then(function() {
+    }, {merge: true}).then(function() {
         console.log("Write success, the database should now contain this entry.")
         console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
         
@@ -40,9 +40,9 @@ function addItem(user, groceryList, item){
 };
 
 function removeItem(user, groceryList, item){
-    db.collection(user).doc(groceryList).update({
+    db.collection(user).doc(groceryList).set({
         items: firebase.firestore.FieldValue.arrayRemove(item)
-    })
+    }, {merge: true})
     .then(function() {
         console.log("Write success, the database should now have removed contain this entry.")
         console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
