@@ -1,11 +1,18 @@
 @media (min-width: 1025px) {
+    #aboutUsPage h1{
+        color: black;
+    }
+    #aboutUsPage p{
+        color: black;
+    }
+    .card {
+        width: 14rem;
+        color: black;
+    }
     #buttons {
         border-bottom: 1px solid grey;
         height: 75px;
         display: block;
-    }
-    .viewButton {
-        display: visible;
     }
     #right {
         z-index: 1000;
@@ -267,11 +274,8 @@
         margin-right: 0.5rem;
         font-size: x-small;
     }
-    .addButton, .editButton {
+    .addButton{
         width: 13vw!important;
-    }
-    .deleteButton{
-        width: 19vw!important;
     }
     .rectangularButton {
         background-color: #5B3E96;
@@ -412,18 +416,30 @@
         border-bottom: 1px solid grey;
         display: block;
     }
+    .editButton, .deleteButton {
+        width: 100%
+    }
 }
-.addButton, .editButton, .deleteButton, .saveButton, .cancelButton{
+.deleteListButton, .editButton, .deleteButton, .saveButton, .cancelButton{
+    color: white;
+    background-color: red;
+    font-weight: bold;
+    display: flex;
+    height: 100%;
+    float: right;
+    border: transparent;
+}
+.addButton, .saveButton, .cancelButton{
     font-weight: bold;
     border: none;
     color: white;
     height: 100%;
     width: max-content;
 }
-.viewButton {
+.viewListsbutton {
     background-color: lightskyblue;
 }
-.deleteButton, .cancelButton {
+.deleteButton, .deleteListButton, .cancelButton {
     background-color: red;
 } 
 .editButton {
@@ -450,4 +466,13 @@
 }
 .rightMostButton {
     width: fit-content;
+}
+#aboutUsPage .card {
+    background-color: transparent;
+}
+#aboutUsPage {
+    color: white
+}
+.launchpageBtn {
+    width: 12.5vw!important;
 }

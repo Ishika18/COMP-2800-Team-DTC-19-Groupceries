@@ -46,6 +46,9 @@ app.get("/groceries/createListPage", loggerMiddleware, groceriesController.creat
 // SS - edit list page
 app.get("/groceries/editListPage", loggerMiddleware, groceriesController.editListPage);
 
+// SS - about us page
+app.get("/groceries/aboutUsPage", loggerMiddleware, groceriesController.aboutUsPage);
+
 // SS - login / logout the user ( get user id from post request )
 app.post("/home", function(req, res) {
     let userId = JSON.parse(JSON.stringify(req.body));
