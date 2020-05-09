@@ -1,21 +1,26 @@
 <!-- SS - navbar for groupceries. ( navbar template from the reminderApplication ) -->
-
-<nav class="navbar d-flex bg-white border-bottom border-dark d-inline align-items-start align-items-center" style="min-width: 375px">
-    <div class="container-flex align-items-center justify-content-start p=1">
-      <img src="/images/logo.png" width="50" height="50" class="d-inline" alt="">
-      <a class="navbar-brand text-dark d-none d-md-inline">Groupceries</a>
-    </div>
-
-    <div class="container-flex row">
-
-        <form action="/" method="get">
-            <button id="navBarOptions"  class="btn navbar-brand text-dark d-inline" type="submit">Home</button>
-        </form>
-        <form action="/groceries/editListPage" method="get">
-            <button id="navBarEdit" class="btn navbar-brand text-dark d-inline" type="submit">Edit</button>
-        </form>
-        <form action="/groceries/createListPage" method="get">
-            <button id="navBarCreate" class="btn navbar-brand text-dark d-inline" type="submit">Create</button>
-        </form>
-    </div>
-</nav>
+<desktopNavbar id="desktopNavbar">
+    <nav class="navbar d-flex bg-white border-bottom border-dark d-inline align-items-start align-items-center" id style="min-width: 375px">
+        <div class="container-flex align-items-center justify-content-start p=1">
+          <img src="/images/logo.png" width="50" height="50" class="d-inline" alt="">
+          <a class="navbar-brand text-dark d-none d-md-inline">Groupceries</a>
+        </div>
+        <div class="container-flex row">
+            <form action="/" method="get">
+                <button id="navBarOptions"  class="btn navbar-brand text-dark d-inline" type="submit">Home</button>
+            </form>
+            <form action="/groceries/editListPage" method="get">
+                <button id="navBarEdit" class="btn navbar-brand text-dark d-inline" type="submit">Edit</button>
+            </form>
+            <form action="/groceries/createListPage" method="get">
+                <button id="navBarCreate" class="btn navbar-brand text-dark d-inline" type="submit">Create</button>
+            </form>
+            <form action="/groceries/aboutUsPage" method="get">
+                <button class="btn navbar-brand text-dark d-inline">About Us</button>
+            </form>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                All Users
+            </button>
+        </div>
+    </nav>
+</desktopNavbar>
