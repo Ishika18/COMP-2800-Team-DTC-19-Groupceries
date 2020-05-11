@@ -296,3 +296,28 @@ function collapse() {
 
 document.getElementById("newItem").onclick = newItemField
 collapse()
+
+//format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
+function loadLists(friendObj) {
+    return function() {
+    let friends = friendObj.keys()
+    friends.forEach(friend => {
+        let friendElement = document.createElement("ul")
+        let friendList = document.getElementById("friendsListCollapsibles")
+        friendList.appendChild(friendElement)
+        friendElement.innerHTML = friend + "'s Lists"
+        friendElement.classList.add("collapse")
+
+        let friendsLists = friendObj.friend
+        friendsLists.forEach(list => {
+            let listElement = document.createElement("li")
+            friendElement.appendChild(listElement)
+            listElement.innerHTML = list
+        })
+        
+    });
+}    
+    //loads the list of users friends and their lists
+    //when a list is added or a friend is added, update the list
+}
+loadLists({Silvana: ["List 1", "List 2"], Chris: ["List 1", "List 2"]})
