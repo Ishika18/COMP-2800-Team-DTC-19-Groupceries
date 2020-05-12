@@ -19,6 +19,8 @@ aria-hidden="true">
                 </svg>
             </div>
         </div>
+        <%- include('recievedFriends.ejs'); -%>
+        <%- include('sentFriends.ejs'); -%>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearInput()">Close</button>
             <button type="button" class="btn btn-primary" onclick="sendRequest()">Send request</button>
