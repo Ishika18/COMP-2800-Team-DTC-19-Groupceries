@@ -20,6 +20,7 @@ function logInFirebase(id_token) {
   firebase.auth().signInWithCredential(credential).then(function (user) {
     // store uid on local storage.
     window.localStorage.setItem('uid', firebase.auth().currentUser.uid);
+    window.localStorage.setItem('name', firebase.auth().currentUser.displayName);
   }).catch(function (error) {
     // Handle Errors here.
     console.log(error);
