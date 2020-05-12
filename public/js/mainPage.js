@@ -1,8 +1,8 @@
-let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{name: "ketchup", qty: {amount: 1, unit: "units"}, notes: "pls" }, {name: "lettuce", qty: {amount: 1, unit: "L"}, notes: "pls" }] }
+let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{ name: "ketchup", qty: { amount: 1, unit: "units" }, notes: "pls" }, { name: "lettuce", qty: { amount: 1, unit: "L" }, notes: "pls" }] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
-    this.qty = {amount: null, unit: undefined}
+    this.qty = { amount: null, unit: undefined }
     this.notes = ""
 }
 
@@ -19,7 +19,7 @@ function loadItems() { //runs when page loads and loads all items from database 
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL", ]
+                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
                 let input = document.createElement("select")
                 input.classList = fields[i]
                 input.classList.add("itemInfo")
@@ -103,7 +103,7 @@ function newItemField() {
         container = document.createElement("div")
         container.classList = "p-2"
         if (fields[i] === "Units") {
-            let possibleUnits = ["units", "pack", "kg", "g", "L", "mL", ]
+            let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
             let input = document.createElement("select")
             input.classList = fields[i]
             input.classList.add("itemInfo")
@@ -121,19 +121,19 @@ function newItemField() {
             container.appendChild(input)
             item.appendChild(container)
         } else {
-        let input = document.createElement("input")
-        input.setAttribute("type", "text")
-        input.classList = fields[i]
-        input.classList.add("textInput")
-        input.classList.add("itemInfo")
-        let label = document.createElement("label")
-        label.innerHTML = fields[i]
-        label.classList = "listInputLabels"
-        container.appendChild(label)
-        container.appendChild(input)
-        item.appendChild(container)
+            let input = document.createElement("input")
+            input.setAttribute("type", "text")
+            input.classList = fields[i]
+            input.classList.add("textInput")
+            input.classList.add("itemInfo")
+            let label = document.createElement("label")
+            label.innerHTML = fields[i]
+            label.classList = "listInputLabels"
+            container.appendChild(label)
+            container.appendChild(input)
+            item.appendChild(container)
+        }
     }
-}
     addButtons(item)
 }
 
@@ -184,7 +184,7 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
             input.classList.toggle("textInput")
             input.classList.add("disabledInput")
         } else {
-            input.classList.toggle("disabledInput") 
+            input.classList.toggle("disabledInput")
             input.classList.add("textInput") //if input is an active text box, change it's styling to make it look inactive
         }
         if (input.disabled == true) {
@@ -200,9 +200,9 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
     let buttonClass = ["addButton", "editButton", "saveButton", "cancelButton", "deleteButton"]
     let buttonFunctions = [addItemDetails(item), edit(item), undefined, undefined, deleteListItem(item)]
     let initialButtonDisplay = ["inline-block", "none", "none", "none", "none"]
-    var i 
+    var i
 
-    for(i=0; i<buttonInnerHTML.length; i++) {
+    for (i = 0; i < buttonInnerHTML.length; i++) {
         let button = document.createElement("button")
         button.innerHTML = buttonInnerHTML[i]
         button.classList = buttonClass[i]
@@ -213,7 +213,7 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 }
 
 function deleteListItem(item) {
-    return function() {
+    return function () {
         let itemData = getFieldData(item)
         console.log(itemData)
         let quantity = parseInt(itemData[1])
@@ -233,7 +233,7 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
         let saveButton = item.getElementsByClassName("saveButton")
         saveButton[0].style.display = "none"
         let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "none"   
+        cancelButton[0].style.display = "none"
         toggleInputClass(item)
     }
 }
@@ -263,7 +263,7 @@ function saveChanges(item, currentFieldData) {
         let saveButton = item.getElementsByClassName("saveButton")
         saveButton[0].style.display = "none"
         let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "none"   
+        cancelButton[0].style.display = "none"
         toggleInputClass(item)
         let quantity = parseInt(currentFieldData[1])
         let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.qty.amount === quantity && obj.qty.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
@@ -295,29 +295,69 @@ function collapse() {
 }
 
 document.getElementById("newItem").onclick = newItemField
-collapse()
+setInterval(collapse, 1)
+
 
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
-    return function() {
-    let friends = friendObj.keys()
+    let friends = Object.keys(friendObj)
     friends.forEach(friend => {
-        let friendElement = document.createElement("ul")
-        let friendList = document.getElementById("friendsListCollapsibles")
-        friendList.appendChild(friendElement)
-        friendElement.innerHTML = friend + "'s Lists"
-        friendElement.classList.add("collapse")
-
-        let friendsLists = friendObj.friend
-        friendsLists.forEach(list => {
-            let listElement = document.createElement("li")
-            friendElement.appendChild(listElement)
-            listElement.innerHTML = list
+        if (!checkForFriend(friend)) {//checks if a friend already has a display element
+        createFriendElement(friend)//if not, creates one for it
+        }
+        let listSection = findListEntry(friend)
+        let friendsLists = friendObj[friend]
+        friendsLists.forEach(list => {//loops through array of lists for each friend
+        createListElement(listSection, list) // creates a list display element for each list
         })
-        
+
     });
-}    
-    //loads the list of users friends and their lists
-    //when a list is added or a friend is added, update the list
 }
-loadLists({Silvana: ["List 1", "List 2"], Chris: ["List 1", "List 2"]})
+
+loadLists({ Silvana: ["List 2"], Chris: ["List 1", "List 2"] })
+
+function findListEntry(friend){
+    let friendList = document.getElementById("friendsListCollapsibles")
+    let existingFriends = friendList.getElementsByClassName("collapsible")
+    let existingFriendsArray = Array.from(existingFriends)
+    let entry = undefined
+    for (entry in existingFriendsArray) {
+        if (existingFriendsArray[entry].innerHTML.includes(friend)) {
+            return existingFriendsArray[entry].nextElementSibling
+        }
+    }
+    
+}
+
+function createFriendElement(friend) { //helper for loadlists
+    let friendElement = document.createElement("ul")
+    let friendList = document.getElementById("friendsListCollapsibles")
+    friendList.appendChild(friendElement)
+    friendElement.innerHTML = friend + "'s Lists"
+    friendElement.classList.add("collapsible")
+    let listSection = document.createElement("section")
+    listSection.classList.add("collapse")
+    friendList.append(listSection)
+    return listSection
+}
+
+function createListElement(listSection, list) { //helper for loadLists
+    let listElement = document.createElement("p")
+    listSection.appendChild(listElement)
+    listElement.innerHTML = list
+}
+
+function checkForFriend(friend) {
+    let alreadyInList = false
+    let friendList = document.getElementById("friendsListCollapsibles")
+    let existingFriends = friendList.getElementsByClassName("collapsible")
+    let existingFriendsArray = Array.from(existingFriends)
+    existingFriendsArray.forEach(friendEntry => {
+        if (friendEntry.innerHTML.includes(friend)) {
+            alreadyInList = true
+        }
+
+    })
+    return alreadyInList
+
+}
