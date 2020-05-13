@@ -2,7 +2,7 @@ let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, 
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
-    this.quantity = {amount: null, unit: undefined}
+    this.quantity = { amount: null, unit: undefined }
     this.notes = ""
 }
 
@@ -19,7 +19,7 @@ function loadItems(data) { //runs when page loads and loads all items from datab
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL", ]
+                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
                 let input = document.createElement("select")
                 input.classList = fields[i]
                 input.classList.add("itemInfo")
@@ -89,71 +89,71 @@ function getFieldData(item) { //helper function for editDBEntry()
     return [name, qty, units, notes]
 }
 
-function updateClient(DBItems){
+function updateClient(DBItems) {
     let discrepencies = findDifference(DBItems);
-    if (discrepencies[1]){ // if DB has items not in client, must add items to client
-        for(item in discrepencies[0]){
-            loadItems({items: [discrepencies[0][item]]}); // this structure is required for loadItems to work. will need to refactor later
+    if (discrepencies[1]) { // if DB has items not in client, must add items to client
+        for (item in discrepencies[0]) {
+            loadItems({ items: [discrepencies[0][item]] }); // this structure is required for loadItems to work. will need to refactor later
         };
     } else { // if client has items not in DB, must delete those items
-        for(item in discrepencies[0]){
+        for (item in discrepencies[0]) {
             let itemToDelete = findItemInClient(discrepencies[0][item]);
             itemToDelete.remove();
         };
     };
 };
 
-function findItemInClient(DBItem){
+function findItemInClient(DBItem) {
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
     console.log(listItems)
-    for(let i = 0; i < listItems.length; i++){
-        if(_.isEqual(itemAsDBObject(listItems[i]), DBItem)){
+    for (let i = 0; i < listItems.length; i++) {
+        if (_.isEqual(itemAsDBObject(listItems[i]), DBItem)) {
             return listItems[i];
         };
     };
 };
 
 
-function findDifference(DBItems){
+function findDifference(DBItems) {
     let clientItems = parseAllItemsToDB();
     let inDBnotClient = DBItems.filter(item => !contains(item, clientItems)); //all items in DB but not in client
     let differentItems = [];
-    if (inDBnotClient.length != 0){ // if at least one item in DB not in client
-        for (item in inDBnotClient){
+    if (inDBnotClient.length != 0) { // if at least one item in DB not in client
+        for (item in inDBnotClient) {
             differentItems.push(inDBnotClient[item]);
         };
         return [differentItems, true] // bool represents if different items are in DB
     } else { // if client has all DB items, client must also have an additional item (otherwise there would be no change)
         let inClientNotDB = clientItems.filter(item => !contains(item, DBItems));
-        for (item in inClientNotDB){
+        for (item in inClientNotDB) {
             differentItems.push(inClientNotDB[item]);
         }; // all items in client not in DB
         return [differentItems, false] // bool represents if different items are in DB
     }
 };
 
-function contains(item, items){
-    for (let i = 0; i < items.length; i++){
-        if (_.isEqual(item, items[i])){
+function contains(item, items) {
+    for (let i = 0; i < items.length; i++) {
+        if (_.isEqual(item, items[i])) {
             return true
-        } 
+        }
     };
     return false
 }
 
-function stringifyDB(DBItems){ // deprecated for now
+function stringifyDB(DBItems) { // deprecated for now
     let DBItemsAsStrings = [];
-    for (let i = 0; i < DBItems.length; i++){
+    for (let i = 0; i < DBItems.length; i++) {
         console.log("item2", JSON.stringify(DBItems[i]))
         DBItemsAsStrings.push(JSON.stringify(DBItems[i]))
     };
     return DBItemsAsStrings;
 }
 
-function parseAllItemsToDB(){
+function parseAllItemsToDB() {
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
     listItemsAsDB = [];
-    for (let i = 0; i < listItems.length; i++){
+    for (let i = 0; i < listItems.length; i++) {
         listItemsAsDB.push(itemAsDBObject(listItems[i]));
     };
     return listItemsAsDB
@@ -167,14 +167,16 @@ function itemAsDBObject(item) {
     let unitsField = item.getElementsByClassName("Units");
     let itemUnits = unitsField[0].value;
     let notesField = item.getElementsByClassName("Notes(Optional)");
-    let itemNotes = notesField[0].value;    
-    return {name: itemName, 
-        found: null, 
+    let itemNotes = notesField[0].value;
+    return {
+        name: itemName,
+        found: null,
         quantity: {
             amount: itemQty,
             unit: itemUnits
-        }, 
-        notes: itemNotes}
+        },
+        notes: itemNotes
+    }
 };
 
 function newItemField() {
@@ -190,7 +192,7 @@ function newItemField() {
         container = document.createElement("div")
         container.classList = "p-2"
         if (fields[i] === "Units") {
-            let possibleUnits = ["units", "pack", "kg", "g", "L", "mL", ]
+            let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
             let input = document.createElement("select")
             input.classList = fields[i]
             input.classList.add("itemInfo")
@@ -208,19 +210,19 @@ function newItemField() {
             container.appendChild(input)
             item.appendChild(container)
         } else {
-        let input = document.createElement("input")
-        input.setAttribute("type", "text")
-        input.classList = fields[i]
-        input.classList.add("textInput")
-        input.classList.add("itemInfo")
-        let label = document.createElement("label")
-        label.innerHTML = fields[i]
-        label.classList = "listInputLabels"
-        container.appendChild(label)
-        container.appendChild(input)
-        item.appendChild(container)
+            let input = document.createElement("input")
+            input.setAttribute("type", "text")
+            input.classList = fields[i]
+            input.classList.add("textInput")
+            input.classList.add("itemInfo")
+            let label = document.createElement("label")
+            label.innerHTML = fields[i]
+            label.classList = "listInputLabels"
+            container.appendChild(label)
+            container.appendChild(input)
+            item.appendChild(container)
+        }
     }
-}
     addButtons(item)
 }
 
@@ -272,7 +274,7 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
             input.classList.toggle("textInput")
             input.classList.add("disabledInput")
         } else {
-            input.classList.toggle("disabledInput") 
+            input.classList.toggle("disabledInput")
             input.classList.add("textInput") //if input is an active text box, change it's styling to make it look inactive
         }
         if (input.disabled == true) {
@@ -288,9 +290,9 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
     let buttonClass = ["addButton", "editButton", "saveButton", "cancelButton", "deleteButton"]
     let buttonFunctions = [addItemDetails(item), edit(item), undefined, undefined, deleteListItem(item)]
     let initialButtonDisplay = ["inline-block", "none", "none", "none", "none"]
-    var i 
+    var i
 
-    for(i=0; i<buttonInnerHTML.length; i++) {
+    for (i = 0; i < buttonInnerHTML.length; i++) {
         let button = document.createElement("button")
         button.innerHTML = buttonInnerHTML[i]
         button.classList = buttonClass[i]
@@ -301,7 +303,7 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 }
 
 function deleteListItem(item) {
-    return function() {
+    return function () {
         removeItem("Chris", "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
@@ -322,7 +324,7 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
         let saveButton = item.getElementsByClassName("saveButton")
         saveButton[0].style.display = "none"
         let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "none"   
+        cancelButton[0].style.display = "none"
         toggleInputClass(item)
     }
 }
@@ -352,7 +354,7 @@ function saveChanges(item, currentFieldData) {
         let saveButton = item.getElementsByClassName("saveButton")
         saveButton[0].style.display = "none"
         let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "none"   
+        cancelButton[0].style.display = "none"
         toggleInputClass(item)
         let quantity = parseFloat(currentFieldData[1])
         let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.quantity.amount === quantity && obj.quantity.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
@@ -437,7 +439,7 @@ function createListElement(listSection, list) { //helper for loadLists
     listElement.innerHTML = list
 }
 
-function checkForFriend(friend) {
+function checkForFriend(friend) {//helper for load lists
     let alreadyInList = false
     let friendList = document.getElementById("friendsListCollapsibles")
     let existingFriends = friendList.getElementsByClassName("collapsible")
@@ -463,13 +465,13 @@ function createNewList() {
         newListTitle.placeholder = "Enter the name of your new list."
         listTitleArea.appendChild(newListTitle)
         listTitleArea.appendChild(submitButton)
-        currentListTitle.style.display = "none"
+        currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
         submitButton.addEventListener('click', _ => {
             let listName = newListTitle.value
             currentListTitle.innerText = listName
             currentListTitle.style.display = "inline"
             newListTitle.style.display = "none"
-            submitButton.style.display = "none"
+            submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
             return listName
         })
     })
@@ -477,5 +479,5 @@ function createNewList() {
 createNewList()
 
 function deleteList() {
-//delete from dom and delete from sidebar and delete from database
+    //delete from dom and delete from sidebar and delete from database
 }
