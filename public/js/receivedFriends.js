@@ -23,7 +23,7 @@ function addReceivedHTML(uid) {
 
 function generateReceivedHTML(name, email, uid) {
     return `
-    <div class="row">
+    <div class="row received" id=${uid}_R_row>
       <div class="col-md">
         <b>${name}</b>
         <i>${email}</i>
@@ -39,6 +39,11 @@ function generateReceivedHTML(name, email, uid) {
     `
 }
 
-$(document).ready(function(){
-    showReceivedRequests();
-});
+db.collection(window.localStorage.getItem('uid')).doc("Friends")
+    .onSnapshot(function (doc) {
+        console.log("Current data: ", doc.data().sent);
+        doc.data().received.forEach( function(item) {
+            $(".received").remove();
+            addReceivedHTML(item);
+        })
+    })

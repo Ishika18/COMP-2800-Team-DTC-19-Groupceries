@@ -1,18 +1,5 @@
-function showSentRequests() {
-    let currentUser = window.localStorage.getItem('uid');
-    db.collection(currentUser).doc("Friends").get().then(function (doc) {
-        if (doc.exists) {
-            doc.data().sent.forEach(friendId => {
-                addHTML(friendId);
-            });
-        } else {
-            console.log("no such document! ");
-        }
-    }).catch(error => { console.log(error) });
-}
-
 function addHTML(uid) {
-    db.collection(uid).doc('userInfo').get().then( (doc) => {
+    db.collection(uid).doc('userInfo').get().then((doc) => {
         if (doc.exists) {
             let name = doc.data().name;
             let email = doc.data().email;
@@ -23,7 +10,7 @@ function addHTML(uid) {
 
 function generateHTML(name, email, uid) {
     return `
-    <div class="row">
+    <div class="row sent" id=${uid}_S_row>
       <div class="col-md">
         <b>${name}</b>
         <i>${email}</i>
@@ -38,6 +25,28 @@ function generateHTML(name, email, uid) {
     `
 }
 
-$(document).ready(function(){
-    showSentRequests();
-});
+db.collection(window.localStorage.getItem('uid')).doc("Friends")
+    .onSnapshot(function (doc) {
+        console.log("Current data: ", doc.data().sent);
+        doc.data().sent.forEach( function(item) {
+            $(".sent").remove();
+            addHTML(item);
+        })
+    })
+
+// function deleteItem(uid) {
+//     $(uid + "_S_row").remove();
+// }
+
+// function addItem(uid) {
+//     addHTML(uid);
+// }
+
+// let ids = $('.sent').map(function () {
+//     return this.id;
+// }).get().join();
+
+// var idArray = [];
+// $('.red').each(function () {
+//     idArray.push(this.id);
+// });
