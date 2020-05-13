@@ -384,4 +384,98 @@ function collapse() {
 }
 
 document.getElementById("newItem").onclick = newItemField
-collapse()
+setInterval(collapse, 1)
+
+
+//format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
+function loadLists(friendObj) {
+    let friends = Object.keys(friendObj)
+    friends.forEach(friend => {
+        if (!checkForFriend(friend)) {//checks if a friend already has a display element
+            createFriendElement(friend)//if not, creates one for it
+        }
+        let listSection = findListEntry(friend)
+        let friendsLists = friendObj[friend]
+        friendsLists.forEach(list => {//loops through array of lists for each friend
+            createListElement(listSection, list) // creates a list display element for each list
+        })
+
+    });
+}
+
+loadLists({ Silvana: ["List 2"], Chris: ["List 1", "List 2"] })
+
+function findListEntry(friend) {
+    let friendList = document.getElementById("friendsListCollapsibles")
+    let existingFriends = friendList.getElementsByClassName("collapsible")
+    let existingFriendsArray = Array.from(existingFriends)
+    let entry = undefined
+    for (entry in existingFriendsArray) {
+        if (existingFriendsArray[entry].innerHTML.includes(friend)) {
+            return existingFriendsArray[entry].nextElementSibling
+        }
+    }
+
+}
+
+function createFriendElement(friend) { //helper for loadlists
+    let friendElement = document.createElement("ul")
+    let friendList = document.getElementById("friendsListCollapsibles")
+    friendList.appendChild(friendElement)
+    friendElement.innerHTML = friend + "'s Lists"
+    friendElement.classList.add("collapsible")
+    let listSection = document.createElement("section")
+    listSection.classList.add("collapse")
+    friendList.append(listSection)
+    return listSection
+}
+
+function createListElement(listSection, list) { //helper for loadLists
+    let listElement = document.createElement("p")
+    listSection.classList("listElement")
+    listSection.appendChild(listElement)
+    listElement.innerHTML = list
+}
+
+function checkForFriend(friend) {
+    let alreadyInList = false
+    let friendList = document.getElementById("friendsListCollapsibles")
+    let existingFriends = friendList.getElementsByClassName("collapsible")
+    let existingFriendsArray = Array.from(existingFriends)
+    existingFriendsArray.forEach(friendEntry => {
+        if (friendEntry.innerHTML.includes(friend)) {
+            alreadyInList = true
+        }
+
+    })
+    return alreadyInList
+}
+
+function createNewList() {
+    let newListButton = document.querySelector("#createList")
+    newListButton.addEventListener('click', _ => {
+        let newListTitle = document.createElement("input")
+        let submitButton = document.createElement("button")
+        submitButton.innerText = "OK"
+        let currentListTitle = document.querySelector("#listTitle")
+        let listTitleArea = document.querySelector("#listTitleSection")
+        newListTitle.setAttribute("type", "text")
+        newListTitle.placeholder = "Enter the name of your new list."
+        listTitleArea.appendChild(newListTitle)
+        listTitleArea.appendChild(submitButton)
+        currentListTitle.style.display = "none"
+        submitButton.addEventListener('click', _ => {
+            let listName = newListTitle.value
+            currentListTitle.innerText = listName
+            currentListTitle.style.display = "inline"
+            newListTitle.style.display = "none"
+            submitButton.style.display = "none"
+            return listName
+        })
+    })
+}
+createNewList()
+
+function deleteList() {
+//delete from dom and delete from sidebar and delete from database
+}
