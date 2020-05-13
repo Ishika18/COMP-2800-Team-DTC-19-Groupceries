@@ -432,7 +432,7 @@ function createFriendElement(friend) { //helper for loadlists
 
 function createListElement(listSection, list) { //helper for loadLists
     let listElement = document.createElement("p")
-    listSection.classList("listElement")
+    listSection.classList.add("listElement")
     listSection.appendChild(listElement)
     listElement.innerHTML = list
 }

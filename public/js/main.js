@@ -78,5 +78,5 @@ function logOutInServer() {
     }
   });
 }
-document.getElementById("launchPageCreateBtn").style = 'display: none';
-document.getElementById("launchPageEditBtn").style = 'display: none';
+// document.getElementById("launchPageCreateBtn").style = 'display: none';
+// document.getElementById("launchPageEditBtn").style = 'display: none';
