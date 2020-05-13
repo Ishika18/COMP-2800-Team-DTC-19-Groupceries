@@ -75,3 +75,17 @@ db.collection(window.localStorage.getItem('uid')).doc("Friends")
             })
         }
     })
+
+$(document).ready(function () {
+    $(".received").remove();
+    let currentUser = window.localStorage.getItem('uid');
+    db.collection(currentUser).doc("Friends").get().then(function (doc) {
+        if (doc.exists) {
+            doc.data().received.forEach(friendId => {
+                addReceivedHTML(friendId);
+            });
+        } else {
+            console.log("no such document! ");
+        }
+    }).catch(error => { console.log(error) });
+})
