@@ -27,9 +27,10 @@ function generateHTML(name, email, uid) {
 
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
+        $(".sent").remove();
+        $(".received").remove();
         console.log("Current data: ", doc.data().sent);
         doc.data().sent.forEach( function(item) {
-            $(".sent").remove();
             addHTML(item);
         })
     })
