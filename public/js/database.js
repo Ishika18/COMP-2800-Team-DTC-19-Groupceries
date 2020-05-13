@@ -101,7 +101,7 @@ function newListener(){
                 // need to add an if statement to check if list is most recently interacted with
                 if(change.type == "added"){
                     // replace console.log with instantiate list function
-                    console.log(change.doc.ref.id)
+                    console.log(change.doc.ref.id.slice(1))
                 };
             };
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
@@ -141,7 +141,7 @@ function demo(){
 //scripts below here
 
 //debug to return the names of all items in Chris/dinner on change
-var chrisDinnerListener = db.collection("Chris").doc("dinner")
+var chrisDinnerListener = db.collection("Chris").doc("_dinner")
     .onSnapshot(function(doc) {
     objects = doc.data().items
         for(item in objects){
