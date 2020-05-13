@@ -68,10 +68,10 @@ function generateReceivedHTML(name, email, uid) {
 
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
-        $(".received").remove();
-        $(".sent").remove();
-        console.log("Current data: ", doc.data().sent);
-        doc.data().received.forEach(function (item) {
-            addReceivedHTML(item);
-        })
+        if ($('.received').length != doc.data().received) {
+            $(".received").remove();
+            doc.data().received.forEach(function (item) {
+                addReceivedHTML(item);
+            })
+        }
     })
