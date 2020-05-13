@@ -246,7 +246,8 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
-    addItem("Chris", "dinner", itemAsDBObject(item));
+    // replace dinner with function that returns current list
+    addItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
     fieldData = getFieldData(item)
     dbEntry.name = fieldData[0]
     dbEntry.quantity.amount = parseFloat(fieldData[1])
@@ -302,7 +303,8 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 
 function deleteListItem(item) {
     return function() {
-        removeItem("Chris", "dinner", itemAsDBObject(item));
+        // replace dinner with funciton that returns current list
+        removeItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
         let quantity = parseFloat(itemData[1])

@@ -84,7 +84,6 @@ function editItem(user, groceryList, oldItem, newItem){
 };
 
 //scripts below here
-console.log(localStorage.getItem('uid'));
 
 //debug to return the names of all items in Chris/dinner on change
 var chrisDinnerListener = db.collection("Chris").doc("dinner")
@@ -95,30 +94,56 @@ var chrisDinnerListener = db.collection("Chris").doc("dinner")
         }
     });
 
-
-db.collection("Chris")
+// call on page load
+function newListener(){
+    userListener = db.collection(localStorage.getItem('uid'))
     .onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
-            // call relevant create/delete functions here
-            // dont forget about instantiating lists.
+            if(change.doc.ref.id == "Friends"){
+                // change .accepted into the actual field. change consolelog 
+                // into function that updates friends' frontend. instantiators will call getUserName.
+                // /silv make div with hidden UID, shown name.
+                // TODO make a function that creates a global variable holding listeners for all friends.
+                // let x = onsnap, arr.push(x), arr[i]()
+                console.log(change.doc.data().accepted)
+            };
+            // replace if statement with check to see if document is a grocery list
+            if(change.doc.ref.id == "groceryListPattern"){
+                // need to add an if statement to check if list is most recently interacted with
+                if(change.type == "added"){
+                    // replace console.log with instantiate list function
+                    console.log(change.doc.ref.id)
+                };
+            };
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
-            // hardcoding for demo list "dinner" below
+            // replace dinner with param currentlist or function that returns currentlistname
+            // if function, no need to recreate listener on list change
             if(change.doc.ref.id == "dinner"){
                 console.log(change.doc.data().items);
                 updateClient(change.doc.data().items)
             };
         });
     });
+}
+
+function getUserName(UID) {
+    db.collection(UID).doc("userInfo").get().then(function(doc) {
+        return doc.data().name
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+}
 
 // for demo
 function demo(){
-    let item1 = {name: "cabbage", quantity:{amount: 5, unit:"units"}, found: null, notes: "note"};
-    let item2 = {name: "beef", quantity:{amount: 3, unit:"kg"}, found: null, notes: "note"};
-    let item3 = {name: "broth", quantity:{amount: 1, unit:"L"}, found: null, notes: "note"};
-    let dinner = [item1, item2, item3];
-    let item4 = {name: "eggs", quantity:{amount: 2, unit:"units"}, found: null, notes: "note"};
-    let item5 = {name: "oatmeal", quantity:{amount: 2.5, unit:"kg"}, found: null, notes: "note"};
-    let item6 = {name: "whiskey", quantity:{amount: 1.14, unit:"L"}, found: null, notes: "note"};
-    let breakfast = [item4, item5, item6];
+    item1 = {name: "cabbage", quantity:{amount: 5, unit:"units"}, found: null, notes: "note"};
+    item2 = {name: "beef", quantity:{amount: 3, unit:"kg"}, found: null, notes: "note"};
+    item3 = {name: "broth", quantity:{amount: 1, unit:"L"}, found: null, notes: "note"};
+    dinner = [item1, item2, item3];
+    item4 = {name: "eggs", quantity:{amount: 2, unit:"units"}, found: null, notes: "note"};
+    item5 = {name: "oatmeal", quantity:{amount: 2.5, unit:"kg"}, found: null, notes: "note"};
+    item6 = {name: "whiskey", quantity:{amount: 1.14, unit:"L"}, found: null, notes: "note"};
+    breakfast = [item4, item5, item6];
     console.log('https://console.firebase.google.com/project/groupceries-f6189/database');
 };
