@@ -331,6 +331,7 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
 
 function edit(item) {
     return function () {
+        item.dataset.oldItem = JSON.stringify(itemAsDBObject(item));
         let currentFieldData = getFieldData(item)
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "none"
@@ -346,7 +347,10 @@ function edit(item) {
     }
 }
 function saveChanges(item, currentFieldData) {
+    // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
+        //replace dinner with function that returns current list
+        editItem(localStorage.getItem('uid'), "dinner", JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
         let deleteButton = item.getElementsByClassName("deleteButton")

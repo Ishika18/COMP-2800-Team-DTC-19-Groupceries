@@ -83,17 +83,6 @@ function editItem(user, groceryList, oldItem, newItem){
     addItem(user, groceryList, newItem);
 };
 
-//scripts below here
-
-//debug to return the names of all items in Chris/dinner on change
-var chrisDinnerListener = db.collection("Chris").doc("dinner")
-    .onSnapshot(function(doc) {
-    objects = doc.data().items
-        for(item in objects){
-            console.log(94, objects[item].name);
-        }
-    });
-
 // call on page load
 function newListener(){
     userListener = db.collection(localStorage.getItem('uid'))
@@ -147,3 +136,18 @@ function demo(){
     breakfast = [item4, item5, item6];
     console.log('https://console.firebase.google.com/project/groupceries-f6189/database');
 };
+
+
+//scripts below here
+
+//debug to return the names of all items in Chris/dinner on change
+var chrisDinnerListener = db.collection("Chris").doc("dinner")
+    .onSnapshot(function(doc) {
+    objects = doc.data().items
+        for(item in objects){
+            console.log(94, objects[item].name);
+        }
+    });
+
+//temporary onload call before implementation of listener-generation-on-list-selection is created
+newListener();
