@@ -87,11 +87,11 @@ function editItem(user, groceryList, oldItem, newItem){
 console.log(localStorage.getItem('uid'));
 
 //debug to return the names of all items in Chris/dinner on change
-db.collection("Chris").doc("dinner")
+var chrisDinnerListener = db.collection("Chris").doc("dinner")
     .onSnapshot(function(doc) {
     objects = doc.data().items
         for(item in objects){
-            console.log(objects[item].name);
+            console.log(94, objects[item].name);
         }
     });
 
@@ -110,28 +110,15 @@ db.collection("Chris")
         });
     });
 
-db.collection("Chris").doc("friends")
-    .onSnapshot(function(doc){
-        // placeholder for notification, possibly deprecated soon
-    })
 // for demo
-console.log("Here is some code to demonstrate the working database. Please open 'https://console.firebase.google.com/project/groupceries-f6189/database' in another tab.")
-console.log("Please initialize the following code in the console of the groceries/createListPage page.")
-console.log(`
-let item1 = {name: "cabbage", quantity:{amount: 5, unit:"units"}, found: null, notes: "note"};
-let item2 = {name: "beef", quantity:{amount: 3, unit:"kg"}, found: null, notes: "note"};
-let item3 = {name: "broth", quantity:{amount: 1, unit:"L"}, found: null, notes: "note"};
-let dinner = [item1, item2, item3];
-let item4 = {name: "eggs", quantity:{amount: 2, unit:"units"}, found: null, notes: "note"};
-let item5 = {name: "oatmeal", quantity:{amount: 2.5, unit:"kg"}, found: null, notes: "note"};
-let item6 = {name: "whiskey", quantity:{amount: 1.14, unit:"L"}, found: null, notes: "note"};
-let breakfast = [item4, item5, item6];`)
-console.log("Now let's showcase the app by invoking the following functions one after another:")
-console.log(`
-write("Chris", "dinner", dinner)
-read("Chris")
-write("Chris", "breakfast", breakfast)
-read("Chris")
-write("Armaan", "lunch", breakfast)
-read("Armaan")
-read("Chris")`)
+function demo(){
+    let item1 = {name: "cabbage", quantity:{amount: 5, unit:"units"}, found: null, notes: "note"};
+    let item2 = {name: "beef", quantity:{amount: 3, unit:"kg"}, found: null, notes: "note"};
+    let item3 = {name: "broth", quantity:{amount: 1, unit:"L"}, found: null, notes: "note"};
+    let dinner = [item1, item2, item3];
+    let item4 = {name: "eggs", quantity:{amount: 2, unit:"units"}, found: null, notes: "note"};
+    let item5 = {name: "oatmeal", quantity:{amount: 2.5, unit:"kg"}, found: null, notes: "note"};
+    let item6 = {name: "whiskey", quantity:{amount: 1.14, unit:"L"}, found: null, notes: "note"};
+    let breakfast = [item4, item5, item6];
+    console.log('https://console.firebase.google.com/project/groupceries-f6189/database');
+};
