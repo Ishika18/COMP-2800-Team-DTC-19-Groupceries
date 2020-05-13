@@ -142,9 +142,21 @@
     #centerbuttonbar {
         display: none;
     }
+    #aboutUsPage {
+        margin-top: 4.3rem;
+        color: white;
+    }
+    #aboutUsHomeBtn {
+        display: none;
+    }
 }
 
 @media (max-width: 1024px) {
+
+    #aboutUsPage {
+        margin-top: 7.3rem;
+        color: white;
+    }
     #desktopNavbar {
         display: none!important;
     }
@@ -167,7 +179,9 @@
         grid-template-columns: repeat(3,1fr);
     }
     body{
-        background-color:#140A26;
+        /* background-color:#140A26; */
+        background-image: linear-gradient(to left, #36c98f, #2cc591, #22c294, #18be95, #0aba97);
+        overflow-x: hidden;
     }
     #listArea {
         border: 1px solid black;
@@ -243,7 +257,7 @@
         color: white;
     }
     #centerbuttonbar {
-        margin-bottom: 3.125rem;
+        margin-bottom: 2.8rem;
         background-color: #140A26;
         color:white;
         display: flex;
@@ -343,8 +357,10 @@
         background-color:#221738!important;
         overflow-y:scroll;
         width:100%;
-        height:calc(100vh - 16.5rem);
+        height:calc(100vh - 10.9rem);
         align-self: center;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .listItems {
@@ -376,9 +392,6 @@
     #itemValueUnit {
         position: fixed;
         left: 80%
-    }
-    #signInBox {
-        margin-bottom: 5rem;
     }
     #logOutButton {
         font-size: xx-small;
@@ -412,12 +425,15 @@
         margin-top: 0;
         margin-bottom: 0.5rem;
     }
-    .groceryList {
+    #groceryList {
         border-bottom: 1px solid grey;
         display: block;
     }
     .editButton, .deleteButton {
         width: 100%
+    }
+    #aboutUsHeader {
+        background-image: linear-gradient(to left, #36c98f, #2cc591, #22c294, #18be95, #0aba97)!important;
     }
 }
 .deleteListButton, .editButton, .deleteButton, .saveButton, .cancelButton{
@@ -470,9 +486,6 @@
 #aboutUsPage .card {
     background-color: transparent;
 }
-#aboutUsPage {
-    color: white
-}
-.launchpageBtn {
-    width: 12.5vw!important;
+.groupMemberPhoto {
+    width: 45vw;
 }

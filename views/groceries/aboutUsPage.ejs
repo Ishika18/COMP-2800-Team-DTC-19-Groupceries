@@ -1,6 +1,30 @@
-<%- include('../partials/mobileMainHeader.ejs'); -%>
-<%- include('../partials/appNavbar.ejs'); -%>
+<div class="fixed-top" id="aboutUsHeader">
+    <desktopNavbar id="desktopNavbar">
+        <nav class="navbar d-flex bg-white border-bottom border-dark d-inline align-items-start align-items-center" id style="min-width: 375px">
+            <div class="container-flex align-items-center justify-content-start p=1">
+              <img src="/images/logo.png" width="50" height="50" class="d-inline" alt="">
+              <a class="navbar-brand text-dark d-none d-md-inline">Groupceries</a>
+            </div>
+            <div class="container-flex row">
+                <form action="/" method="get">
+                    <button id="navBarOptions"  class="btn navbar-brand text-dark d-inline" type="submit">Home</button>
+                </form>
+            </div>
+        </nav>
+    </desktopNavbar>
+    <mobileHeader id="mobileHeader">
+        <div class="row" id="appTitleContainer">
+            <div class="col align-items-center">
+                <h2 id="appTitle">Groupceries</h2>
+                <h3 id="pageTitle">About Us</h3>
+            </div>
+        </div>
+    </mobileHeader>
+</div>
 <div id="aboutUsPage">
+    <form action="/" method="get">
+        <button class="navbar-brand navbarItem float-right" id="aboutUsHomeBtn">Home</button>  
+    </form>
     <div>
         <h1>About Us</h1>
     </div>
@@ -12,33 +36,27 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
                 <div class="card-body">
-                  <p class="card-text">Ronald Liang</p>
+                    <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
+                    <p class="card-text">Ronald Liang</p>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
             <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/shrekvana.png" alt="Silvana Kalliny Photo">
                 <div class="card-body">
-                  <p class="card-text">Silvana Kalliny</p>
+                    <img class="card-img-top groupMemberPhoto" src="/images/shrekvana.png" alt="Silvana Kalliny Photo">
+                    <p class="card-text">Silvana Kalliny</p>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
             <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/shrekgun.png" alt="Shagon Photo">
                 <div class="card-body">
-                  <p class="card-text">Shagun</p>
+                    <img class="card-img-top groupMemberPhoto" src="/images/shrekgun.png" alt="Shagon Photo">
+                    <p class="card-text">Shagun</p>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
             <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/blueshrek.jpg" alt="Eric Dong Photo">
                 <div class="card-body">
-                  <p class="card-text">Eric Dong</p>
+                    <img class="card-img-top groupMemberPhoto" src="/images/blueshrek.jpg" alt="Eric Dong Photo">
+                    <p class="card-text">Eric Dong</p>
                 </div>
             </div>
         </div>

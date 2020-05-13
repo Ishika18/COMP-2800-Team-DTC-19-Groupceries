@@ -59,7 +59,7 @@ function loadItems(data) { //runs when page loads and loads all items from datab
         editButton[0].style.display = "inline-block"
         let deleteButton = listItem.getElementsByClassName("deleteButton")
         deleteButton[0].style.display = "inline-block"
-        fillFields(listItem, data.items[item])
+        fillFields(listItem, database.items[item])
     }
 
 }
@@ -364,6 +364,17 @@ function saveChanges(item, currentFieldData) {
         dbEntry.notes = userChanges[3]
         console.log(database)
     }
+}
+
+function deleteList() {
+    let list = document.getElementById("groceryList")
+    list.remove()
+}
+
+document.getElementById("deleteList").onclick = deleteList
+
+function createNewList() {
+
 }
 
 function collapse() {
