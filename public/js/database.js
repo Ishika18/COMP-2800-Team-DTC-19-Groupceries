@@ -54,6 +54,7 @@ function removeItem(user, groceryList, item){
 };
 
 function addGroceryList(user, groceryList){
+    // front end will need to handle changing current list
     let GROCERY_LIST_INITIAL_STATE = {
         items: [],
         ready_to_buy: false,
@@ -69,6 +70,9 @@ function addGroceryList(user, groceryList){
 };
 
 function deleteGroceryList(user, groceryList){
+    if(getRecentList() == groceryList.slice(1)){
+        db.collection(user).doc("recentList").set({list: ""})
+    };
     db.collection(user).doc(groceryList).delete().then(function() {
         console.log("Delete success, the database should no longer contain this entry");
         console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
@@ -130,7 +134,14 @@ function loadNewList(UID, groceryList){
 // front end will call this function and set current list to most recent list.
 function getRecentList(){
     db.collection(localStorage.getItem('uid')).doc("recentList").get()
-    .then(data => {return data.data().list.slice(1)})
+    .then(data => {
+        if(data.exists && data.data().list != ""){
+            return data.data().list.slice(1)
+        } else {
+            // no grocery list will match "", so no list will be loaded. 
+            return ""
+        };
+    })
     .catch(error => console.log(error));
 };
 
