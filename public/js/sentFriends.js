@@ -33,20 +33,3 @@ db.collection(window.localStorage.getItem('uid')).doc("Friends")
             addHTML(item);
         })
     })
-
-// function deleteItem(uid) {
-//     $(uid + "_S_row").remove();
-// }
-
-// function addItem(uid) {
-//     addHTML(uid);
-// }
-
-// let ids = $('.sent').map(function () {
-//     return this.id;
-// }).get().join();
-
-// var idArray = [];
-// $('.red').each(function () {
-//     idArray.push(this.id);
-// });

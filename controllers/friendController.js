@@ -64,6 +64,12 @@ let friendController = {
         // add the current uid to the friends' accepted
         friendDocs.set({ accepted: firebase.firestore.FieldValue.arrayUnion(currentUser) }, { merge: true }).catch((error) => { console.log(error) });
 
+        // delete the current uid from the friends' sent
+        friendDocs.update({ sent: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
+
+        // delete the friends' uid from the user's recceived
+        currentUserDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
+        
         // send the friend a notification
 
         // add the friend uid to the cuurent users' accepted
