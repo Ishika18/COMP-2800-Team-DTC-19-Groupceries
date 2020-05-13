@@ -103,6 +103,7 @@ function newListener(){
                     // replace console.log with instantiate list function
                     console.log(change.doc.ref.id.slice(1))
                 };
+                // add case for removed list
             };
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
             // replace dinner with param currentlist or function that returns currentlistname
@@ -113,7 +114,25 @@ function newListener(){
             };
         });
     });
-}
+};
+
+// this function needs to be called AFTER the old list items are deleted
+// this function will need to be somehow passed UID of friend if loading friend list
+function loadNewList(UID, groceryList){
+    if(UID == localStorage.getItem('uid')){
+        db.collection(UID).doc("recentList").set({list: groceryList})
+    };
+    db.collection(UID).doc(groceryList).get().then(data => updateClient(data.data().items))
+    .catch(error => console.log(error));
+};
+
+// variable for current list exists. if it doesnt, it means user just logged on.
+// front end will call this function and set current list to most recent list.
+function getRecentList(){
+    db.collection(localStorage.getItem('uid')).doc("recentList").get()
+    .then(data => {return data.data().list.slice(1)})
+    .catch(error => console.log(error));
+};
 
 function getUserName(UID) {
     db.collection(UID).doc("userInfo").get().then(function(doc) {
@@ -122,7 +141,7 @@ function getUserName(UID) {
     .catch(function(error) {
         console.error(error);
     });
-}
+};
 
 // for demo
 function demo(){
