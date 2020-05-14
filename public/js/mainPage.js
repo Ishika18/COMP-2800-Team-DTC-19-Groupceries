@@ -1,4 +1,5 @@
 let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
+const uid = localStorage.getItem('uid')
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
@@ -391,6 +392,8 @@ setInterval(collapse, 1)
 
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
+    let myList = document.getElementById('myLists')
+    myList.id = uid
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
@@ -408,12 +411,12 @@ function loadLists(friendObj) {
 loadLists({ Silvana: ["List 2"], Chris: ["List 1", "List 2"] })
 
 function findListEntry(friend) {
-    let friendList = document.getElementById("friendsListCollapsibles")
+    let friendList = document.getElementById("left")
     let existingFriends = friendList.getElementsByClassName("collapsible")
     let existingFriendsArray = Array.from(existingFriends)
     let entry = undefined
     for (entry in existingFriendsArray) {
-        if (existingFriendsArray[entry].innerHTML.includes(friend)) {
+        if (existingFriendsArray[entry].id.includes(friend)) {
             return existingFriendsArray[entry].nextElementSibling
         }
     }
@@ -421,11 +424,20 @@ function findListEntry(friend) {
 }
 
 function createFriendElement(friend) { //helper for loadlists
+    let friendElementWrapper = document.createElement("div")
     let friendElement = document.createElement("ul")
+    friendElementWrapper.appendChild(friendElement)
     let friendList = document.getElementById("friendsListCollapsibles")
-    friendList.appendChild(friendElement)
-    friendElement.innerHTML = friend + "'s Lists"
+    friendList.appendChild(friendElementWrapper)
+    
+    db.collection(friend).doc('userInfo').get()
+        .then((doc) => {
+            let name = doc.data().name
+            friendList.innerHTML = name + "'s Lists"
+        })
+        
     friendElement.classList.add("collapsible")
+    friendElement.id = friend
     let listSection = document.createElement("section")
     listSection.classList.add("collapse")
     friendList.append(listSection)
@@ -445,7 +457,7 @@ function checkForFriend(friend) {//helper for load lists
     let existingFriends = friendList.getElementsByClassName("collapsible")
     let existingFriendsArray = Array.from(existingFriends)
     existingFriendsArray.forEach(friendEntry => {
-        if (friendEntry.innerHTML.includes(friend)) {
+        if (friendEntry.id.includes(friend)) {
             alreadyInList = true
         }
 
@@ -472,7 +484,8 @@ function createNewList() {//doesn't currently add new list to sidebar - need to 
             currentListTitle.style.display = "inline"
             newListTitle.style.display = "none"
             submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
-            return listName
+            let listSection = document.getElementById("myList").nextElementSibling
+            createListElement(listSection, listName)
         })
     })
 }
@@ -483,16 +496,24 @@ createNewList()
 function deleteList() { // deletes current list -  a user can only delete their own lists
     let deleteButton = document.getElementById("deleteButton")
     deleteButton.addEventListener('click', _ => {
-        let currentList = document.getElementById("listTitle").innerText
-        // let uid = localStorage.getItem('uid')
-        // let username = db.collection(uid).doc(userInfo)
-        // console.log(username)
-        let allLists = Array.from(document.getElementsByClassName("listElement"))
-        allLists.forEach(list => {//loops through all list elements in sidebar
-            if (list.innerText === currentList) {
-                list.remove()//when it finds the one that matches the current list and user, it deletes it
-            }
-        })
-    })
-}
+        let currentList = document.getElementById("listTitle").innerText   
+        let listArea = document.getElementById('left')
+        let allLists = Array.from(listArea.getElementsByClassName("collapsible"))
+        allLists.forEach(element => {//loops through all list elements in sidebar
+            if (element.id === uid) {
+                let sections = Array.from(element.parentElement.childNodes)
+                sections.forEach(section => {
+                    let lists = Array.from(section.childNodes)
+                    lists.forEach(list => {
+                        if (list.innerText === currentList) {
+                            list.remove()//when it finds the one that matches the current list and user, it deletes it
+
+                    }})
+                })
+         } })
+        }  ) 
+        }
+    
+
+
 deleteList()
