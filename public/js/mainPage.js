@@ -434,7 +434,7 @@ function createFriendElement(friend) { //helper for loadlists
 
 function createListElement(listSection, list) { //helper for loadLists
     let listElement = document.createElement("p")
-    listSection.classList.add("listElement")
+    listElement.classList.add("listElement")
     listSection.appendChild(listElement)
     listElement.innerHTML = list
 }
@@ -453,7 +453,7 @@ function checkForFriend(friend) {//helper for load lists
     return alreadyInList
 }
 
-function createNewList() {
+function createNewList() {//doesn't currently add new list to sidebar - need to know user name first
     let newListButton = document.querySelector("#createList")
     newListButton.addEventListener('click', _ => {
         let newListTitle = document.createElement("input")
@@ -478,6 +478,21 @@ function createNewList() {
 }
 createNewList()
 
-function deleteList() {
-    //delete from dom and delete from sidebar and delete from database
+
+
+function deleteList() { // deletes current list -  a user can only delete their own lists
+    let deleteButton = document.getElementById("deleteButton")
+    deleteButton.addEventListener('click', _ => {
+        let currentList = document.getElementById("listTitle").innerText
+        // let uid = localStorage.getItem('uid')
+        // let username = db.collection(uid).doc(userInfo)
+        // console.log(username)
+        let allLists = Array.from(document.getElementsByClassName("listElement"))
+        allLists.forEach(list => {//loops through all list elements in sidebar
+            if (list.innerText === currentList) {
+                list.remove()//when it finds the one that matches the current list and user, it deletes it
+            }
+        })
+    })
 }
+deleteList()
