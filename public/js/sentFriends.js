@@ -44,24 +44,10 @@ function generateHTML(name, email, uid) {
 
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
-        if ($('.sent').length != doc.data().sent) {
+        if ($('.sent').length != doc.data().sent.length) {
             $(".sent").remove();
             doc.data().sent.forEach(function (item) {
                 addHTML(item);
             })
         }
     })
-
-$(document).ready(function () {
-    $(".sent").remove();
-    let currentUser = window.localStorage.getItem('uid');
-    db.collection(currentUser).doc("Friends").get().then(function (doc) {
-        if (doc.exists) {
-            doc.data().sent.forEach(friendId => {
-                addHTML(friendId);
-            });
-        } else {
-            console.log("no such document! ");
-        }
-    }).catch(error => { console.log(error) });
-})

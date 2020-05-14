@@ -37,25 +37,11 @@ function generateAcceptedHTML(name, email, uid) {
 
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
-        if ($('.accepted').length != doc.data().received) {
+        if ($('.accepted').length != doc.data().accepted.length) {
             $(".accepted").remove();
             doc.data().accepted.forEach(function (item) {
                 addAcceptedHTML(item);
             })
         }
     })
-
-$(document).ready(function () {
-    $(".accepted").remove();
-    let currentUser = window.localStorage.getItem('uid');
-    db.collection(currentUser).doc("Friends").get().then(function (doc) {
-        if (doc.exists) {
-            doc.data().accepted.forEach(friendId => {
-                addAcceptedHTML(friendId);
-            });
-        } else {
-            console.log("no such document! ");
-        }
-    }).catch(error => { console.log(error) });
-})
 

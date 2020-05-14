@@ -68,24 +68,10 @@ function generateReceivedHTML(name, email, uid) {
 
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
-        if ($('.received').length != doc.data().received) {
+        if ($('.received').length != doc.data().received.length) {
             $(".received").remove();
             doc.data().received.forEach(function (item) {
                 addReceivedHTML(item);
             })
         }
     })
-
-$(document).ready(function () {
-    $(".received").remove();
-    let currentUser = window.localStorage.getItem('uid');
-    db.collection(currentUser).doc("Friends").get().then(function (doc) {
-        if (doc.exists) {
-            doc.data().received.forEach(friendId => {
-                addReceivedHTML(friendId);
-            });
-        } else {
-            console.log("no such document! ");
-        }
-    }).catch(error => { console.log(error) });
-})
