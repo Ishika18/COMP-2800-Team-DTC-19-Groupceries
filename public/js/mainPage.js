@@ -248,7 +248,8 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
-    addItem("Chris", "dinner", itemAsDBObject(item));
+    // replace dinner with function that returns current list
+    addItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
     fieldData = getFieldData(item)
     dbEntry.name = fieldData[0]
     dbEntry.quantity.amount = parseFloat(fieldData[1])
@@ -303,8 +304,9 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 }
 
 function deleteListItem(item) {
-    return function () {
-        removeItem("Chris", "dinner", itemAsDBObject(item));
+    return function() {
+        // replace dinner with funciton that returns current list
+        removeItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
         let quantity = parseFloat(itemData[1])
@@ -331,6 +333,7 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
 
 function edit(item) {
     return function () {
+        item.dataset.oldItem = JSON.stringify(itemAsDBObject(item));
         let currentFieldData = getFieldData(item)
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "none"
@@ -346,7 +349,10 @@ function edit(item) {
     }
 }
 function saveChanges(item, currentFieldData) {
+    // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
+        //replace dinner with function that returns current list
+        editItem(localStorage.getItem('uid'), "dinner", JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
         let deleteButton = item.getElementsByClassName("deleteButton")
