@@ -296,7 +296,8 @@ float: right;
     z-index: 1000;
 }
 #launchPageItems {
-    margin-top: 16rem;
+    margin-top: 13.55rem;
+    margin-bottom: 1rem;
 }
 #signOut {
     background-color: rgb(255, 46, 46);

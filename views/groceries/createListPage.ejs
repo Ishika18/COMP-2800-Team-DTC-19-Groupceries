@@ -10,25 +10,37 @@
         <div class="container-fluid col" id="topbar">
             <%- include('../partials/mobileMainHeader.ejs'); -%>
             <%- include('../partials/appNavbar.ejs'); -%>
-            <div class="col itemsArea">
+            <div class="col pageArea">
                     <div class="col-lg-3" id="left">
-                        <h3>Shopping Lists</h3><hr>
+                        <h3 class="deskTopShoppingListsTitle">Shopping Lists</h3><hr class="deskTopShoppingListsTitle">
                         <div id="myLists">
-                            <button id="myLists" class="btn collapsible">My Lists</button>
-                            <ul id="availableLists" class="collapse">
+                            <button id="createList"> Create New List</button><br>
+                            <details id="availableLists">
+                                <summary class="viewListsbutton">View My Lists</summary>
+                                <div class="itemsArea" id="myListsList">
                                     <p>My List</p>
                                     <p>List 2</p>
-                                    <p>List 3</p>
-                            </ul>
+                                </div>
+                            </details>
                         </div>
+                        <br>
                         <div id="friendLists">
-                            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
+                            <details id="availableLists">
+                                <summary class="viewListsbutton" id="friendLists">Friends' Lists</summary>
+                                <div class="itemsArea" id="friendsListCollapsibles">
+                                    <details>
+                                        <summary>Silvana's Lists</summary>
+                                        <p>List 1</p>
+                                    </details>
+                                </div>
+                            </details>
+                            <!-- <button id="friendLists" class="btn collapsible">Friends' Lists</button>
                             <div class="collapse" id="friendsListCollapsibles">
                                <ul class="collapsible"> Silvana's Lists</ul>
-                               <section class="collapse">
+                               <section class="collapse itemsArea">
                                 <p>List 1</p>
                                </section>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-lg-3" id="right">
@@ -50,18 +62,72 @@
                                                             
                         </div>
                     </div>
+                    <div class="col-lg-3" id="aboutUsPage">
+                        <div id="aboutUsParagraph">
+                            <p>
+                                We at Groupceries are committed to applying our software development skills to improve the lives of those in our communities.
+                                As a team, we value innovation, community and growth. We want to make it easier for people to help their friends and families get groceries.
+                                With this application, we hope that we have.
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 card-group" id="groupMemberContainerLoggedIn">
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Ronald Liang</h4>
+                                            <p class="card-text">Loves Shrek... a lot.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/shrekvana.png" alt="Silvana Kalliny Photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Silvana Kalliny</h4>
+                                            <p class="card-text">Front-end developer.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/shrekgun.png" alt="Shagon Photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Shagun</h4>
+                                            <p class="card-text">Back-end developer.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/blueshrek.jpg" alt="Eric Dong Photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Eric Dong</h4>
+                                            <p class="card-text">Front-end developer.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-lg-6" id="middle">
                         <div id="listArea" class="itemsArea">
                             <div class="groceryList">
                                 <div id="buttons">
-                                    <div class="d-flex addListBox">
-                                        <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
-                                        <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addItemButton">Add</button><button type="button" class="deleteListButton">Delete</button>
+                                        <div class="d-flex addListBox">
+                                            <div class="mr-auto p-2" id="listTitleSection"><p id="listTitle">My List</p></div>
+                                            <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addToListButton">Add</button><button type="button" class="deleteEntireListButton">Delete</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <details open id="myList" class="viewButton" text="View Grocery List">
                                     <summary class="viewListsbutton">View Grocery List</summary>
-                                    <div id="groceryList">
+                                    <div id="groceryList" class="itemsArea">
                                     </div>
                                 </details>
                             </div>

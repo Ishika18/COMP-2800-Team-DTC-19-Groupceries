@@ -7,7 +7,7 @@
             </div>
             <div class="container-flex row">
                 <form action="/" method="get">
-                    <button id="navBarOptions"  class="btn navbar-brand text-dark d-inline" type="submit">Home</button>
+                    <button id="navBarOptions" class="d-inline" type="submit"><i class="fa fa-home"></i></button>
                 </form>
             </div>
         </nav>
@@ -16,18 +16,19 @@
         <div class="row" id="appTitleContainer">
             <div class="col align-items-center">
                 <h2 id="appTitle">Groupceries</h2>
-                <h3 id="pageTitle">About Us</h3>
             </div>
         </div>
     </mobileHeader>
+    <hr class="aboutUsheaderBorder">
     <div id="aboutUsBorder">
         <form action="/" method="get">
-            <button class="navbar-brand navbarItem float-right" id="aboutUsHomeBtn">Home</button>  
+            <button class="float-right navbar-brand" id="aboutUsHomeBtn"><i class="fa fa-home"></i></button>  
         </form>
         <h1 id="aboutUsTitle">About Us</h1>
     </div>
+    <hr class="aboutUsheaderBorder">
 </div>
-<div id="aboutUsPage">
+<div class="col-lg-3" id="aboutUsPageLoggedOut">
     <div id="aboutUsParagraph">
         <p>
             We at Groupceries are committed to applying our software development skills to improve the lives of those in our communities.
@@ -36,7 +37,7 @@
         </p>
     </div>
     <div class="row">
-        <div class="col-sm-6 card-group" id="groupMemberContainer">
+        <div class="col-sm-6 card-group" id="groupMemberContainerLoggedOut">
             <div class="container groupMemberCard">
                 <div class="card flex-row flex-wrap">
                     <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
