@@ -54,7 +54,9 @@
         overflow-x: hidden;
     }
     .rectangularButton {
-        width: 33vw;
+        width: 30vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
     }
 }
 
@@ -294,7 +296,7 @@ float: right;
     z-index: 1000;
 }
 #launchPageItems {
-    margin-top: 19rem;
+    margin-top: 16rem;
 }
 #signOut {
     background-color: rgb(255, 46, 46);

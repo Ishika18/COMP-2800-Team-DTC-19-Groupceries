@@ -96,6 +96,7 @@
         border-radius: 5px;
         display: relative;
         margin-top: 1rem;
+        margin-bottom: 1rem;
     }
     
     .listInputLabels {
@@ -139,7 +140,7 @@
     #mobileHeader {
         display: none;
     }
-    #centerbuttonbar {
+    .centerbuttonbar {
         display: none;
     }
     #aboutUsPage {
@@ -149,12 +150,47 @@
     #aboutUsHomeBtn {
         display: none;
     }
+    .groupMemberPhoto {
+        padding: 0!important;
+    }
+    .groupMemberCard {
+        padding: 0!important;
+        border-left: 0;
+        border-right: 0;
+        margin: 0;
+    }
+    .card-group {
+        flex-flow: nowrap;
+    }
 }
 
 @media (max-width: 1024px) {
-
+    .groupMemberPhoto {
+        width: 45vw;
+        height: 45vw;
+        padding: 0!important;
+    }
+    .groupMemberCard {
+        padding: 0!important;
+        border-style: solid;
+        border-color: black;
+        border-left: 0;
+        border-right: 0;
+        min-width: 100vw;
+    }
+    #aboutUsTitle {
+        padding-left: 10px;
+        color: white;
+        margin: 0;
+    }
+    #aboutUsBorder {
+        border: black;
+        border-right: 0;
+        border-left: 0;
+        border-style: solid;
+    }
     #aboutUsPage {
-        margin-top: 7.3rem;
+        margin-top: 6rem;
         color: white;
     }
     #desktopNavbar {
@@ -180,7 +216,7 @@
     }
     body{
         /* background-color:#140A26; */
-        background-image: linear-gradient(to left, #36c98f, #2cc591, #22c294, #18be95, #0aba97);
+        background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
         overflow-x: hidden;
     }
     #listArea {
@@ -188,7 +224,7 @@
         border: 16px;
     }
     #topbar {
-        background-color: #140A26;
+        background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important;
         position: fixed;
     }
     #appTitle {
@@ -199,7 +235,6 @@
     #pageTitle {
         color: white;
         text-align: center;
-        padding-bottom: 0.625rem;
     }
     #appContextTitle p{
         background-color: rgb(0, 0, 0);
@@ -256,7 +291,7 @@
         border-color: red;
         color: white;
     }
-    #centerbuttonbar {
+    .centerbuttonbar {
         margin-bottom: 2.8rem;
         background-color: #140A26;
         color:white;
@@ -336,8 +371,8 @@
     .navbar-brand {
         width: 33.3%;
         text-align: center;
-        padding-top: 0.625rem;
-        padding-bottom: 0.625rem;
+        padding-top: 0.68rem;
+        padding-bottom: 0.68rem;
     }
     #logoIcon {
         width: 7.5rem;
@@ -347,26 +382,22 @@
         margin-top: 1rem;
         margin-bottom: 1.5rem;
     }
-    #appTitleContainer {
-        margin-bottom: 1rem;
-    }
     #appContextContainer {
         background-color: rgb(0, 0, 0);
     }
     .itemsArea{
-        background-color:#221738!important;
         overflow-y:scroll;
         width:100%;
-        height:calc(100vh - 10.9rem);
+        height:calc(100vh - 9.8rem);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
     }
 
     .listItems {
-        display: relative;
         margin-top: 1rem;
-        margin-bottom: 4rem;
+        padding-bottom: 75px;
+        border-bottom: 2px solid white;
     }
     .toggle.ios, .toggle-on.ios, .toggle-off.ios {
         border-radius: 2rem!important;
@@ -378,11 +409,11 @@
         background-color: #20187A!important;
         color: #fff!important;
     }
-    #centerbuttonbar .btn {
+    .centerbuttonbar .btn {
         background-color: white;
         color: black;
     }
-    #centerbuttonbar .toggle {
+    .centerbuttonbar .toggle {
         overflow: hidden;
     }
     #itemValue {
@@ -402,10 +433,10 @@
         border: black;
         color: white;
     }
-    #removeFriendButton {
+    #removeFriendButton, .cancelMergeButton {
         background-color: red!important;
     }
-    #addFriendButton {
+    #addFriendButton, #mergeListsButton, #confirmMergeButton {
         background-color: green!important;
         margin-right: 1.5rem;
         margin-left: 1.5rem;
@@ -428,15 +459,22 @@
     #groceryList {
         border-bottom: 1px solid grey;
         display: block;
+        margin-bottom: 1rem;
     }
-    .editButton, .deleteButton {
-        width: 100%
+    .editButton, .deleteButton, .cancelButton, .saveButton, .addButton {
+        width: 100%!important;
     }
     #aboutUsHeader {
-        background-image: linear-gradient(to left, #36c98f, #2cc591, #22c294, #18be95, #0aba97)!important;
+        background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important;
+    }
+    #aboutUsPage {
+        margin-top: 10rem;
+    }
+    #aboutUsHomeBtn {
+        background-color: rgb(55, 146, 221);
     }
 }
-.deleteListButton, .editButton, .deleteButton, .saveButton, .cancelButton{
+.editButton, .deleteButton, .saveButton, .cancelButton, .addButton{
     color: white;
     background-color: red;
     font-weight: bold;
@@ -444,8 +482,16 @@
     height: 100%;
     float: right;
     border: transparent;
+    margin-top: 0.5rem;
 }
-.addButton, .saveButton, .cancelButton{
+.deleteListButton{
+    font-weight: bold;
+    border: none;
+    color: white;
+    height: 100%;
+    width: max-content;
+}
+.addItemButton, .saveButton, .cancelButton{
     font-weight: bold;
     border: none;
     color: white;
@@ -461,11 +507,12 @@
 .editButton {
     background-color: rgb(50, 131, 238);
 } 
-.addButton, .saveButton {
+.addButton, .saveButton, .addItemButton {
     background-color: green;
 } 
 #middle {
-   max-width: none;
+    background-color:#221738!important;
+    max-width: none;
 }
 .p-2 {
     padding-top: 0!important;
@@ -486,6 +533,13 @@
 #aboutUsPage .card {
     background-color: transparent;
 }
-.groupMemberPhoto {
-    width: 45vw;
+.aboutUsTitle {
+    color: white;
+}
+#launchPageTop {
+    background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
+}
+#aboutUsParagraph p {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }

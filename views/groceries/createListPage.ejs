@@ -10,7 +10,7 @@
         <div class="container-fluid col" id="topbar">
             <%- include('../partials/mobileMainHeader.ejs'); -%>
             <%- include('../partials/appNavbar.ejs'); -%>
-            <div class="col bg-light itemsArea">
+            <div class="col itemsArea">
                     <div class="col-lg-3" id="left">
                         <h3>Shopping Lists</h3><hr>
                         <div id="myLists">
@@ -48,7 +48,6 @@
                         </div>
                         <div id="friend">
                                                             
-                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6" id="middle">
@@ -57,7 +56,7 @@
                                 <div id="buttons">
                                     <div class="d-flex addListBox">
                                         <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
-                                        <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button type="button" class="deleteListButton">Delete</button>
+                                        <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addItemButton">Add</button><button type="button" class="deleteListButton">Delete</button>
                                     </div>
                                 </div>
                                 <details open id="myList" class="viewButton" text="View Grocery List">
@@ -74,6 +73,8 @@
     </div>
 </div>
 <div class="row fixed-bottom" id="buttonFooter">
+    <%- include('../partials/mergePageButtons.ejs'); -%>
+    <%- include('../partials/friendsPageButtons.ejs'); -%>
     <%- include('../partials/mobileMainButtons.ejs'); -%>
     <%- include('../partials/mobileNavBar.ejs'); -%>
 </div>
