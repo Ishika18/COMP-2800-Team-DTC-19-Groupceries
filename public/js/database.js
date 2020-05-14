@@ -120,13 +120,19 @@ function newListener(){
     });
 };
 
-// this function needs to be called AFTER the old list items are deleted
+// this function needs to be called AFTER the old list items are deleted, on list change
 // this function will need to be somehow passed UID of friend if loading friend list
 function loadNewList(UID, groceryList){
     if(UID == localStorage.getItem('uid')){
         db.collection(UID).doc("recentList").set({list: groceryList})
     };
-    db.collection(UID).doc(groceryList).get().then(data => updateClient(data.data().items))
+    db.collection(UID).doc(groceryList).get()
+    .then(data => {
+        // do nothing if list doesnt exist i.e. if ""
+        if(data.exists){
+            updateClient(data.data().items)
+        };
+    })
     .catch(error => console.log(error));
 };
 
@@ -143,6 +149,18 @@ function getRecentList(){
         };
     })
     .catch(error => console.log(error));
+};
+
+function reNameList(groceryList, newListName){
+    // silv: prevent rename to something that already exists.
+    db.collection(localStorage.getItem('uid')).doc(groceryList).get().then(function(doc) {
+        let data = doc.data();
+        db.collection(localStorage.getItem('uid')).doc(newListName).set(x)
+        .then(function(_){
+            // call silv function to change lists to newListName, which needs to call
+        })
+        .catch(function(error){console.log(error)});
+    }).catch(function(error){console.log(error)});
 };
 
 function getUserName(UID) {
@@ -167,7 +185,6 @@ function demo(){
     console.log('https://console.firebase.google.com/project/groupceries-f6189/database');
 };
 
-
 //scripts below here
 
 //debug to return the names of all items in Chris/dinner on change
@@ -179,5 +196,15 @@ var chrisDinnerListener = db.collection("Chris").doc("_dinner")
         }
     });
 
+function onLoad(){
+    //TODO check if async calls here will bug out.
+    newListener();
+    //replace console.log with function that returns current list, "FIRSTLOAD" with correct value
+    if(console.log() == "FIRSTLOAD"){
+        // replace console.log with function that changes list
+        console.log(getRecentList())
+    };
+};
+
 //temporary onload call before implementation of listener-generation-on-list-selection is created
-newListener();
+onLoad();
