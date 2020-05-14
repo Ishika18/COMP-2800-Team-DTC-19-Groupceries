@@ -1,44 +1,81 @@
-<%- include('../partials/mobileMainHeader.ejs'); -%>
-<%- include('../partials/appNavbar.ejs'); -%>
-<div id="aboutUsPage">
-    <div>
-        <h1>About Us</h1>
+<div class="fixed-top" id="aboutUsHeader">
+    <desktopNavbar id="desktopNavbar">
+        <nav class="navbar d-flex bg-white border-bottom border-dark d-inline align-items-start align-items-center" id style="min-width: 375px">
+            <div class="container-flex align-items-center justify-content-start p=1">
+              <img src="/images/logo.png" width="50" height="50" class="d-inline" alt="">
+              <a class="navbar-brand text-dark d-none d-md-inline">Groupceries</a>
+            </div>
+            <div class="container-flex row">
+                <form action="/" method="get">
+                    <button id="navBarOptions" class="d-inline" type="submit"><i class="fa fa-home"></i></button>
+                </form>
+            </div>
+        </nav>
+    </desktopNavbar>
+    <mobileHeader id="mobileHeader">
+        <div class="row" id="appTitleContainer">
+            <div class="col align-items-center">
+                <h2 id="appTitle">Groupceries</h2>
+            </div>
+        </div>
+    </mobileHeader>
+    <hr class="aboutUsheaderBorder">
+    <div id="aboutUsBorder">
+        <form action="/" method="get">
+            <button class="float-right navbar-brand" id="aboutUsHomeBtn"><i class="fa fa-home"></i></button>  
+        </form>
+        <h1 id="aboutUsTitle">About Us</h1>
     </div>
-    <p>
-        We at Groupceries are committed to applying our software development skills to improve the lives of those in our communities.
-        As a team, we value innovation, community and growth. We want to make it easier for people to help their friends and families get groceries.
-        With this application, we hope that we have.
-    </p>
+    <hr class="aboutUsheaderBorder">
+</div>
+<div class="col-lg-3" id="aboutUsPageLoggedOut">
+    <div id="aboutUsParagraph">
+        <p>
+            We at Groupceries are committed to applying our software development skills to improve the lives of those in our communities.
+            As a team, we value innovation, community and growth. We want to make it easier for people to help their friends and families get groceries.
+            With this application, we hope that we have.
+        </p>
+    </div>
     <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
-                <div class="card-body">
-                  <p class="card-text">Ronald Liang</p>
+        <div class="col-sm-6 card-group" id="groupMemberContainerLoggedOut">
+            <div class="container groupMemberCard">
+                <div class="card flex-row flex-wrap">
+                    <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
+                    <div class="card-block px-2">
+                        <h4 class="card-title">Ronald Liang</h4>
+                        <p class="card-text">Loves Shrek... a lot.</p>
+                    </div>
+                    <div class="w-100"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/shrekvana.png" alt="Silvana Kalliny Photo">
-                <div class="card-body">
-                  <p class="card-text">Silvana Kalliny</p>
+            <div class="container groupMemberCard">
+                <div class="card flex-row flex-wrap">
+                    <img class="card-img-top groupMemberPhoto" src="/images/shrekvana.png" alt="Silvana Kalliny Photo">
+                    <div class="card-block px-2">
+                        <h4 class="card-title">Silvana Kalliny</h4>
+                        <p class="card-text">Front-end developer.</p>
+                    </div>
+                    <div class="w-100"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/shrekgun.png" alt="Shagon Photo">
-                <div class="card-body">
-                  <p class="card-text">Shagun</p>
+            <div class="container groupMemberCard">
+                <div class="card flex-row flex-wrap">
+                    <img class="card-img-top groupMemberPhoto" src="/images/shrekgun.png" alt="Shagon Photo">
+                    <div class="card-block px-2">
+                        <h4 class="card-title">Shagun</h4>
+                        <p class="card-text">Back-end developer.</p>
+                    </div>
+                    <div class="w-100"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <img class="card-img-top groupMemberPhoto" src="/images/blueshrek.jpg" alt="Eric Dong Photo">
-                <div class="card-body">
-                  <p class="card-text">Eric Dong</p>
+            <div class="container groupMemberCard">
+                <div class="card flex-row flex-wrap">
+                    <img class="card-img-top groupMemberPhoto" src="/images/blueshrek.jpg" alt="Eric Dong Photo">
+                    <div class="card-block px-2">
+                        <h4 class="card-title">Eric Dong</h4>
+                        <p class="card-text">Front-end developer.</p>
+                    </div>
+                    <div class="w-100"></div>
                 </div>
             </div>
         </div>

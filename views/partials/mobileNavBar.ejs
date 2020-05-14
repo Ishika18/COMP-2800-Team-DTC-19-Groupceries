@@ -1,5 +1,20 @@
 <nav class="navbar fixed-bottom navbar-inverse mobileNavbar" id="mobileBottomNav" style="background:#20187A">
-        <button class="navbar-brand navbarItem" id="lists">Merge</button>
-        <button class="navbar-brand navbarItemActive" id="currentList">Grocery list</button>
-        <button class="navbar-brand navbarItem" id="friends">Friends</button>
+        <form action="/" method="get">
+                <button class="navbar-brand navbarItem"><i class="fa fa-home"></i></button>  
+            </form>
+        <button class="navbar-brand navbarItem" id="lists"><i class="far fa-list-alt"></i></button>
+        <button class="navbar-brand navbarItem" id="currentList"><i class="fas fa-shopping-cart"></i></button>
+        <button class="navbar-brand navbarItem" id="friends"><i class="fas fa-user-friends"></i></button>
+        <button class="navbar-brand navbarItem" id="aboutUs"><i class="far fa-address-card"></i></button>
 </nav>
+<!-- <nav class="navbar navbar-inverse mobileNavbar" style="background:#20187A">
+        <form action="/groceries/aboutUsPage" method="get">
+                <button class="navbar-brand navbarItem">About Us</button>
+        </form>
+        <form action="/" method="get">
+                <button class="navbar-brand navbarItem">Home</button>  
+        </form>
+        <form id="signOut" onclick={signOut()}>
+                <button class="navbar-brand navbarItem" onclick={signOut()}>Log Out</button>
+        </form>
+</nav> -->
