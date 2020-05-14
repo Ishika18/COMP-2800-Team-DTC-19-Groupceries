@@ -513,6 +513,15 @@
     #myListsList {
         margin-bottom: 10rem;
     }
+    #right {
+        display: none;
+    }
+    #left {
+        display: none;
+    }
+    #aboutUsPage {
+        display: none;
+    }
 }
 #middle {
     max-width: none;
@@ -527,7 +536,7 @@
     border: transparent;
     margin-top: 0.5rem;
 }
-.deleteEntireListButton, .addToListButton{
+.deleteEntireListButton, .addToListButton {
     color: white;
     font-weight: bold;
     height: 100%;
@@ -536,9 +545,6 @@
 }
 .deleteEntireListButton{
     background-color: red;
-}
-.addToListButton {
-    background-image: linear-gradient(to left, #01dc84, #00ba86, #00c587, #00ba86, #11ae84);
 }
 .deleteListButton{
     font-weight: bold;
@@ -563,8 +569,8 @@
 .editButton {
     background-color: rgb(50, 131, 238);
 } 
-.addButton, .saveButton, .addItemButton {
-    background-color: green;
+.addButton, .saveButton, .addItemButton, .addToListButton {
+    background-image: linear-gradient(to left, #01dc84, #00ba86, #00c587, #00ba86, #11ae84);
 } 
 .p-2 {
     padding-top: 0!important;

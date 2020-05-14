@@ -1,4 +1,4 @@
-let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [{ name: "ketchup", qty: { amount: 1, unit: "units" }, notes: "pls" }, { name: "lettuce", qty: { amount: 1, unit: "L" }, notes: "pls" }] }
+let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
@@ -6,8 +6,8 @@ function databaseListItem() {         // object constructor for new database ent
     this.notes = ""
 }
 
-function loadItems() { //runs when page loads and loads all items from database and makes them visible on list.
-    for (item in database.items) {
+function loadItems(data) { //runs when page loads and loads all items from database and makes them visible on list.
+    for (item in data.items) {
         let listItem = document.createElement("div")
         listItem.className = "listItems"
         let list = document.getElementById("groceryList")
@@ -59,20 +59,19 @@ function loadItems() { //runs when page loads and loads all items from database 
         editButton[0].style.display = "inline-block"
         let deleteButton = listItem.getElementsByClassName("deleteButton")
         deleteButton[0].style.display = "inline-block"
-        fillFields(listItem, database.items[item])
-        document.getElementById("listTitle").innerHTML = database.listName
+        fillFields(listItem, data.items[item])
     }
 
 }
-document.onload = loadItems()
+document.onload = loadItems(database)
 
 function fillFields(item, DBitem) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
     let nameField = item.getElementsByClassName("Name")
     nameField[0].value = DBitem.name
     let qtyField = item.getElementsByClassName("Quantity")
-    qtyField[0].value = DBitem.qty.amount
+    qtyField[0].value = DBitem.quantity.amount
     let unitsField = item.getElementsByClassName("Units")
-    unitsField[0].value = DBitem.qty.unit
+    unitsField[0].value = DBitem.quantity.unit
     let notes = item.getElementsByClassName("Notes(Optional)")
     notes[0].value = DBitem.notes
 }
@@ -249,10 +248,11 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+    addItem("Chris", "dinner", itemAsDBObject(item));
     fieldData = getFieldData(item)
     dbEntry.name = fieldData[0]
-    dbEntry.qty.amount = parseInt(fieldData[1])
-    dbEntry.qty.unit = fieldData[2]
+    dbEntry.quantity.amount = parseFloat(fieldData[1])
+    dbEntry.quantity.unit = fieldData[2]
     dbEntry.notes = fieldData[3]
     console.log(database)
 }
@@ -307,8 +307,8 @@ function deleteListItem(item) {
         removeItem("Chris", "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
-        let quantity = parseInt(itemData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.qty.amount === quantity && obj.qty.unit === itemData[2] && obj.notes === itemData[3])
+        let quantity = parseFloat(itemData[1])
+        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
         item.remove()
         database.items.splice(dbEntryLocation, 1)
         console.log(database)
@@ -341,7 +341,7 @@ function edit(item) {
         cancelButton[0].style.display = "inline-block"
         cancelButton[0].onclick = cancelListEditing(item, currentFieldData)
         let deleteButton = item.getElementsByClassName("deleteButton")
-        deleteButton[0].style.display = "none"
+        deleteButton[0].style.display = "inline-block"
         toggleInputClass(item)
     }
 }
@@ -356,13 +356,13 @@ function saveChanges(item, currentFieldData) {
         let cancelButton = item.getElementsByClassName("cancelButton")
         cancelButton[0].style.display = "none"
         toggleInputClass(item)
-        let quantity = parseInt(currentFieldData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.qty.amount === quantity && obj.qty.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
+        let quantity = parseFloat(currentFieldData[1])
+        let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.quantity.amount === quantity && obj.quantity.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
         let userChanges = getFieldData(item)
         let dbEntry = database.items[dbEntryLocation]
         dbEntry.name = userChanges[0]
-        dbEntry.qty.amount = parseInt(userChanges[1])
-        dbEntry.qty.unit = userChanges[2]
+        dbEntry.quantity.amount = parseFloat(userChanges[1])
+        dbEntry.quantity.unit = userChanges[2]
         dbEntry.notes = userChanges[3]
         console.log(database)
     }
@@ -375,7 +375,8 @@ function collapse() {
     for (i = 0; i < coll.length; i++) {
         coll[i].onclick = function () {
             this.classList.toggle("active");
-            let content = this.nextElementSibling;
+            let content = $(this).parent()[0].nextElementSibling;
+            console.log($(this).parent()[0].nextElementSibling)
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
@@ -417,6 +418,7 @@ function findListEntry(friend) {
             return existingFriendsArray[entry].nextElementSibling
         }
     }
+
 }
 
 function createFriendElement(friend) { //helper for loadlists
@@ -433,7 +435,7 @@ function createFriendElement(friend) { //helper for loadlists
 
 function createListElement(listSection, list) { //helper for loadLists
     let listElement = document.createElement("p")
-    listSection.classList.add("listElement")
+    listElement.classList.add("listElement")
     listSection.appendChild(listElement)
     listElement.innerHTML = list
 }
@@ -452,7 +454,7 @@ function checkForFriend(friend) {//helper for load lists
     return alreadyInList
 }
 
-function createNewList() {
+function createNewList() {//doesn't currently add new list to sidebar - need to know user name first
     let newListButton = document.querySelector("#createList")
     newListButton.addEventListener('click', _ => {
         let newListTitle = document.createElement("input")
@@ -464,7 +466,7 @@ function createNewList() {
         newListTitle.placeholder = "Enter the name of your new list."
         listTitleArea.appendChild(newListTitle)
         listTitleArea.appendChild(submitButton)
-        currentListTitle.style.display = "none" //When "create list" is pressed, an input field for the name of the new list appears where the list title was
+        currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
         submitButton.addEventListener('click', _ => {
             let listName = newListTitle.value
             currentListTitle.innerText = listName
@@ -477,6 +479,21 @@ function createNewList() {
 }
 createNewList()
 
-function deleteList() {
-    //delete from dom and delete from sidebar and delete from database
+
+
+function deleteList() { // deletes current list -  a user can only delete their own lists
+    let deleteButton = document.getElementById("deleteEntireListButton")
+    deleteButton.addEventListener('click', _ => {
+        let currentList = document.getElementById("listTitle").innerText
+        // let uid = localStorage.getItem('uid')
+        // let username = db.collection(uid).doc(userInfo)
+        // console.log(username)
+        let allLists = Array.from(document.getElementsByClassName("listElement"))
+        allLists.forEach(list => {//loops through all list elements in sidebar
+            if (list.innerText === currentList) {
+                list.remove()//when it finds the one that matches the current list and user, it deletes it
+            }
+        })
+    })
 }
+deleteList()

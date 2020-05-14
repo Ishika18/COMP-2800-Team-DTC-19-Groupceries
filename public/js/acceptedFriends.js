@@ -20,7 +20,7 @@ function addAcceptedHTML(uid) {
 
 function generateAcceptedHTML(name, email, uid) {
     return `
-    <div class="row received" id=${uid}_A_row>
+    <div class="row accepted" id=${uid}_A_row>
       <div class="col-md">
         <b>${name}</b>
         <i>${email}</i>
