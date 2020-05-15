@@ -492,6 +492,7 @@ function createNewList() {
         createListElement(listSection, listName)//adds new list to side bar
         clearList() //clears list on UI so user can start with an empty list for their new list
         newListButton.onclick = createNewList
+        addGroceryList(uid, "_" + listName);
         //need to add new list to database
     })
 }
@@ -525,7 +526,7 @@ function deleteList() { // deletes current list -  a user can only delete their 
 deleteList()
 
 function currentListForDB(){
-    return document.getElementById('listTitle').innerText;
+    return "_" + document.getElementById('listTitle').innerText;
 };
 
 function displayList() {//used for switching lists
