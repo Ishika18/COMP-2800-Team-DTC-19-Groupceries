@@ -181,6 +181,7 @@ function itemAsDBObject(item) {
 };
 
 function newItemField() {
+    if (!checkIfOtherItemsAreBeingEdited()) {
     let item = document.createElement("div")
     item.className = "listItems"
     let list = document.getElementById("groceryList")
@@ -226,6 +227,7 @@ function newItemField() {
     }
     addButtons(item)
 }
+}
 
 function createEntryInDB() {
     let dbEntry = new databaseListItem()
@@ -252,6 +254,9 @@ function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new
     // replace dinner with function that returns current list
     addItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
     fieldData = getFieldData(item)
+    if (fieldData[0] === "realness"){
+        easterEgg()
+    }
     dbEntry.name = fieldData[0]
     dbEntry.quantity.amount = parseFloat(fieldData[1])
     dbEntry.quantity.unit = fieldData[2]
@@ -564,3 +569,64 @@ function clearList() {
     })
 }
 displayList()
+
+function easterEgg() {// bring it to the runway
+    let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
+"/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.jpg", "/images/phiphi.jpg", "/images/rupaul.jpg","/images/valentina.png" ]
+    let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
+"/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
+    let stage = document.createElement("img")
+    stage.src = "/images/rupaulstage.jpg"
+    document.body.prepend(stage)
+    stage.style.width = window.innerWidth
+    stage.style.height = window.innerHeight
+    stage.style.zIndex = 1
+    setInterval(generateQueen(queenPhotos, queenQuotes), 4000)
+    let bgMusic = new Audio()
+    bgMusic.volume = 0.05
+    bgMusic.src = "/media/runway.mp3"
+    bgMusic.play()
+}
+function generateQueen(queenPhotos, queenQuotes) {
+    return function() {
+    if (queenPhotos.length > 0) {
+    let randomQueen = Math.floor(Math.random() * queenPhotos.length)
+    let queenQuote = new Audio()
+    queenQuote.src = queenQuotes[randomQueen]
+    let bottomValue = 300
+    let leftValue = 600
+    let queenDisplay = document.createElement("img")
+    queenDisplay.src = queenPhotos[randomQueen]
+    document.body.appendChild(queenDisplay)
+    queenDisplay.style.zIndex = 2
+    queenDisplay.style.position = "absolute"
+    queenDisplay.style.bottom = bottomValue + "px"
+    queenDisplay.style.left = leftValue + "px"
+    queenDisplay.onclick = queenQuote.play()
+    moveQueen(queenDisplay, bottomValue, leftValue)
+    queenPhotos.splice(randomQueen, 1)
+    queenQuotes.splice(randomQueen, 1)
+        
+    }
+}
+}
+
+function moveQueen(queen, bottomValue, leftValue) {
+     setInterval(function(){
+         if (bottomValue > 10) {
+            bottomValue = bottomValue - 10
+            queen.style.bottom = bottomValue + "px"
+            leftValue = leftValue + 2
+            queen.style.left = leftValue + "px"
+            
+        }else{
+            document.body.removeChild(queen)
+        }}, 120)
+        
+    }
+
+// add fucntionality to make new lists clickable
+// user's list to add, delete and update the same way friends list 
+// refactor how lists are created so they only write to the database 
+// input validation - dont create lists with duplicate names 
+// 
