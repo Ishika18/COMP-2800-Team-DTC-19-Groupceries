@@ -1,4 +1,5 @@
 let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
+const uid = localStorage.getItem('uid')
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
@@ -180,50 +181,52 @@ function itemAsDBObject(item) {
 };
 
 function newItemField() {
-    let item = document.createElement("div")
-    item.className = "listItems"
-    let list = document.getElementById("groceryList")
-    list.appendChild(item)
+    if (!checkIfOtherItemsAreBeingEdited()) {
+        let item = document.createElement("div")
+        item.className = "listItems"
+        let list = document.getElementById("groceryList")
+        list.appendChild(item)
 
-    var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
-    var i
+        var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
+        var i
 
-    for (i = 0; i < fields.length; i++) {
-        container = document.createElement("div")
-        container.classList = "p-2"
-        if (fields[i] === "Units") {
-            let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
-            let input = document.createElement("select")
-            input.classList = fields[i]
-            input.classList.add("itemInfo")
-            input.classList.add("textInput")
-            let label = document.createElement("label")
-            label.innerHTML = fields[i]
-            label.classList = "listInputLabels"
-            for (unit in possibleUnits) {
-                let option = document.createElement("option")
-                option.innerHTML = possibleUnits[unit]
-                option.value = possibleUnits[unit]
-                input.appendChild(option)
+        for (i = 0; i < fields.length; i++) {
+            container = document.createElement("div")
+            container.classList = "p-2"
+            if (fields[i] === "Units") {
+                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
+                let input = document.createElement("select")
+                input.classList = fields[i]
+                input.classList.add("itemInfo")
+                input.classList.add("textInput")
+                let label = document.createElement("label")
+                label.innerHTML = fields[i]
+                label.classList = "listInputLabels"
+                for (unit in possibleUnits) {
+                    let option = document.createElement("option")
+                    option.innerHTML = possibleUnits[unit]
+                    option.value = possibleUnits[unit]
+                    input.appendChild(option)
+                }
+                container.appendChild(label)
+                container.appendChild(input)
+                item.appendChild(container)
+            } else {
+                let input = document.createElement("input")
+                input.setAttribute("type", "text")
+                input.classList = fields[i]
+                input.classList.add("textInput")
+                input.classList.add("itemInfo")
+                let label = document.createElement("label")
+                label.innerHTML = fields[i]
+                label.classList = "listInputLabels"
+                container.appendChild(label)
+                container.appendChild(input)
+                item.appendChild(container)
             }
-            container.appendChild(label)
-            container.appendChild(input)
-            item.appendChild(container)
-        } else {
-            let input = document.createElement("input")
-            input.setAttribute("type", "text")
-            input.classList = fields[i]
-            input.classList.add("textInput")
-            input.classList.add("itemInfo")
-            let label = document.createElement("label")
-            label.innerHTML = fields[i]
-            label.classList = "listInputLabels"
-            container.appendChild(label)
-            container.appendChild(input)
-            item.appendChild(container)
         }
+        addButtons(item)
     }
-    addButtons(item)
 }
 
 function createEntryInDB() {
@@ -248,9 +251,11 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
-    // replace dinner with function that returns current list
-    addItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
+    addItem(uid, currentListForDB(), itemAsDBObject(item));
     fieldData = getFieldData(item)
+    if (fieldData[0] === "realness") {
+        easterEgg()
+    }
     dbEntry.name = fieldData[0]
     dbEntry.quantity.amount = parseFloat(fieldData[1])
     dbEntry.quantity.unit = fieldData[2]
@@ -304,9 +309,8 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 }
 
 function deleteListItem(item) {
-    return function() {
-        // replace dinner with funciton that returns current list
-        removeItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
+    return function () {
+        removeItem(uid, currentListForDB(), itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
         let quantity = parseFloat(itemData[1])
@@ -331,28 +335,39 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
     }
 }
 
+function checkIfOtherItemsAreBeingEdited() {
+    let listArea = document.getElementById('groceryList')
+    let itemsBeingEdited = Array.from(listArea.getElementsByClassName('textInput'))
+    if (itemsBeingEdited.length === 0) {
+        return false
+    } else {
+        return true
+    }
+}
+
 function edit(item) {
     return function () {
-        item.dataset.oldItem = JSON.stringify(itemAsDBObject(item));
-        let currentFieldData = getFieldData(item)
-        let editButton = item.getElementsByClassName("editButton")
-        editButton[0].style.display = "none"
-        let saveButton = item.getElementsByClassName("saveButton")
-        saveButton[0].style.display = "inline-block"
-        saveButton[0].onclick = saveChanges(item, currentFieldData)
-        let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "inline-block"
-        cancelButton[0].onclick = cancelListEditing(item, currentFieldData)
-        let deleteButton = item.getElementsByClassName("deleteButton")
-        deleteButton[0].style.display = "inline-block"
-        toggleInputClass(item)
+        if (!checkIfOtherItemsAreBeingEdited()) {
+            item.dataset.oldItem = JSON.stringify(itemAsDBObject(item));
+            let currentFieldData = getFieldData(item)
+            let editButton = item.getElementsByClassName("editButton")
+            editButton[0].style.display = "none"
+            let saveButton = item.getElementsByClassName("saveButton")
+            saveButton[0].style.display = "inline-block"
+            saveButton[0].onclick = saveChanges(item, currentFieldData)
+            let cancelButton = item.getElementsByClassName("cancelButton")
+            cancelButton[0].style.display = "inline-block"
+            cancelButton[0].onclick = cancelListEditing(item, currentFieldData)
+            let deleteButton = item.getElementsByClassName("deleteButton")
+            deleteButton[0].style.display = "inline-block"
+            toggleInputClass(item)
+        }
     }
 }
 function saveChanges(item, currentFieldData) {
     // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
-        //replace dinner with function that returns current list
-        editItem(localStorage.getItem('uid'), "dinner", JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
+        editItem(uid, currentListForDB(), JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
         let deleteButton = item.getElementsByClassName("deleteButton")
@@ -379,14 +394,14 @@ function collapse() {
     var i;
 
     for (i = 0; i < coll.length; i++) {
-        coll[i].onclick = function () {
+       coll[i].onclick = function () {
             this.classList.toggle("active");
             let content = $(this).parent()[0].nextElementSibling;
             console.log($(this).parent()[0].nextElementSibling)
-            if (content.style.display === "grid") {
+            if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
-                content.style.display = "grid";
+                content.style.display = "block";
             }
         };
     }
@@ -398,6 +413,9 @@ setInterval(collapse, 1)
 
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
+    let myList = document.getElementById("myGroceryLists")
+    myList.id = uid
+    console.log(friendObj)
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
@@ -405,6 +423,7 @@ function loadLists(friendObj) {
         }
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
+        console.log(friendsLists)
         friendsLists.forEach(list => {//loops through array of lists for each friend
             createListElement(listSection, list) // creates a list display element for each list
         })
@@ -412,27 +431,40 @@ function loadLists(friendObj) {
     });
 }
 
-loadLists({ Silvana: ["List 2"], Chris: ["List 1", "List 2"] })
-
 function findListEntry(friend) {
-    let friendList = document.getElementById("friendsListCollapsibles")
+    let friendList = document.getElementById("left")
     let existingFriends = friendList.getElementsByClassName("collapsible")
     let existingFriendsArray = Array.from(existingFriends)
-    let entry = undefined
     for (entry in existingFriendsArray) {
-        if (existingFriendsArray[entry].innerHTML.includes(friend)) {
-            return existingFriendsArray[entry].nextElementSibling
+        if (existingFriendsArray[entry].id.includes(friend)) {
+            return existingFriendsArray[entry].parentElement.nextElementSibling
         }
     }
 
 }
 
 function createFriendElement(friend) { //helper for loadlists
-    let friendElement = document.createElement("ul")
+    let friendElementWrapper = document.createElement("div")
+    friendElementWrapper.classList.add("p-2", "listCollapsibleLayer2")
+    let listLabel = document.createElement("label")
+    friendElementWrapper.appendChild(listLabel)
+    let friendElement = document.createElement("button")
+    friendElement.classList.add("btn", "collapsible", "viewListsbutton")
+    let chevron = document.createElement("i")
+    chevron.classList.add("fas", "fa-chevron-down")
+    friendElement.appendChild(chevron)
+    friendElementWrapper.appendChild(friendElement)
     let friendList = document.getElementById("friendsListCollapsibles")
-    friendList.appendChild(friendElement)
-    friendElement.innerHTML = friend + "'s Lists"
-    friendElement.classList.add("collapsible")
+    friendList.appendChild(friendElementWrapper)
+
+    db.collection(friend).doc('userInfo').get()
+        .then((doc) => {
+            let name = doc.data().name
+            listLabel.innerHTML = name + "'s Lists"
+        })
+
+    
+    friendElement.id = friend
     let listSection = document.createElement("section")
     listSection.classList.add("collapse")
     friendList.append(listSection)
@@ -440,19 +472,27 @@ function createFriendElement(friend) { //helper for loadlists
 }
 
 function createListElement(listSection, list) { //helper for loadLists
-    let listElement = document.createElement("p")
-    listElement.classList.add("listElement")
-    listSection.appendChild(listElement)
-    listElement.innerHTML = list
+    let listElementWrapper = document.createElement("div")
+    listElementWrapper.classList.add("p-2","listCollapsibleLayer3", "listElement")
+    let listLabel = document.createElement("label")
+    listLabel.classList.add("inputLabels")
+    listLabel.innerText = list
+    let listElement = document.createElement("button")
+    listElement.classList.add("btn", "viewListsbutton")
+    listElementWrapper.appendChild(listLabel)
+    listElementWrapper.appendChild(listElement)
+    listElement.onclick = displayList(listLabel)
+    listSection.appendChild(listElementWrapper)
+    listElement.innerHTML = "View List"
 }
 
 function checkForFriend(friend) {//helper for load lists
     let alreadyInList = false
-    let friendList = document.getElementById("friendsListCollapsibles")
+    let friendList = document.getElementById("left")
     let existingFriends = friendList.getElementsByClassName("collapsible")
     let existingFriendsArray = Array.from(existingFriends)
     existingFriendsArray.forEach(friendEntry => {
-        if (friendEntry.innerHTML.includes(friend)) {
+        if (friendEntry.id.includes(friend)) {
             alreadyInList = true
         }
 
@@ -460,30 +500,36 @@ function checkForFriend(friend) {//helper for load lists
     return alreadyInList
 }
 
-function createNewList() {//doesn't currently add new list to sidebar - need to know user name first
+let newListButton = document.querySelector("#createList")
+newListButton.onclick = createNewList
+
+function createNewList() {
     let newListButton = document.querySelector("#createList")
-    newListButton.addEventListener('click', _ => {
-        let newListTitle = document.createElement("input")
-        let submitButton = document.createElement("button")
-        submitButton.innerText = "OK"
-        let currentListTitle = document.querySelector("#listTitle")
-        let listTitleArea = document.querySelector("#listTitleSection")
-        newListTitle.setAttribute("type", "text")
-        newListTitle.placeholder = "Enter the name of your new list."
-        listTitleArea.appendChild(newListTitle)
-        listTitleArea.appendChild(submitButton)
-        currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
-        submitButton.addEventListener('click', _ => {
-            let listName = newListTitle.value
-            currentListTitle.innerText = listName
-            currentListTitle.style.display = "inline"
-            newListTitle.style.display = "none"
-            submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
-            return listName
-        })
+    newListButton.onclick = "null"
+    let newListTitle = document.createElement("input")
+    let submitButton = document.createElement("button")
+    submitButton.innerText = "OK"
+    let currentListTitle = document.querySelector("#listTitle")
+    let listTitleArea = document.querySelector("#listTitleSection")
+    newListTitle.setAttribute("type", "text")
+    newListTitle.placeholder = "Enter the name of your new list."
+    listTitleArea.appendChild(newListTitle)
+    listTitleArea.appendChild(submitButton)
+    currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
+    submitButton.addEventListener('click', _ => {
+        let listName = newListTitle.value
+        currentListTitle.innerText = listName
+        currentListTitle.style.display = "inline"
+        newListTitle.style.display = "none"
+        submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
+        let listSection = document.getElementById(uid).parentElement.nextElementSibling
+        createListElement(listSection, listName)//adds new list to side bar
+        clearList() //clears list on UI so user can start with an empty list for their new list
+        newListButton.onclick = createNewList
+        //need to add new list to database
     })
 }
-createNewList()
+
 
 
 
@@ -491,15 +537,109 @@ function deleteList() { // deletes current list -  a user can only delete their 
     let deleteButton = document.getElementById("deleteEntireListButton")
     deleteButton.addEventListener('click', _ => {
         let currentList = document.getElementById("listTitle").innerText
-        // let uid = localStorage.getItem('uid')
-        // let username = db.collection(uid).doc(userInfo)
-        // console.log(username)
-        let allLists = Array.from(document.getElementsByClassName("listElement"))
-        allLists.forEach(list => {//loops through all list elements in sidebar
-            if (list.innerText === currentList) {
-                list.remove()//when it finds the one that matches the current list and user, it deletes it
+        let listArea = document.getElementById('left')
+        let allLists = Array.from(listArea.getElementsByClassName("collapsible"))
+        allLists.forEach(element => {//loops through all list elements in sidebar
+            if (element.id === uid) {
+                let sections = Array.from(element.parentElement.nextElementSibling.childNodes)
+                sections.forEach(section => {
+                    if (section.innerText === currentList) {
+                        deleteGroceryList(uid, "_" + currentList);
+                        section.remove()//when it finds the one that matches the current list and user, it deletes it
+                        clearList()// clears list
+                        //need to make it load next list in line
+                    }
+                })
             }
         })
     })
 }
+
+
 deleteList()
+
+function currentListForDB() {
+    return "_" + document.getElementById('listTitle').innerText
+};
+
+function displayList(listElement) {//used for switching lists
+    return function() {
+    let currentListName = document.getElementById('listTitle')
+    if (listElement.innerText !== currentListName.innerText) {
+        currentListName.innerText = listElement.innerText // updates name of list
+        clearList()
+        loadNewList(uid, "_" + currentListName.innerText)
+
+    }
+}
+    
+function clearList() {
+        let currentList = document.getElementById("groceryList") //clears list area
+        let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
+        currentListItems.forEach(item => {
+            currentList.removeChild(item)
+        })
+    }
+
+    function easterEgg() {// bring it to the runway
+        let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
+            "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.jpeg", "/images/phiphi.jpg", "/images/rupaul.jpg", "/images/valentina.png"]
+        let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
+            "/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
+        let stage = document.createElement("img")
+        stage.src = "/images/rupaulstage.jpg"
+        document.body.prepend(stage)
+        stage.style.width = window.innerWidth
+        stage.style.height = window.innerHeight
+        stage.style.zIndex = 1
+        setInterval(generateQueen(queenPhotos, queenQuotes), 4000)
+        let bgMusic = new Audio()
+        bgMusic.volume = 0.05
+        bgMusic.src = "/media/runway.mp3"
+        bgMusic.play()
+    }
+    function generateQueen(queenPhotos, queenQuotes) {
+        return function () {
+            if (queenPhotos.length > 0) {
+                let randomQueen = Math.floor(Math.random() * queenPhotos.length)
+                let queenQuote = new Audio()
+                queenQuote.src = queenQuotes[randomQueen]
+                let bottomValue = 300
+                let leftValue = 600
+                let queenDisplay = document.createElement("img")
+                queenDisplay.src = queenPhotos[randomQueen]
+                document.body.appendChild(queenDisplay)
+                queenDisplay.style.zIndex = 2
+                queenDisplay.style.position = "absolute"
+                queenDisplay.style.bottom = bottomValue + "px"
+                queenDisplay.style.left = leftValue + "px"
+                queenDisplay.onclick = queenQuote.play()
+                moveQueen(queenDisplay, bottomValue, leftValue)
+                queenPhotos.splice(randomQueen, 1)
+                queenQuotes.splice(randomQueen, 1)
+
+            }
+        }
+    }
+
+    function moveQueen(queen, bottomValue, leftValue) {
+        setInterval(function () {
+            if (bottomValue > 10) {
+                bottomValue = bottomValue - 10
+                queen.style.bottom = bottomValue + "px"
+                leftValue = leftValue + 2
+                queen.style.left = leftValue + "px"
+
+            } else {
+                document.body.removeChild(queen)
+            }
+        }, 120)
+
+    }
+}
+
+// add fucntionality to make new lists clickable
+// user's list to add, delete and update the same way friends list 
+// refactor how lists are created so they only write to the database 
+// input validation - dont create lists with duplicate names 
+// 

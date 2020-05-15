@@ -45,7 +45,9 @@
         overflow-x: hidden;
     }
     .rectangularButton {
-        width: 12.5vw;
+        width: 14vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
     }
 }
 @media (max-width: 600px) {
