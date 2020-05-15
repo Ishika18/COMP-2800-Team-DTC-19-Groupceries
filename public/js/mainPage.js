@@ -431,6 +431,14 @@ function loadLists(friendObj) {
     });
 }
 
+function toggleReadyForPurchase(){
+    toggleReadyDatabase(document.getElementById("flip-checkbox-2").checked);
+};
+
+function updateToggle(value){
+    document.getElementById("flip-checkbox-2").checked = value;
+};
+
 function findListEntry(friend) {
     let friendList = document.getElementById("left")
     let existingFriends = friendList.getElementsByClassName("collapsible")

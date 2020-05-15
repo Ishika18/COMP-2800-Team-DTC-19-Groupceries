@@ -127,7 +127,8 @@ function newListener(){
             };
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
             if(change.doc.ref.id == currentListForDB()){
-                updateClient(change.doc.data().items)
+                updateClient(change.doc.data().items);
+                updateToggle(change.doc.data().ready_to_buy);
             };
         });
     });
@@ -203,6 +204,10 @@ function onLoad(){
         // replace console.log with function that changes list
         displayList(getRecentList())
     };
+};
+
+function toggleReadyDatabase(value){
+    db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: value});
 };
 
 onLoad();
