@@ -512,7 +512,7 @@ function deleteList() { // deletes current list -  a user can only delete their 
                 sections.forEach(section => {
                     if (section.innerText === currentList) {
                         section.remove()//when it finds the one that matches the current list and user, it deletes it
-                        document.getElementById('groceryList').childNodes.remove() // clears list
+                        clearList()// clears list
                         //need to make it load next list in line
                 }})
             } })
@@ -530,16 +530,19 @@ function displayList() {//used for switching lists
             let currentListName = document.getElementById('listTitle')
             if (list.innerText !== currentListName.innerText) {
                 currentListName.innerText = list.innerText // updates name of list
-                let currentList = document.getElementById("groceryList") //clears list area
-                let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
-                currentListItems.forEach(item => {
-                    currentList.removeChild(item)
-                })
+                clearList()
                 //insert code here for loading items from new list (ronald prob)
             }
             
         })
     })
 
+}
+function clearList() {
+    let currentList = document.getElementById("groceryList") //clears list area
+                let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
+                currentListItems.forEach(item => {
+                    currentList.removeChild(item)
+                })
 }
 displayList()
