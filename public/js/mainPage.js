@@ -431,6 +431,14 @@ function loadLists(friendObj) {
     });
 }
 
+function toggleReadyForPurchase(){
+    toggleReadyDatabase(document.getElementById("flip-checkbox-2").checked);
+};
+
+function updateToggle(value){
+    document.getElementById("flip-checkbox-2").checked = value;
+};
+
 function findListEntry(friend) {
     let friendList = document.getElementById("left")
     let existingFriends = friendList.getElementsByClassName("collapsible")
@@ -526,7 +534,8 @@ function createNewList() {
         createListElement(listSection, listName)//adds new list to side bar
         clearList() //clears list on UI so user can start with an empty list for their new list
         newListButton.onclick = createNewList
-        //need to add new list to database
+        addGroceryList(uid, "_" + listName);
+        loadNewList(uid, "_" + currentListName.innerText)
     })
 }
 
@@ -558,8 +567,8 @@ function deleteList() { // deletes current list -  a user can only delete their 
 
 deleteList()
 
-function currentListForDB() {
-    return "_" + document.getElementById('listTitle').innerText
+function currentListForDB(){
+    return "_" + document.getElementById('listTitle').innerText;
 };
 
 function displayList(listElement) {//used for switching lists

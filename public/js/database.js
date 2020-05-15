@@ -1,6 +1,5 @@
 function write(user, groceryList, itemList){
     db.collection(user).doc(groceryList).set({
-        // This function will require itemList to be a list of maps representing foods.
         items: itemList,
         ready_to_buy: false
     })
@@ -54,7 +53,6 @@ function removeItem(user, groceryList, item){
 };
 
 function addGroceryList(user, groceryList){
-    // front end will need to handle changing current list
     let GROCERY_LIST_INITIAL_STATE = {
         items: [],
         ready_to_buy: false,
@@ -81,46 +79,70 @@ function deleteGroceryList(user, groceryList){
     });
 };
 
-// inefficicent, but firebase has a 1-second delay on editing items within an array, additionally editing maps (objects) inside of arrays are inefficient.
 function editItem(user, groceryList, oldItem, newItem){
     removeItem(user, groceryList, oldItem);
     addItem(user, groceryList, newItem);
 };
 
-// call on page load
 function newListener(){
     userListener = db.collection(localStorage.getItem('uid'))
     .onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
             if(change.doc.ref.id == "Friends"){
-                // change .accepted into the actual field. change consolelog 
-                // into function that updates friends' frontend. instantiators will call getUserName.
-                // /silv make div with hidden UID, shown name.
                 // TODO make a function that creates a global variable holding listeners for all friends.
                 // let x = onsnap, arr.push(x), arr[i]()
-                console.log(change.doc.data().accepted)
+                friendsList = change.doc.data().accepted;
+                var friendsAndTheirLists = {}
+                var finishedPromises = 0;
+                let userLists = []
+                db.collection(localStorage.getItem('uid')).get().then(documents => {
+                    documents.forEach(doc => {
+                        if(doc.id.charAt(0) == "_"){
+                            userLists.push(doc.id.slice(1));
+                        };
+                    });
+                }).finally(() => {
+                    friendsAndTheirLists[localStorage.getItem('uid')] = userLists
+                    // Shagun needs to initalize so accepted exists, length != null/undefined *
+                    for(let i = 0; i < friendsList.length; i++){
+                        let friendUID = friendsList[i];
+                        let listNames = []
+                        db.collection(friendUID).get().then(documents => {
+                            documents.forEach(doc => {
+                                if(doc.id.charAt(0) == "_"){
+                                    listNames.push(doc.id.slice(1));
+                                };
+                            });
+                        }).finally(()=>{
+                            console.log(friendUID);
+                            friendsAndTheirLists[friendUID] = listNames;
+                            finishedPromises++;
+                            if(finishedPromises == friendsList.length){
+                                loadLists(friendsAndTheirLists);
+                            };
+                        });
+                    };
+                })
             };
-            // replace if statement with check to see if document is a grocery list
-            if(change.doc.ref.id == "groceryListPattern"){
-                // need to add an if statement to check if list is most recently interacted with
+            if(change.doc.ref.id.charAt(0) == "_"){
                 if(change.type == "added"){
-                    // replace console.log with instantiate list function
-                    console.log(change.doc.ref.id.slice(1))
+                    // replace console.log with instantiate list function *
+                    // deprecate creating list in front end on list creation, move to here based on database change
+                    console.log(change.doc.ref.id.slice(1));
                 };
-                // add case for removed list
+                if(change.type == "removed"){
+                    // replace console.log with delete list function *
+                    console.log(change.doc.ref.id.slice(1));
+                };
             };
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
-            // replace dinner with param currentlist or function that returns currentlistname
-            // if function, no need to recreate listener on list change
-            if(change.doc.ref.id == "dinner"){
-                console.log(change.doc.data().items);
+            if(change.doc.ref.id == currentListForDB()){
                 updateClient(change.doc.data().items)
             };
         });
     });
 };
 
-// this function needs to be called AFTER the old list items are deleted, on list change
 // this function will need to be somehow passed UID of friend if loading friend list
 function loadNewList(UID, groceryList){
     if(UID == localStorage.getItem('uid')){
@@ -128,23 +150,20 @@ function loadNewList(UID, groceryList){
     };
     db.collection(UID).doc(groceryList).get()
     .then(data => {
-        // do nothing if list doesnt exist i.e. if ""
         if(data.exists){
-            updateClient(data.data().items)
+            updateClient(data.data().items);
+            updateToggle(data.data().ready_to_buy);
         };
     })
     .catch(error => console.log(error));
 };
 
-// variable for current list exists. if it doesnt, it means user just logged on.
-// front end will call this function and set current list to most recent list.
 function getRecentList(){
     db.collection(localStorage.getItem('uid')).doc("recentList").get()
     .then(data => {
         if(data.exists && data.data().list != ""){
             return data.data().list.slice(1)
         } else {
-            // no grocery list will match "", so no list will be loaded. 
             return ""
         };
     })
@@ -155,9 +174,9 @@ function reNameList(groceryList, newListName){
     // silv: prevent rename to something that already exists.
     db.collection(localStorage.getItem('uid')).doc(groceryList).get().then(function(doc) {
         let data = doc.data();
-        db.collection(localStorage.getItem('uid')).doc(newListName).set(x)
+        db.collection(localStorage.getItem('uid')).doc(newListName).set(data)
         .then(function(_){
-            // call silv function to change lists to newListName, which needs to call
+            // call silv function to change lists to newListName, which needs to call *
         })
         .catch(function(error){console.log(error)});
     }).catch(function(error){console.log(error)});
@@ -187,24 +206,18 @@ function demo(){
 
 //scripts below here
 
-//debug to return the names of all items in Chris/dinner on change
-var chrisDinnerListener = db.collection("Chris").doc("_dinner")
-    .onSnapshot(function(doc) {
-    objects = doc.data().items
-        for(item in objects){
-            console.log(94, objects[item].name);
-        }
-    });
-
 function onLoad(){
     //TODO check if async calls here will bug out.
     newListener();
     //replace console.log with function that returns current list, "FIRSTLOAD" with correct value
-    if(console.log() == "FIRSTLOAD"){
+    if(currentListForDB() == "My List"){
         // replace console.log with function that changes list
-        console.log(getRecentList())
+        displayList(getRecentList())
     };
 };
 
-//temporary onload call before implementation of listener-generation-on-list-selection is created
+function toggleReadyDatabase(value){
+    db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: value});
+};
+
 onLoad();

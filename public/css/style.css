@@ -1,4 +1,9 @@
 @media (min-width: 1025px) {
+    #aboutUsPage {
+        height: calc(100vh - 11rem);
+        display: none
+    }
+    
     #aboutUsParagraph p {
         margin-left: 0.5rem;
         margin-right: 0.5rem;
@@ -522,6 +527,7 @@
     }
     #aboutUsPage {
         height: calc(100vh - 11rem);
+        display: none
     }
     #aboutUsPageLoggedOut {
         height: calc(100vh - 11rem);
