@@ -94,25 +94,35 @@ function newListener(){
                 friendsList = change.doc.data().accepted;
                 var friendsAndTheirLists = {}
                 var finishedPromises = 0;
-                // Shagun needs to initalize so accepted exists, length != null/undefined *
-                for(let i = 0; i < friendsList.length; i++){
-                    let friendUID = friendsList[i];
-                    let listNames = []
-                    db.collection(friendUID).get().then(documents => {
-                        documents.forEach(doc => {
-                            if(doc.id.charAt(0) == "_"){
-                                listNames.push(doc.id.slice(1));
-                            };
-                        });
-                    }).finally(()=>{
-                        console.log(friendUID);
-                        friendsAndTheirLists[friendUID] = listNames;
-                        finishedPromises++;
-                        if(finishedPromises == friendsList.length){
-                            loadLists(friendsAndTheirLists);
+                let userLists = []
+                db.collection(localStorage.getItem('uid')).get().then(documents => {
+                    documents.forEach(doc => {
+                        if(doc.id.charAt(0) == "_"){
+                            userLists.push(doc.id.slice(1));
                         };
                     });
-                };
+                }).finally(() => {
+                    friendsAndTheirLists[localStorage.getItem('uid')] = userLists
+                    // Shagun needs to initalize so accepted exists, length != null/undefined *
+                    for(let i = 0; i < friendsList.length; i++){
+                        let friendUID = friendsList[i];
+                        let listNames = []
+                        db.collection(friendUID).get().then(documents => {
+                            documents.forEach(doc => {
+                                if(doc.id.charAt(0) == "_"){
+                                    listNames.push(doc.id.slice(1));
+                                };
+                            });
+                        }).finally(()=>{
+                            console.log(friendUID);
+                            friendsAndTheirLists[friendUID] = listNames;
+                            finishedPromises++;
+                            if(finishedPromises == friendsList.length){
+                                loadLists(friendsAndTheirLists);
+                            };
+                        });
+                    };
+                })
             };
             if(change.doc.ref.id.charAt(0) == "_"){
                 if(change.type == "added"){
@@ -127,8 +137,7 @@ function newListener(){
             };
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
             if(change.doc.ref.id == currentListForDB()){
-                updateClient(change.doc.data().items);
-                updateToggle(change.doc.data().ready_to_buy);
+                updateClient(change.doc.data().items)
             };
         });
     });
