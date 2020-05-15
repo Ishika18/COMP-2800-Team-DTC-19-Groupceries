@@ -1,9 +1,18 @@
+#easterEgg {
+    display: none;
+    margin: auto;
+    width: 700px;
+    height: 700px;
+    background-image: url("/images/rupaulstage.jpg");
+    background-position: center;
+}
+
 @media (min-width: 1025px) {
     #aboutUsPage {
         height: calc(100vh - 11rem);
         display: none
     }
-    
+
     #aboutUsParagraph p {
         margin-left: 0.5rem;
         margin-right: 0.5rem;

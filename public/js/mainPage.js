@@ -581,6 +581,7 @@ function displayList(listElement) {//used for switching lists
 
     }
 }
+}
     
 function clearList() {
         let currentList = document.getElementById("groceryList") //clears list area
@@ -590,38 +591,53 @@ function clearList() {
         })
     }
 
-    function easterEgg() {// bring it to the runway
+
+function easterEgg() {
         let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
-            "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.jpeg", "/images/phiphi.jpg", "/images/rupaul.jpg", "/images/valentina.png"]
+            "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.png", "/images/phiphi.jpg", "/images/rupaul.png", "/images/valentina.png"]
         let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
             "/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
-        let stage = document.createElement("img")
-        stage.src = "/images/rupaulstage.jpg"
-        document.body.prepend(stage)
-        stage.style.width = window.innerWidth
-        stage.style.height = window.innerHeight
-        stage.style.zIndex = 1
-        setInterval(generateQueen(queenPhotos, queenQuotes), 4000)
+        let easterEggArea = document.getElementById("easterEgg")
+        let currentView = document.getElementById("listArea")
+        currentView.style.display = "none"
+        easterEggArea.style.display = "block"
+        document.getElementById("middle").appendChild(easterEggArea)
+        setInterval(generateQueen(queenPhotos, queenQuotes), 6000)
         let bgMusic = new Audio()
-        bgMusic.volume = 0.05
+        bgMusic.volume = 0.1
         bgMusic.src = "/media/runway.mp3"
         bgMusic.play()
+        easterEggArea.addEventListener('click', _=> {
+            bgMusic.pause()
+            document.getElementById("middle").removeChild(easterEggArea)
+            let queens = Array.from(document.getElementsByClassName("queen"))
+            queens.forEach(queen => {
+                document.body.removeChild(queen)
+            })
+            currentView.style.display="block"
+            
+        })
     }
-    function generateQueen(queenPhotos, queenQuotes) {
+
+
+function generateQueen(queenPhotos, queenQuotes) {
         return function () {
             if (queenPhotos.length > 0) {
                 let randomQueen = Math.floor(Math.random() * queenPhotos.length)
                 let queenQuote = new Audio()
                 queenQuote.src = queenQuotes[randomQueen]
-                let bottomValue = 300
-                let leftValue = 600
+                let bottomValue = 250
+                let leftValue = 25
                 let queenDisplay = document.createElement("img")
                 queenDisplay.src = queenPhotos[randomQueen]
+                queenDisplay.classList.add("queen")
                 document.body.appendChild(queenDisplay)
+                queenDisplay.style.height= "300px"
+                queenDisplay.style.width="200px"
                 queenDisplay.style.zIndex = 2
                 queenDisplay.style.position = "absolute"
                 queenDisplay.style.bottom = bottomValue + "px"
-                queenDisplay.style.left = leftValue + "px"
+                queenDisplay.style.left = leftValue + "%"
                 queenDisplay.onclick = queenQuote.play()
                 moveQueen(queenDisplay, bottomValue, leftValue)
                 queenPhotos.splice(randomQueen, 1)
@@ -636,16 +652,16 @@ function clearList() {
             if (bottomValue > 10) {
                 bottomValue = bottomValue - 10
                 queen.style.bottom = bottomValue + "px"
-                leftValue = leftValue + 2
-                queen.style.left = leftValue + "px"
+                leftValue = leftValue + 0.25
+                queen.style.left = leftValue + "%"
 
             } else {
                 document.body.removeChild(queen)
             }
-        }, 120)
+        }, 180)
 
     }
-}
+
 
 // add fucntionality to make new lists clickable
 // user's list to add, delete and update the same way friends list 
