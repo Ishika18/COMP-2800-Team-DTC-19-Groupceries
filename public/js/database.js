@@ -151,7 +151,8 @@ function loadNewList(UID, groceryList){
     db.collection(UID).doc(groceryList).get()
     .then(data => {
         if(data.exists){
-            updateClient(data.data().items)
+            updateClient(data.data().items);
+            updateToggle(data.data().ready_to_buy);
         };
     })
     .catch(error => console.log(error));

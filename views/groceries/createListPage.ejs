@@ -14,17 +14,23 @@
                 <div class="col-lg-3" id="left">
                     <div id="myLists">
                         <button id="createList"> Create New List</button><br>
-                        <div class="p-2">
-                            <button id="myGroceryLists" class="btn collapsible">My Lists</button>
+                        <div class="p-2 listCollapsible" id="myGroceryLists">
+                            <label class="inputLabels">My Lists</label>
+                           <button id="myLists" class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down">  </i> 
+                           </button>
                         </div>
                         <section id="availableLists" class="collapse">
                                 
                         </section>
                     </div>
+                
+                    
+
                     <div id="friendLists">
-                        <div class="collapseButtonContainer">
-                            <button class="btn collapsible">Friends' Lists</button>      
-                        </div>
+                        <div class="p-2 listCollapsible">
+                            <label class="inputLabels">Friends' Lists</label>
+                            <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>
+                         </div>
                         <div class="collapse" id="friendsListCollapsibles">
                             
                         </div>
