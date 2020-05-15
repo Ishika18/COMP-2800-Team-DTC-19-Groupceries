@@ -251,8 +251,7 @@ function addItemDetails(item) {
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
-    // replace dinner with function that returns current list
-    addItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
+    addItem(uid, currentListForDB(), itemAsDBObject(item));
     fieldData = getFieldData(item)
     if (fieldData[0] === "realness"){
         easterEgg()
@@ -310,9 +309,8 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 }
 
 function deleteListItem(item) {
-    return function () {
-        // replace dinner with funciton that returns current list
-        removeItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
+    return function() {
+        removeItem(uid, currentListForDB(), itemAsDBObject(item));
         let itemData = getFieldData(item)
         console.log(itemData)
         let quantity = parseFloat(itemData[1])
@@ -369,8 +367,7 @@ function edit(item) {
 function saveChanges(item, currentFieldData) {
     // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
-        //replace dinner with function that returns current list
-        editItem(localStorage.getItem('uid'), "dinner", JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
+        editItem(uid, currentListForDB(), JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
         let deleteButton = item.getElementsByClassName("deleteButton")
@@ -431,8 +428,6 @@ function loadLists(friendObj) {
 
     });
 }
-
-loadLists({ SooBudi0XzRiCRxwTKFd7fiFdcq2: ["List 1", "List 2"] })
 
 function findListEntry(friend) {
     let friendList = document.getElementById("left")
@@ -532,6 +527,7 @@ function deleteList() { // deletes current list -  a user can only delete their 
                 let sections = Array.from(element.parentElement.nextElementSibling.childNodes)
                 sections.forEach(section => {
                     if (section.innerText === currentList) {
+                        deleteGroceryList(uid, "_" + currentList);
                         section.remove()//when it finds the one that matches the current list and user, it deletes it
                         clearList()// clears list
                         //need to make it load next list in line
@@ -545,6 +541,10 @@ function deleteList() { // deletes current list -  a user can only delete their 
 
 deleteList()
 
+function currentListForDB(){
+    return document.getElementById('listTitle').innerText;
+};
+
 function displayList() {//used for switching lists
     let listElements = Array.from(document.getElementsByClassName("listElement"))
     listElements.forEach(list => {
@@ -554,7 +554,7 @@ function displayList() {//used for switching lists
             if (list.innerText !== currentListName.innerText) {
                 currentListName.innerText = list.innerText // updates name of list
                 clearList()
-                //insert code here for loading items from new list (ronald prob)
+                loadNewList(uid, "_" + currentListName.innerText)
             }
 
         })
