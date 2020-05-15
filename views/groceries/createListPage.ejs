@@ -14,11 +14,12 @@
                 <div class="col-lg-3" id="left">
                     <div id="myLists">
                         <button id="createList"> Create New List</button><br>
-                        <div class="p-2">
-                            <label class="inputinputLabels">My List</label>
-                            <button id="myLists" class="btn collapsible">View List</button>
+                        <div class="p-2 listCollapsible">
+                            <label class="inputLabels">My List</label>
+                            <button id="myLists" class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>
                         </div>
                         <ul id="availableLists" class="collapse">
+                            <newListButtonPlaceHolder id="newListButtonPlaceHolder"></newListButtonPlaceHolder>
                             <div>
                                 <p>My List</p>
                             </div>
@@ -28,49 +29,20 @@
                         </ul>
                     </div>
                     <div id="friendLists">
-                        <div class="collapseButtonContainer">
-                            <button class="btn collapsible">Friends' Lists</button>      
+                        <div class="p-2 listCollapsible">
+                            <label class="inputLabels">Friends' Lists</label>
+                            <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>      
                         </div>
                         <div class="collapse" id="friendsListCollapsibles">
-                            <div>
-                                <ul class="collapsible"> Silvana's Lists</ul>
+                            <div class="p-2 listCollapsible">
+                                <label class="inputLabels">Silvana's Lists</label>
+                                <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>   
                             </div>
                            <section class="collapse">
                             <p class="listElement">List 1</p>
                            </section>
                         </div>
                     </div>
-                         
-                        <!-- <h3 class="deskTopShoppingListsTitle">Shopping Lists</h3><hr class="deskTopShoppingListsTitle">
-                        <div id="myLists">
-                            <button id="createList"> Create New List</button><br>
-                            <details id="availableLists">
-                                <summary class="viewListsbutton">View My Lists</summary>
-                                <div class="itemsArea" id="myListsList">
-                                    <p>My List</p>
-                                    <p>List 2</p>
-                                </div>
-                            </details>
-                        </div>
-                        <br> -->
-                        <!-- <div id="friendLists">
-                            <details id="availableLists">
-                                <summary class="viewListsbutton" id="friendLists">Friends' Lists</summary>
-                                <div class="itemsArea" id="friendsListCollapsibles">
-                                    <details>
-                                        <summary>Silvana's Lists</summary>
-                                        <p>List 1</p>
-                                    </details>
-                                </div>
-                            </details> -->
-                            <!-- <button id="friendLists" class="btn collapsible">Friends' Lists</button>
-                            <div class="collapse" id="friendsListCollapsibles">
-                               <ul class="collapsible"> Silvana's Lists</ul>
-                               <section class="collapse">
-                                <p class="listElement">List 1</p>
-                               </section>
-                            </div> -->
-                        <!-- </div> -->
                     </div>
                     <div class="col-lg-3" id="right">
                         <div id="rightDesktop">
@@ -145,20 +117,18 @@
                         </div>
                     </div>
                     <div class="col-lg-6" id="middle">
-                        <div id="listArea" class="itemsArea">
+                        <div id="listArea">
+                        <!-- <div id="listArea" class="itemsArea"> -->
                             <div class="groceryList">
                                 <div id="buttons">
                                         <div class="d-flex addListBox">
                                             <div class="mr-auto p-2" id="listTitleSection"><p id="listTitle">My List</p></div>
-                                            <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addToListButton">Add</button><button type="button" id="deleteEntireListButton" class="deleteEntireListButton">Delete</button>
+                                            <div class="p-2 ml-auto rightMostButton"><button type="button" id="deleteEntireListButton" class="deleteEntireListButton"><i id="delIcon" class="far fa-trash-alt"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <details open id="myList" class="viewButton" text="View Grocery List">
-                                    <summary class="viewListsbutton">View Grocery List</summary>
-                                    <div id="groceryList" class="itemsArea">
-                                    </div>
-                                </details>
+                                <div id="groceryList" class="itemsArea">
+                                </div>
                             </div>
                         </div>
                     </div>

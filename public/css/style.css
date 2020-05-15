@@ -67,7 +67,6 @@
         margin-left: 15px;
         margin-top: 15px
     }
-    
     .custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
         text-indent: -3.9em;
         border-radius: 20px;
@@ -102,7 +101,6 @@
         border: 1px solid indigo;
         border-radius: 5px;
         display: relative;
-        margin-top: 1rem;
         margin-bottom: 1rem;
     }
     
@@ -194,7 +192,7 @@
         display: none!important;
     }
     #left, #aboutUsPage, #right, #rightDesktop, #friendlists, #myLists, #avalibleLists, #friendLists{
-        color: white!important;
+        color: black;
     }
     #rightDesktop {
         display: none;
@@ -221,7 +219,8 @@
         border: 16px;
     }
     #topbar {
-        background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important;
+        /* background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important; */
+        background-color: white;
         position: fixed;
     }
     #appTitle {
@@ -242,9 +241,9 @@
         margin-bottom: 0.625rem;
     }
     .addListBox {
-        background-color: white;
+        background-color: lightgray;
         margin-top: 0.625rem;
-        margin-bottom: 1.25rem;
+        margin-bottom: 0.625rem;
     }
     .addListBox p{
         font-weight: bold;
@@ -291,7 +290,7 @@
         color: white;
     }
     .centerbuttonbar {
-        margin-bottom: 2.8rem;
+        margin-bottom: 3rem;
         background-color: #140A26;
         color:white;
         display: flex;
@@ -363,7 +362,7 @@
     .itemsArea{
         overflow-y:scroll;
         width:100%;
-        height:calc(100vh - 9.9rem);
+        height:calc(100vh - 14rem);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -377,9 +376,8 @@
         padding-right: 0;
     }
     .listItems {
-        margin-top: 1rem;
         padding-bottom: 75px;
-        border-bottom: 2px solid white;
+        border-bottom: 2px solid grey;
     }
     .toggle.ios, .toggle-on.ios, .toggle-off.ios {
         border-radius: 2rem!important;
@@ -387,9 +385,9 @@
         padding-top: 1rem!important;
     }
     .toggle.btn {
-        max-width: 30vw;
-        margin-left: 2vw;
-        margin-right: 2vw;
+        max-width: 25vw;
+        margin-left: 6.25vw;
+        margin-right: 6.25vw;
     }
     .btn-primary {
         border-color: #20187A!important;
@@ -425,16 +423,22 @@
         border: black;
         color: white;
     }
-    #removeFriendButton, .cancelMergeButton {
+    #removeFriendButton, #cancelMergeButton {
         background-color: red!important;
+        font-weight: bold!important;
+        font-size: 0.8rem!important;
     }
     #addFriendButton, #mergeListsButton, #confirmMergeButton {
         background-color: green!important;
-        margin-right: 1.5rem;
-        margin-left: 1.5rem;
+        margin-left: 6.25vw;
+        font-size: 0.8rem;
+        font-weight: bold;
     }
     #callFriendButton {
         background-color: blue!important;
+        font-size: .8rem;
+        font-weight: bold;
+        margin-left: 6.25vw;
     }
     #logInSection {
         position: fixed;
@@ -442,7 +446,7 @@
         z-index: 1000;
     }
     .itemsArea label{
-        color: white;
+        color: black;
     }
     p {
         margin-top: 0;
@@ -452,6 +456,7 @@
         border-bottom: 1px solid grey;
         display: block;
         margin-bottom: 1rem;
+        /* height: calc(100vh - 16rem); */
     }
     .editButton, .deleteButton, .cancelButton, .saveButton, .addButton {
         width: 100%!important;
@@ -467,10 +472,14 @@
         background-color: rgb(50, 131, 238);
         border: 0;
     }
-
+    #appHead {
+        background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important;
+    }
     #middle {
-        background-color:#221738!important;
+        background-color:white;
         max-width: none;
+        padding-left: 1px;
+        padding-right: 1px;
     }
     /* #pageTitle {
         border-bottom: solid grey 1px;
@@ -518,10 +527,30 @@
     }
     #left {
         display: none;
+        min-width: 100%;
     }
     #aboutUsPage {
         display: none;
     }
+    .listCollapsible {
+        background-color: whitesmoke;
+        margin-top: 1rem;
+        padding-top: 0rem!important;
+    }
+    #listTitleSection {
+        padding-top: 0!important;
+    }
+    .groceryList {
+        overflow-y: hidden;
+    }
+    .inputLabels {
+        margin-bottom: 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem!important;
+    }
+}
+#delIcon {
+    width: 2rem;
 }
 #middle {
     max-width: none;
@@ -542,6 +571,7 @@
     height: 100%;
     float: right;
     border: transparent;
+    font-size: 0.8rem;
 }
 .deleteEntireListButton{
     background-color: red;
@@ -561,6 +591,9 @@
     width: max-content;
 }
 .viewListsbutton {
+    float: right;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
     background-color: lightskyblue;
 }
 .deleteButton, .deleteListButton, .cancelButton {
@@ -573,7 +606,6 @@
     background-image: linear-gradient(to left, #01dc84, #00ba86, #00c587, #00ba86, #11ae84);
 } 
 .p-2 {
-    padding-top: 0!important;
     padding-bottom: 0!important;
     padding-right: 0!important;
 }
@@ -581,11 +613,13 @@
     display: flex;
     float: right;
 }
-.itemsArea .itemInfo {
+.itemsArea .itemInfo, .viewListsButton {
     width: 161px;
     height: 22px;
 }
 .rightMostButton {
+    padding-top: 0!important;
+    padding-right: 0!important;
     width: fit-content;
 }
 #aboutUsPage .card {

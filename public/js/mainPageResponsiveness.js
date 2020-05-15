@@ -9,11 +9,15 @@ function responsiveDivDisplay() {
         document.getElementById("left").className = "col-md-3"
         document.getElementById("middle").className = "col-md-6"
         document.getElementById("right").className = "col-md-3"
+        $('#newItem').insertAfter('.rightMostButton');
+        // $('#createList').insertAfter('#myLists');
     }else {
         document.getElementById("left").style.display = "none"
         document.getElementById("middle").style.display = "block"
         document.getElementById("right").style.display = "none"
         document.getElementById("middle").className = "col-md-12"
+        $('#newItem').insertAfter('#placeholder');
+        $('#createList').insertAfter('#newListButtonPlaceHolder');
     }
 }
 
