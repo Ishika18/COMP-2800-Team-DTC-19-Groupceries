@@ -210,7 +210,7 @@
         grid-template-columns: repeat(3,1fr);
     }
     body{
-        /* background-color:#140A26; */
+        background-color:#140A26;
         background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
         overflow-x: hidden;
     }
@@ -290,7 +290,7 @@
         color: white;
     }
     .centerbuttonbar {
-        margin-bottom: 3rem;
+        margin-bottom: 3.1rem;
         background-color: #140A26;
         color:white;
         display: flex;
@@ -317,6 +317,7 @@
     }
     .mobileNavbar { 
         padding: 0!important;
+        margin-bottom: 0.1rem;
     }
     .mobileNavbar form{ 
         display: flex;
@@ -362,15 +363,30 @@
     .itemsArea{
         overflow-y:scroll;
         width:100%;
-        height:calc(100vh - 14rem);
+        height:calc(100vh - 13rem);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
     }
+    .listsArea{
+        overflow-y:scroll;
+        width:100%;
+        align-self: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .listsPageArea {
+        overflow-y:scroll;
+        width:100%;
+        align-self: center;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 5rem;
+    }
     .pageArea{
         overflow-y:scroll;
         width:100%;
-        height: 100vh;
+        height: calc(100vh - 9rem);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -456,7 +472,6 @@
         border-bottom: 1px solid grey;
         display: block;
         margin-bottom: 1rem;
-        /* height: calc(100vh - 16rem); */
     }
     .editButton, .deleteButton, .cancelButton, .saveButton, .addButton {
         width: 100%!important;
@@ -469,8 +484,11 @@
     }
     #aboutUsHomeBtn {
         margin-right: 0;
-        background-color: rgb(50, 131, 238);
-        border: 0;
+        background-color: #41bdf7;
+        border: solid 1px rgba(102, 102, 235, 0.699);
+        width: 4rem;
+        border-radius: 10%;
+        color: white;
     }
     #appHead {
         background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important;
@@ -492,7 +510,10 @@
         padding-left: 0;
         padding-right: 0;
         overflow-x: hidden;
-        margin-bottom: 9.9rem;
+        width: 100%;
+        max-width: 100%!important;
+        flex: none;
+        margin-left: 0;
     }
     #groupMemberContainerLoggedOut {
         padding-left: 0;
@@ -505,8 +526,8 @@
     #aboutUsPageLoggedOut {
         height: calc(100vh - 11rem);
         margin-top: 7rem;
-        color: white;
-        background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
+        color: black;
+        background-color: white;
     }
     #readyForShoppingToggle {
         width: 25vw;
@@ -516,8 +537,15 @@
         background-color: orangered;
     }
     #createList {
-        background-image: linear-gradient(to left, #01dc84, #00ba86, #00c587, #00ba86, #11ae84);
+        background-color: #11ae84;
         font-weight: bold;
+        color: white;
+        width: 3rem;
+        height: 3rem;
+        border: none;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: block;
     }
     #myListsList {
         margin-bottom: 10rem;
@@ -536,6 +564,20 @@
         background-color: whitesmoke;
         margin-top: 1rem;
         padding-top: 0rem!important;
+    }
+    .listCollapsibleLayer2 {
+        background-color: whitesmoke;
+        margin-top: 1rem;
+        padding-top: 0rem!important;
+        max-width: 95%;
+        margin-left: 5%;
+    }
+    .listCollapsibleLayer3 {
+        background-color: whitesmoke;
+        margin-top: 1rem;
+        padding-top: 0rem!important;
+        max-width: 90%;
+        margin-left: 10%;
     }
     #listTitleSection {
         padding-top: 0!important;
@@ -625,9 +667,9 @@
 #aboutUsPage .card {
     background-color: transparent;
 }
-#aboutUsPageLoggedOut .card {
+/* #aboutUsPageLoggedOut .card {
     background-color: transparent;
-}
+} */
 .aboutUsTitle {
     color: white;
 }

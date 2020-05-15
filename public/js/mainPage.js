@@ -383,10 +383,10 @@ function collapse() {
             this.classList.toggle("active");
             let content = $(this).parent()[0].nextElementSibling;
             console.log($(this).parent()[0].nextElementSibling)
-            if (content.style.display === "block") {
+            if (content.style.display === "grid") {
                 content.style.display = "none";
             } else {
-                content.style.display = "block";
+                content.style.display = "grid";
             }
         };
     }
