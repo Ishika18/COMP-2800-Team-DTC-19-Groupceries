@@ -8,6 +8,7 @@ const favicon = require('serve-favicon');
 const userController = require('./controllers/userController');
 const algoliaController = require('./controllers/algoliaController');
 const friendController = require('./controllers/friendController');
+const notificationController = require('./controllers/notificationController');
 
 const loggerMiddleware = authController.loggerMiddleware;
 
