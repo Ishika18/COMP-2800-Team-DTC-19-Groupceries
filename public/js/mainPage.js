@@ -520,7 +520,7 @@ function createNewList() {
         clearList() //clears list on UI so user can start with an empty list for their new list
         newListButton.onclick = createNewList
         addGroceryList(uid, "_" + listName);
-        //need to add new list to database
+        loadNewList(uid, "_" + currentListName.innerText)
     })
 }
 
