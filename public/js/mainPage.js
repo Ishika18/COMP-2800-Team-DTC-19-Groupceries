@@ -305,7 +305,7 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 }
 
 function deleteListItem(item) {
-    return function() {
+    return function () {
         // replace dinner with funciton that returns current list
         removeItem(localStorage.getItem('uid'), "dinner", itemAsDBObject(item));
         let itemData = getFieldData(item)
@@ -415,7 +415,7 @@ function loadLists(friendObj) {
     });
 }
 
-loadLists({ SooBudi0XzRiCRxwTKFd7fiFdcq2: ["List 1", "List 2"]})
+loadLists({ SooBudi0XzRiCRxwTKFd7fiFdcq2: ["List 1", "List 2"] })
 
 function findListEntry(friend) {
     let friendList = document.getElementById("left")
@@ -435,13 +435,13 @@ function createFriendElement(friend) { //helper for loadlists
     friendElementWrapper.appendChild(friendElement)
     let friendList = document.getElementById("friendsListCollapsibles")
     friendList.appendChild(friendElementWrapper)
-    
+
     db.collection(friend).doc('userInfo').get()
         .then((doc) => {
             let name = doc.data().name
             friendList.innerHTML = name + "'s Lists"
         })
-        
+
     friendElement.classList.add("collapsible")
     friendElement.id = friend
     let listSection = document.createElement("section")
@@ -471,39 +471,43 @@ function checkForFriend(friend) {//helper for load lists
     return alreadyInList
 }
 
+let newListButton = document.querySelector("#createList")
+newListButton.onclick = createNewList
+
 function createNewList() {
     let newListButton = document.querySelector("#createList")
-    newListButton.addEventListener('click', _ => {
-        let newListTitle = document.createElement("input")
-        let submitButton = document.createElement("button")
-        submitButton.innerText = "OK"
-        let currentListTitle = document.querySelector("#listTitle")
-        let listTitleArea = document.querySelector("#listTitleSection")
-        newListTitle.setAttribute("type", "text")
-        newListTitle.placeholder = "Enter the name of your new list."
-        listTitleArea.appendChild(newListTitle)
-        listTitleArea.appendChild(submitButton)
-        currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
-        submitButton.addEventListener('click', _ => {
-            let listName = newListTitle.value
-            currentListTitle.innerText = listName
-            currentListTitle.style.display = "inline"
-            newListTitle.style.display = "none"
-            submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
-            let listSection = document.getElementById(uid).parentElement.nextElementSibling
-            createListElement(listSection, listName)//adds new list to side bar
-            //need to add new list to database
-        })
+    newListButton.onclick = "null"
+    let newListTitle = document.createElement("input")
+    let submitButton = document.createElement("button")
+    submitButton.innerText = "OK"
+    let currentListTitle = document.querySelector("#listTitle")
+    let listTitleArea = document.querySelector("#listTitleSection")
+    newListTitle.setAttribute("type", "text")
+    newListTitle.placeholder = "Enter the name of your new list."
+    listTitleArea.appendChild(newListTitle)
+    listTitleArea.appendChild(submitButton)
+    currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
+    submitButton.addEventListener('click', _ => {
+        let listName = newListTitle.value
+        currentListTitle.innerText = listName
+        currentListTitle.style.display = "inline"
+        newListTitle.style.display = "none"
+        submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
+        let listSection = document.getElementById(uid).parentElement.nextElementSibling
+        createListElement(listSection, listName)//adds new list to side bar
+        clearList() //clears list on UI so user can start with an empty list for their new list
+        newListButton.onclick = createNewList
+        //need to add new list to database
     })
 }
-createNewList()
+
 
 
 
 function deleteList() { // deletes current list -  a user can only delete their own lists
     let deleteButton = document.getElementById("deleteEntireListButton")
     deleteButton.addEventListener('click', _ => {
-        let currentList = document.getElementById("listTitle").innerText 
+        let currentList = document.getElementById("listTitle").innerText
         let listArea = document.getElementById('left')
         let allLists = Array.from(listArea.getElementsByClassName("collapsible"))
         allLists.forEach(element => {//loops through all list elements in sidebar
@@ -514,18 +518,20 @@ function deleteList() { // deletes current list -  a user can only delete their 
                         section.remove()//when it finds the one that matches the current list and user, it deletes it
                         clearList()// clears list
                         //need to make it load next list in line
-                }})
-            } })
-        }  ) 
-        }
-    
+                    }
+                })
+            }
+        })
+    })
+}
+
 
 deleteList()
 
 function displayList() {//used for switching lists
     let listElements = Array.from(document.getElementsByClassName("listElement"))
     listElements.forEach(list => {
-        list.addEventListener("click", _=> {
+        list.addEventListener("click", _ => {
             console.log(listElements)
             let currentListName = document.getElementById('listTitle')
             if (list.innerText !== currentListName.innerText) {
@@ -533,16 +539,16 @@ function displayList() {//used for switching lists
                 clearList()
                 //insert code here for loading items from new list (ronald prob)
             }
-            
+
         })
     })
 
 }
 function clearList() {
     let currentList = document.getElementById("groceryList") //clears list area
-                let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
-                currentListItems.forEach(item => {
-                    currentList.removeChild(item)
-                })
+    let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
+    currentListItems.forEach(item => {
+        currentList.removeChild(item)
+    })
 }
 displayList()
