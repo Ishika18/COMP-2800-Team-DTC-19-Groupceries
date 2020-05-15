@@ -399,7 +399,7 @@ setInterval(collapse, 1)
 
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
-    let myList = document.getElementById('myList')
+    let myList = document.getElementById("myGroceryLists")
     myList.id = uid
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
@@ -471,7 +471,7 @@ function checkForFriend(friend) {//helper for load lists
     return alreadyInList
 }
 
-function createNewList() {//doesn't currently add new list to sidebar - need to know user name first
+function createNewList() {
     let newListButton = document.querySelector("#createList")
     newListButton.addEventListener('click', _ => {
         let newListTitle = document.createElement("input")
@@ -490,8 +490,9 @@ function createNewList() {//doesn't currently add new list to sidebar - need to 
             currentListTitle.style.display = "inline"
             newListTitle.style.display = "none"
             submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
-            let listSection = document.getElementById("myList").parentElement.nextElementSibling
-            createListElement(listSection, listName)
+            let listSection = document.getElementById(uid).parentElement.nextElementSibling
+            createListElement(listSection, listName)//adds new list to side bar
+            //need to add new list to database
         })
     })
 }
@@ -521,7 +522,7 @@ function deleteList() { // deletes current list -  a user can only delete their 
 
 deleteList()
 
-function displayList() {
+function displayList() {//used for switching lists
     let listElements = Array.from(document.getElementsByClassName("listElement"))
     listElements.forEach(list => {
         list.addEventListener("click", _=> {
