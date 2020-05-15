@@ -332,8 +332,19 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
     }
 }
 
+function checkIfOtherItemsAreBeingEdited() {
+    let listArea = document.getElementById('groceryList')
+    let itemsBeingEdited = Array.from(listArea.getElementsByClassName('textInput'))
+    if (itemsBeingEdited.length === 0){
+        return false
+    } else {
+        return true
+    }
+}
+
 function edit(item) {
     return function () {
+        if (!checkIfOtherItemsAreBeingEdited()){
         item.dataset.oldItem = JSON.stringify(itemAsDBObject(item));
         let currentFieldData = getFieldData(item)
         let editButton = item.getElementsByClassName("editButton")
@@ -348,6 +359,7 @@ function edit(item) {
         deleteButton[0].style.display = "inline-block"
         toggleInputClass(item)
     }
+}
 }
 function saveChanges(item, currentFieldData) {
     // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
