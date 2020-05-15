@@ -645,7 +645,7 @@
     background-color: rgb(50, 131, 238);
 } 
 .addButton, .saveButton, .addItemButton, .addToListButton {
-    background-image: linear-gradient(to left, #01dc84, #00ba86, #00c587, #00ba86, #11ae84);
+    background-color: #00c587
 } 
 .p-2 {
     padding-bottom: 0!important;
