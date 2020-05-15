@@ -415,6 +415,7 @@ setInterval(collapse, 1)
 function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
     myList.id = uid
+    console.log(friendObj)
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
@@ -422,6 +423,7 @@ function loadLists(friendObj) {
         }
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
+        console.log(friendsLists)
         friendsLists.forEach(list => {//loops through array of lists for each friend
             createListElement(listSection, list) // creates a list display element for each list
         })
@@ -451,7 +453,7 @@ function createFriendElement(friend) { //helper for loadlists
     db.collection(friend).doc('userInfo').get()
         .then((doc) => {
             let name = doc.data().name
-            friendList.innerHTML = name + "'s Lists"
+            friendElement.innerHTML = name + "'s Lists"
         })
 
     friendElement.classList.add("collapsible")
