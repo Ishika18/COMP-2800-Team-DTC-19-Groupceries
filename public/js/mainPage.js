@@ -181,6 +181,7 @@ function itemAsDBObject(item) {
 };
 
 function newItemField() {
+    if (!checkIfOtherItemsAreBeingEdited()) {
     let item = document.createElement("div")
     item.className = "listItems"
     let list = document.getElementById("groceryList")
@@ -226,6 +227,7 @@ function newItemField() {
     }
     addButtons(item)
 }
+}
 
 function createEntryInDB() {
     let dbEntry = new databaseListItem()
@@ -251,6 +253,9 @@ function addItemDetails(item) {
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
     addItem(uid, currentListForDB(), itemAsDBObject(item));
     fieldData = getFieldData(item)
+    if (fieldData[0] === "realness"){
+        easterEgg()
+    }
     dbEntry.name = fieldData[0]
     dbEntry.quantity.amount = parseFloat(fieldData[1])
     dbEntry.quantity.unit = fieldData[2]
@@ -330,8 +335,19 @@ function cancelListEditing(item, currentFieldData) {//needs to be re-done
     }
 }
 
+function checkIfOtherItemsAreBeingEdited() {
+    let listArea = document.getElementById('groceryList')
+    let itemsBeingEdited = Array.from(listArea.getElementsByClassName('textInput'))
+    if (itemsBeingEdited.length === 0){
+        return false
+    } else {
+        return true
+    }
+}
+
 function edit(item) {
     return function () {
+        if (!checkIfOtherItemsAreBeingEdited()){
         item.dataset.oldItem = JSON.stringify(itemAsDBObject(item));
         let currentFieldData = getFieldData(item)
         let editButton = item.getElementsByClassName("editButton")
@@ -346,6 +362,7 @@ function edit(item) {
         deleteButton[0].style.display = "inline-block"
         toggleInputClass(item)
     }
+}
 }
 function saveChanges(item, currentFieldData) {
     // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
@@ -398,6 +415,7 @@ setInterval(collapse, 1)
 function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
     myList.id = uid
+    console.log(friendObj)
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
@@ -405,6 +423,7 @@ function loadLists(friendObj) {
         }
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
+        console.log(friendsLists)
         friendsLists.forEach(list => {//loops through array of lists for each friend
             createListElement(listSection, list) // creates a list display element for each list
         })
@@ -434,7 +453,7 @@ function createFriendElement(friend) { //helper for loadlists
     db.collection(friend).doc('userInfo').get()
         .then((doc) => {
             let name = doc.data().name
-            friendList.innerHTML = name + "'s Lists"
+            friendElement.innerHTML = name + "'s Lists"
         })
 
     friendElement.classList.add("collapsible")
@@ -553,3 +572,64 @@ function clearList() {
     })
 }
 displayList()
+
+function easterEgg() {// bring it to the runway
+    let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
+"/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.jpg", "/images/phiphi.jpg", "/images/rupaul.jpg","/images/valentina.png" ]
+    let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
+"/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
+    let stage = document.createElement("img")
+    stage.src = "/images/rupaulstage.jpg"
+    document.body.prepend(stage)
+    stage.style.width = window.innerWidth
+    stage.style.height = window.innerHeight
+    stage.style.zIndex = 1
+    setInterval(generateQueen(queenPhotos, queenQuotes), 4000)
+    let bgMusic = new Audio()
+    bgMusic.volume = 0.05
+    bgMusic.src = "/media/runway.mp3"
+    bgMusic.play()
+}
+function generateQueen(queenPhotos, queenQuotes) {
+    return function() {
+    if (queenPhotos.length > 0) {
+    let randomQueen = Math.floor(Math.random() * queenPhotos.length)
+    let queenQuote = new Audio()
+    queenQuote.src = queenQuotes[randomQueen]
+    let bottomValue = 300
+    let leftValue = 600
+    let queenDisplay = document.createElement("img")
+    queenDisplay.src = queenPhotos[randomQueen]
+    document.body.appendChild(queenDisplay)
+    queenDisplay.style.zIndex = 2
+    queenDisplay.style.position = "absolute"
+    queenDisplay.style.bottom = bottomValue + "px"
+    queenDisplay.style.left = leftValue + "px"
+    queenDisplay.onclick = queenQuote.play()
+    moveQueen(queenDisplay, bottomValue, leftValue)
+    queenPhotos.splice(randomQueen, 1)
+    queenQuotes.splice(randomQueen, 1)
+        
+    }
+}
+}
+
+function moveQueen(queen, bottomValue, leftValue) {
+     setInterval(function(){
+         if (bottomValue > 10) {
+            bottomValue = bottomValue - 10
+            queen.style.bottom = bottomValue + "px"
+            leftValue = leftValue + 2
+            queen.style.left = leftValue + "px"
+            
+        }else{
+            document.body.removeChild(queen)
+        }}, 120)
+        
+    }
+
+// add fucntionality to make new lists clickable
+// user's list to add, delete and update the same way friends list 
+// refactor how lists are created so they only write to the database 
+// input validation - dont create lists with duplicate names 
+// 
