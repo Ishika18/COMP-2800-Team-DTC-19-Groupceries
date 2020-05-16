@@ -1,3 +1,6 @@
+body {
+    background-color: white;
+}
 #newItemDetails {
     display: none;
     border: 1px solid grey;
@@ -43,24 +46,6 @@
     margin-top: 15px
 }
 
-.custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
-    text-indent: -3.9em;
-    border-radius: 20px;
-    width:11em;
-}
-.custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
-    border-radius: 20px;
-    width:4em
-}
-.custom-size-flipswitch.ui-flipswitch {
-    width: 11em;
-    border-radius: 20px;
-}
-.custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
-    padding-left: 7em;
-    width: 11em;
-    border-radius: 20px;
-}
 
 .collapse {
     display: none;
@@ -403,4 +388,28 @@
     
 }
 
+/* .switch {
+    position: relative;
+    display: inline-block;
+    width: 110px;
+    height: 60px;
+    margin: 0 10px
+}
+
+.slider {
+    position:absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.switch input {
+    display: none;
+}
+ */
 

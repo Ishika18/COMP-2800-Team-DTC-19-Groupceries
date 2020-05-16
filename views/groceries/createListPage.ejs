@@ -10,36 +10,40 @@
         <div class="container-fluid col" id="topbar">
             <%- include('../partials/mobileMainHeader.ejs'); -%>
             <%- include('../partials/appNavbar.ejs'); -%>
-            <div class="col bg-light itemsArea">
-                    <div class="col-lg-3" id="left">
-                        <h3>Shopping Lists</h3><hr>
-                        <div id="myLists">
-                            <button id="myLists" class="btn collapsible">My Lists</button>
-                            <ul id="availableLists" class="collapse">
-                                    <p>My List</p>
-                                    <p>List 2</p>
-                                    <p>List 3</p>
-                            </ul>
+            <div class="col pageArea">
+                <div id="easterEgg">
+
+                </div>
+                
+                <div class="col-lg-3" id="left" class="listsPageArea">
+                    <div id="myLists">
+                        <button id="createList"><i class="fas fa-plus"></i></button><br>
+                        <div class="p-2 listCollapsible">
+                            <label class="inputLabels">My Lists</label>
+                           <button id="myGroceryLists" class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
                         </div>
-                        <div id="friendLists">
-                            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
-                            <div class="collapse">
-                                <ul id="shagun" class="collapsible">Shagun's Lists</ul>
-                                    <p class="collapse">List 1</p>
-                                <ul id="ronald" class="collapsible">Ronald's Lists</ul>
-                                    <p class="collapse">List 1</p>
-                                <ul id="eric" class="collapsible">Eric's Lists</ul>
-                                    <p class="collapse">List 1</p>
-                                </ul>
-                            </div>
+                        <div id="availableLists" class="collapse listsArea">
+                            <newListButtonPlaceHolder id="newListButtonPlaceHolder"></newListButtonPlaceHolder>
                         </div>
                     </div>
+                
+                    
+
+                    <div id="friendLists">
+                        <div class="p-2 listCollapsible">
+                            <label class="inputLabels">Friends' Lists</label>
+                            <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                        <div class="collapse" id="friendsListCollapsibles">
+                        </div>
+                    </div>
+                </div>
                     <div class="col-lg-3" id="right">
                         <div id="rightDesktop">
                             <h3>List Actions</h3><hr><br>
                             <ul id="actionList">
                                 <label id="readyToggle">Mark as Ready For Purchase
-                                <input type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
+                                <input onclick="toggleReadyDatabase()" class="readyForPurchaseButton" type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Ready" data-off-text="Not Ready" data-wrapper-class="custom-size-flipswitch"><br>
                                 </label>
                                 <br>
                                 <label id="shoppingToggle">Shopping Mode
@@ -50,33 +54,75 @@
                             </ul>
                         </div>
                         <div id="friend">
-                            <button id="friendLists" class="btn collapsible">Friends' Lists</button>
-                            <div class="collapse">
-                                <ul id="shagun" class="collapsible">Shagun's Lists</ul>
-                                    <p class="collapse">List 1</p>
-                                <ul id="ronald" class="collapsible">Ronald's Lists</ul>
-                                    <p class="collapse">List 1</p>
-                                <ul id="eric" class="collapsible">Eric's Lists</ul>
-                                    <p class="collapse">List 1</p>
-                                </ul>
+                                                            
+                        </div>
+                    </div>
+                    <div class="col-lg-3" id="aboutUsPage">
+                        <div id="aboutUsParagraph">
+                            <p>
+                                We at Groupceries are committed to applying our software development skills to improve the lives of those in our communities.
+                                As a team, we value innovation, community and growth. We want to make it easier for people to help their friends and families get groceries.
+                                With this application, we hope that we have.
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 card-group" id="groupMemberContainerLoggedIn">
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/shrekRonald.png" alt="Ronald Liang photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Ronald Liang</h4>
+                                            <p class="card-text">Loves Shrek... a lot.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/shrekvana.png" alt="Silvana Kalliny Photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Silvana Kalliny</h4>
+                                            <p class="card-text">Front-end developer.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/shrekgun.png" alt="Shagon Photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Shagun</h4>
+                                            <p class="card-text">Back-end developer.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
+                                <div class="container groupMemberCard">
+                                    <div class="card flex-row flex-wrap">
+                                        <img class="card-img-top groupMemberPhoto" src="/images/blueshrek.jpg" alt="Eric Dong Photo">
+                                        <div class="card-block px-2">
+                                            <h4 class="card-title">Eric Dong</h4>
+                                            <p class="card-text">Front-end developer.</p>
+                                        </div>
+                                        <div class="w-100"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6" id="middle">
-                        <div id="listArea" class="itemsArea">
+                        <div id="listArea">
+                        <!-- <div id="listArea" class="itemsArea"> -->
                             <div class="groceryList">
-                                    <div id="buttons">
+                                <div id="buttons">
                                         <div class="d-flex addListBox">
-                                            <div class="mr-auto p-2"><p id="listTitle">My List</p></div>
-                                            <div class="p-2 ml-auto rightMostButton"><button id="newItem" type="button" class="addButton">Add</button><button type="button" class="deleteListButton">Delete</button>
+                                            <div class="mr-auto p-2" id="listTitleSection"><p id="listTitle">My List</p></div>
+                                            <div class="p-2 ml-auto rightMostButton"><button type="button" id="deleteEntireListButton" class="deleteEntireListButton"><i id="delIcon" class="far fa-trash-alt"></i></button>
                                         </div>
                                     </div>
-                                    <details open id="myList" class="viewButton" text="View Grocery List">
-                                        <summary class="viewListsbutton">View Grocery List</summary>
-                                        <div id="groceryList">
-                                        </div>
-                                    </details>
-
+                                </div>
+                                <div id="groceryList" class="itemsArea">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,18 +132,15 @@
     </div>
 </div>
 <div class="row fixed-bottom" id="buttonFooter">
+    <%- include('../partials/mergePageButtons.ejs'); -%>
+    <%- include('../partials/friendsPageButtons.ejs'); -%>
     <%- include('../partials/mobileMainButtons.ejs'); -%>
     <%- include('../partials/mobileNavBar.ejs'); -%>
 </div>
 
-
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
 <script src="/js/lodash.js"></script>
 <script src="/js/firebaseInit.js"></script>
-<script src="/js/database.js"></script>
 <script src="/js/mainPageResponsiveness.js"></script>
 <script src="/js/mainPage.js"></script>
+<script src="/js/database.js"></script>
 <!-- the sidebar is to be included as well. -->

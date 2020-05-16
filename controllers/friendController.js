@@ -3,13 +3,13 @@ require("firebase/auth");
 require("firebase/firestore");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBzfpsQJKBWD575xH9C42NBXrZ8dXd963o",
-    authDomain: "nodefirebase-fe37e.firebaseapp.com",
-    databaseURL: "https://nodefirebase-fe37e.firebaseio.com",
-    projectId: "nodefirebase-fe37e",
-    storageBucket: "nodefirebase-fe37e.appspot.com",
-    messagingSenderId: "553609402101",
-    appId: "1:553609402101:web:a1b7c98c40c5402ed697bc"
+    apiKey: "AIzaSyC59-CinZU4yGdTnIcQPXEaIOC5R7cGfLA",
+    authDomain: "groupceries-f6189.firebaseapp.com",
+    databaseURL: "https://groupceries-f6189.firebaseio.com",
+    projectId: "groupceries-f6189",
+    storageBucket: "groupceries-f6189.appspot.com",
+    messagingSenderId: "688161851064",
+    appId: "1:688161851064:web:23a0bc2b403535a57f964d"
 };
 // Initialize Firebase
 if (!firebase.apps.length) {
@@ -30,7 +30,7 @@ let friendController = {
 
         // add the current uid to the friends' recieved
         /* .arrayRemove can be used to remove elements from an array. */
-        friendDocs.set({ recieved: firebase.firestore.FieldValue.arrayUnion(currentUser) }, { merge: true }).catch((error) => { console.log(error) });
+        friendDocs.set({ received: firebase.firestore.FieldValue.arrayUnion(currentUser) }, { merge: true }).catch((error) => { console.log(error) });
 
         // send the friend a notification
 
@@ -46,7 +46,7 @@ let friendController = {
         let friendDocs = db.collection(friendID).doc("Friends");
 
         // delete the current uid to the friends'recieved
-        friendDocs.update({ recieved: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
+        friendDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
 
         // remove the notification (maybe ?)
 
@@ -64,6 +64,12 @@ let friendController = {
         // add the current uid to the friends' accepted
         friendDocs.set({ accepted: firebase.firestore.FieldValue.arrayUnion(currentUser) }, { merge: true }).catch((error) => { console.log(error) });
 
+        // delete the current uid from the friends' sent
+        friendDocs.update({ sent: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
+
+        // delete the friends' uid from the user's recceived
+        currentUserDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
+        
         // send the friend a notification
 
         // add the friend uid to the cuurent users' accepted
@@ -78,7 +84,7 @@ let friendController = {
         // remove the notification (maybe ?)
 
         // delete the friend email or uid to the cuurent users' recieved
-        currentUserDocs.update({ recieved: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
+        currentUserDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
     },
 
     unfriend: (currentUser, friendID) => {

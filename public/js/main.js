@@ -9,9 +9,7 @@ function onSignIn(googleUser) {
 
   document.getElementById('signOut').style = 'display: visible';
   document.getElementById('signIn').style = 'display: none';
-  document.getElementById("launchPageEditBtn").style = 'display: visible';
   document.getElementById("launchPageCreateBtn").style = 'display: visible';
-  document.getElementById("navBarEdit").style = 'display: visible';
   document.getElementById("navBarCreate").style = 'display: visible';
 }
 
@@ -20,6 +18,7 @@ function logInFirebase(id_token) {
   firebase.auth().signInWithCredential(credential).then(function (user) {
     // store uid on local storage.
     window.localStorage.setItem('uid', firebase.auth().currentUser.uid);
+    window.localStorage.setItem('name', firebase.auth().currentUser.displayName);
   }).catch(function (error) {
     // Handle Errors here.
     console.log(error);
@@ -59,9 +58,7 @@ function signOut() {
   document.getElementById('signIn').style = 'display: visible';
   document.getElementById('signOut').style = 'display: none';
   document.getElementById("launchPageCreateBtn").style = 'display: none';
-  document.getElementById("launchPageEditBtn").style = 'display: none';
   document.getElementById("navBarCreate").style = 'display: none';
-  document.getElementById("navBarEdit").style = 'display: none';
 }
 
 function logOutInServer() {
@@ -78,4 +75,3 @@ function logOutInServer() {
   });
 }
 document.getElementById("launchPageCreateBtn").style = 'display: none';
-document.getElementById("launchPageEditBtn").style = 'display: none';

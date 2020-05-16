@@ -1,5 +1,8 @@
-<div class="row fixed-bottom" id="centerbuttonbar">
-    <button class="rectangularButton pagination-centered" id="centerLeftButton">Shopping Mode</button>
-    <input type="checkbox" class="ml-auto" id="readyForShoppingToggle" checked data-toggle="toggle" data-size="medium" data-style="ios" data-on="Ready for purchase" data-off="Not Ready">
-    <button class="rectangularButton pagination-centered" id="centerRightButton">Add</button>
-</div>
+<mainPageButtons onclick="updateToggleMobile()" id="mainPageButtons">
+    <div class="row fixed-bottom centerbuttonbar">
+        <button class="rectangularButton pagination-centered" id="centerLeftButton"><i class="fas fa-shopping-basket"></i></button>
+        <input type="checkbox" class="ml-auto readyForPurchaseButton" id="readyForShoppingToggle" checked data-toggle="toggle" data-size="medium" data-style="ios" data-on="Ready" data-off="Not Ready">
+        <placeholder id="placeholder">
+        <button id="newItem" class="rectangularButton pagination-centered addToListButton">Add Item</button>
+    </div>
+</mainPageButtons>
