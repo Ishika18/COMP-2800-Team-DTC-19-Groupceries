@@ -492,7 +492,7 @@ function createListElement(listSection, list) { //helper for loadLists
     listElement.classList.add("btn", "viewListsbutton")
     listElementWrapper.appendChild(listLabel)
     listElementWrapper.appendChild(listElement)
-    listElement.onclick = displayList(listLabel)
+    listElement.onclick = displayList(listLabel.innerText)
     listSection.appendChild(listElementWrapper)
     listElement.innerHTML = "View List"
 }
@@ -577,8 +577,8 @@ function currentListForDB(){
 function displayList(listElement) {//used for switching lists
     return function() {
     let currentListName = document.getElementById('listTitle')
-    if (listElement.innerText !== currentListName.innerText) {
-        currentListName.innerText = listElement.innerText // updates name of list
+    if (listElement !== currentListName.innerText) {
+        currentListName.innerText = listElement // updates name of list
         clearList()
         loadNewList(uid, "_" + currentListName.innerText)
 
