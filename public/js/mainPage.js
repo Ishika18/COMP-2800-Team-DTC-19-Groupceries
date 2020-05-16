@@ -617,6 +617,8 @@ function easterEgg() {
             queens.forEach(queen => {
                 document.body.removeChild(queen)
             })
+            queenPhotos.length = 0
+            queenQuotes.length = 0 
             currentView.style.display="block"
             
         })
