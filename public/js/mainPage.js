@@ -430,12 +430,15 @@ function loadLists(friendObj) {
 
     });
 }
-
-function toggleReadyForPurchase(){
-    toggleReadyDatabase(document.getElementById("flip-checkbox-2").checked);
-};
+function updateToggleMobile(){
+    value = !document.getElementById("readyForShoppingToggle").checked;
+    toggleReadyDatabaseMobile(value);
+}
 
 function updateToggle(value){
+    if(document.getElementById("readyForShoppingToggle").checked != value){
+        document.getElementById("readyForShoppingToggle").parentElement.click();
+    }
     document.getElementById("flip-checkbox-2").checked = value;
 };
 

@@ -138,6 +138,7 @@ function newListener(){
             console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
             if(change.doc.ref.id == currentListForDB()){
                 updateClient(change.doc.data().items)
+                updateToggle(change.doc.data().ready_to_buy);
             };
         });
     });
@@ -216,8 +217,20 @@ function onLoad(){
     };
 };
 
-function toggleReadyDatabase(value){
-    db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: value});
+function toggleReadyDatabase(){
+    db.collection(localStorage.getItem('uid')).doc(currentListForDB()).get().then(data => {
+        currentValue = data.data().ready_to_buy
+        db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: !currentValue})
+    })
+};
+
+function toggleReadyDatabaseMobile(value){
+    db.collection(localStorage.getItem('uid')).doc(currentListForDB()).get().then(data => {
+        currentValue = data.data().ready_to_buy;
+        if(currentValue != value){
+            db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: !currentValue})
+        };
+    })
 };
 
 onLoad();
