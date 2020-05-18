@@ -13,7 +13,9 @@ function addAcceptedHTML(uid) {
         if (doc.exists) {
             let name = doc.data().name;
             let email = doc.data().email;
-            $('#acceptedFriends').prepend(generateAcceptedHTML(name, email, uid));
+            if (!document.getElementById(uid + "_A_row")) {
+                $('#acceptedFriends').prepend(generateAcceptedHTML(name, email, uid));
+            }
         }
     }).catch(err => console.log(err));
 }
