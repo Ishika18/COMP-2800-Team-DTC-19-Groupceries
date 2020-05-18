@@ -20,7 +20,9 @@ function addHTML(uid) {
         if (doc.exists) {
             let name = doc.data().name;
             let email = doc.data().email;
-            $('#sentFriends').prepend(generateHTML(name, email, uid));
+            if (!document.getElementById(uid + "_S_row")) {
+                $('#sentFriends').prepend(generateHTML(name, email, uid));
+            }
         }
     }).catch(err => console.log(err));
 }
