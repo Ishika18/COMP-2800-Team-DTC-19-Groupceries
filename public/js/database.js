@@ -219,7 +219,7 @@ function onLoad(){
 
 function toggleReadyDatabase(){
     db.collection(localStorage.getItem('uid')).doc(currentListForDB()).get().then(data => {
-        currentValue = data.data().ready_to_buy
+        currentValue = data.data().ready_to_buy;
         db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: !currentValue})
     })
 };

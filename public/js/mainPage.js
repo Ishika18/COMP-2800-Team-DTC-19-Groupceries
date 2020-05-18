@@ -409,6 +409,9 @@ function collapse() {
 
 document.getElementById("newItem").onclick = newItemField
 setInterval(collapse, 1)
+$( document ).ready(function() {
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
+});
 
 
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
