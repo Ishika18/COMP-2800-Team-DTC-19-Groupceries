@@ -417,7 +417,7 @@ $( document ).ready(function() {
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
-    myList.id = uid
+    if(myList){myList.id = uid} // myList exists initially but then gets deleted, function breaks on subsequent calls.
     console.log(friendObj)
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
@@ -495,7 +495,10 @@ function createListElement(listSection, list) { //helper for loadLists
     listElement.classList.add("btn", "viewListsbutton")
     listElementWrapper.appendChild(listLabel)
     listElementWrapper.appendChild(listElement)
-    listElement.onclick = displayList(listLabel.innerText)
+    listElement.onclick = function(event){
+        displayList(listLabel.innerText)()
+        console.log(event.target, event.target.parentElement.parentElement.parentElement)
+    }    
     listSection.appendChild(listElementWrapper)
     listElement.innerHTML = "View List"
 }
