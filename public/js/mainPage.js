@@ -601,8 +601,6 @@ function clearList() {
     currentListItems.forEach(item => {
         currentList.removeChild(item)
     })
-    console.log("Successfully cleared list")//just for troubleshooting
-    //add functionality to clear list name as well 
 }
 
 
@@ -642,19 +640,21 @@ function generateQueen(queenPhotos, queenQuotes) {
             let randomQueen = Math.floor(Math.random() * queenPhotos.length)
             let queenQuote = new Audio()
             queenQuote.src = queenQuotes[randomQueen]
-            let bottomValue = 200
-            let leftValue = 25
+            let bottomValue = 50
+            let leftValue = 17
             let queenDisplay = document.createElement("img")
             queenDisplay.src = queenPhotos[randomQueen]
             queenDisplay.classList.add("queen")
             document.body.appendChild(queenDisplay)
-            queenDisplay.style.height = "300px"
-            queenDisplay.style.width = "200px"
+            queenDisplay.style.height = "45vh"
+            queenDisplay.style.width = "32vw"
             queenDisplay.style.zIndex = 2
             queenDisplay.style.position = "absolute"
-            queenDisplay.style.bottom = bottomValue + "%"
-            queenDisplay.style.left = leftValue + "%"
-            queenDisplay.onclick = queenQuote.play()
+            queenDisplay.style.bottom = bottomValue + "vh"
+            queenDisplay.style.left = leftValue + "vw"
+            queenDisplay.onclick = function() {
+                queenQuote.play()
+            }
             moveQueen(queenDisplay, bottomValue, leftValue)
             queenPhotos.splice(randomQueen, 1)
             queenQuotes.splice(randomQueen, 1)
@@ -665,11 +665,11 @@ function generateQueen(queenPhotos, queenQuotes) {
 
 function moveQueen(queen, bottomValue, leftValue) {
     setInterval(function () {
-        if (bottomValue > 150) {
-            bottomValue = bottomValue - 0.25
-            queen.style.bottom = bottomValue + "%"
-            leftValue = leftValue + 0.25
-            queen.style.left = leftValue + "%"
+        if (bottomValue > 10) {
+            bottomValue = bottomValue - 2
+            queen.style.bottom = bottomValue + "vh"
+            leftValue = leftValue + 0.75
+            queen.style.left = leftValue + "vw"
 
         } else {
             document.body.removeChild(queen)
