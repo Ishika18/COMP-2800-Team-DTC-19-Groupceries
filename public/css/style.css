@@ -1,9 +1,8 @@
 #easterEgg {
     display: none;
     margin: auto;
-    width: 700px;
-    height: 700px;
     background-image: url("/images/rupaulstage.jpg");
+    background-size: cover;
     background-position: center;
 }
 

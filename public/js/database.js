@@ -213,7 +213,7 @@ function onLoad(){
     //replace console.log with function that returns current list, "FIRSTLOAD" with correct value
     if(currentListForDB() == "My List"){
         // replace console.log with function that changes list
-        displayList(getRecentList())
+        displayList(getRecentList(), uid)
     };
 };
 

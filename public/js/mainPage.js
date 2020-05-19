@@ -394,7 +394,7 @@ function collapse() {
     var i;
 
     for (i = 0; i < coll.length; i++) {
-       coll[i].onclick = function () {
+        coll[i].onclick = function () {
             this.classList.toggle("active");
             let content = $(this).parent()[0].nextElementSibling;
             console.log($(this).parent()[0].nextElementSibling)
@@ -409,7 +409,7 @@ function collapse() {
 
 document.getElementById("newItem").onclick = newItemField
 setInterval(collapse, 1)
-$( document ).ready(function() {
+$(document).ready(function () {
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
 });
 
@@ -428,18 +428,18 @@ function loadLists(friendObj) {
         let friendsLists = friendObj[friend]
         console.log(friendsLists)
         friendsLists.forEach(list => {//loops through array of lists for each friend
-            createListElement(listSection, list) // creates a list display element for each list
+            createListElement(listSection, list, friend) // creates a list display element for each list
         })
 
     });
 }
-function updateToggleMobile(){
+function updateToggleMobile() {
     value = !document.getElementById("readyForShoppingToggle").checked;
     toggleReadyDatabaseMobile(value);
 }
 
-function updateToggle(value){
-    if(document.getElementById("readyForShoppingToggle").checked != value){
+function updateToggle(value) {
+    if (document.getElementById("readyForShoppingToggle").checked != value) {
         document.getElementById("readyForShoppingToggle").parentElement.click();
     }
     document.getElementById("flip-checkbox-2").checked = value;
@@ -477,7 +477,7 @@ function createFriendElement(friend) { //helper for loadlists
             listLabel.innerHTML = name + "'s Lists"
         })
 
-    
+
     friendElement.id = friend
     let listSection = document.createElement("section")
     listSection.classList.add("collapse")
@@ -485,9 +485,10 @@ function createFriendElement(friend) { //helper for loadlists
     return listSection
 }
 
-function createListElement(listSection, list) { //helper for loadLists
+function createListElement(listSection, list, friend) { //helper for loadLists
     let listElementWrapper = document.createElement("div")
-    listElementWrapper.classList.add("p-2","listCollapsibleLayer3", "listElement")
+    listElementWrapper.dataset.belongsTo = friend
+    listElementWrapper.classList.add("p-2", "listCollapsibleLayer3", "listElement")
     let listLabel = document.createElement("label")
     listLabel.classList.add("inputLabels")
     listLabel.innerText = list
@@ -495,7 +496,7 @@ function createListElement(listSection, list) { //helper for loadLists
     listElement.classList.add("btn", "viewListsbutton")
     listElementWrapper.appendChild(listLabel)
     listElementWrapper.appendChild(listElement)
-    listElement.onclick = displayList(listLabel.innerText)
+    listElement.onclick = displayList(listLabel.innerText, friend)
     listSection.appendChild(listElementWrapper)
     listElement.innerHTML = "View List"
 }
@@ -551,124 +552,131 @@ function createNewList() {
 function deleteList() { // deletes current list -  a user can only delete their own lists
     let deleteButton = document.getElementById("deleteEntireListButton")
     deleteButton.addEventListener('click', _ => {
-        let currentList = document.getElementById("listTitle").innerText
-        let listArea = document.getElementById('left')
-        let allLists = Array.from(listArea.getElementsByClassName("collapsible"))
-        allLists.forEach(element => {//loops through all list elements in sidebar
-            if (element.id === uid) {
-                let sections = Array.from(element.parentElement.nextElementSibling.childNodes)
-                sections.forEach(section => {
-                    if (section.innerText === currentList) {
-                        deleteGroceryList(uid, "_" + currentList);
-                        section.remove()//when it finds the one that matches the current list and user, it deletes it
-                        clearList()// clears list
-                        //need to make it load next list in line
-                    }
-                })
+        let currentListName = document.getElementById("listTitle").innerText
+        let currentUserListSection = document.getElementById('availableLists')
+        let currentUsersLists = Array.from(currentUserListSection.getElementsByClassName('listElement'))
+        currentUsersLists.forEach(listElement => {
+            console.log(listElement)
+            if (listElement.firstChild.innerText === currentListName) {
+                document.getElementById('listTitle').innerText = ""
+                deleteGroceryList(uid, "_" + currentListName)
+                listElement.remove()
+                clearList()
+
+                //add functionality to load the next list in line
             }
         })
+
     })
 }
 
 
 deleteList()
 
-function currentListForDB(){
+function currentListForDB() {
     return "_" + document.getElementById('listTitle').innerText;
 };
 
-function displayList(listElement) {//used for switching lists
-    return function() {
-    let currentListName = document.getElementById('listTitle')
-    if (listElement !== currentListName.innerText) {
+function displayList(listElement, listOwner) {//used for switching lists
+    return function () {
+        let currentListName = document.getElementById('listTitle')//get name of current list displayed
+        if (listOwner != uid) {
+            document.getElementById('deleteEntireListButton').style.display = "none"
+        }// if the list to be displayed does not belong to the user, remove the option to delete the list
+        if (listOwner === uid) {
+            document.getElementById('deleteEntireListButton').style.display = "inline-block"
+        }//if the list does belong to the user, ensure they have the delete list button available to them.
         currentListName.innerText = listElement // updates name of list
-        clearList()
-        loadNewList(uid, "_" + currentListName.innerText)
+        clearList()//clears any elements from the previous list
+        loadNewList(listOwner, "_" + currentListName.innerText)//loads the list
 
     }
 }
-}
-    
+
+
+
 function clearList() {
-        let currentList = document.getElementById("groceryList") //clears list area
-        let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
-        currentListItems.forEach(item => {
-            currentList.removeChild(item)
-        })
-    }
+    let currentList = document.getElementById("groceryList") //clears list area
+    let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
+    currentListItems.forEach(item => {
+        currentList.removeChild(item)
+    })
+    console.log("Successfully cleared list")//just for troubleshooting
+    //add functionality to clear list name as well 
+}
 
 
 function easterEgg() {
-        let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
-            "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.png", "/images/phiphi.jpg", "/images/rupaul.png", "/images/valentina.png"]
-        let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
-            "/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
-        let easterEggArea = document.getElementById("easterEgg")
-        let currentView = document.getElementById("listArea")
-        currentView.style.display = "none"
-        easterEggArea.style.display = "block"
-        document.getElementById("middle").appendChild(easterEggArea)
-        setInterval(generateQueen(queenPhotos, queenQuotes), 6000)
-        let bgMusic = new Audio()
-        bgMusic.volume = 0.1
-        bgMusic.src = "/media/runway.mp3"
-        bgMusic.play()
-        easterEggArea.addEventListener('click', _=> {
-            bgMusic.pause()
-            document.getElementById("middle").removeChild(easterEggArea)
-            let queens = Array.from(document.getElementsByClassName("queen"))
-            queens.forEach(queen => {
-                document.body.removeChild(queen)
-            })
-            queenPhotos.length = 0
-            queenQuotes.length = 0 
-            currentView.style.display="block"
-            
+    let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
+        "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.png", "/images/phiphi.jpg", "/images/rupaul.png", "/images/valentina.png"]
+    let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
+        "/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
+    let easterEggArea = document.getElementById("easterEgg")
+    let currentView = document.getElementById("listArea")
+    currentView.style.display = "none"
+    easterEggArea.style.display = "block"
+    document.getElementById("middle").appendChild(easterEggArea)
+    setInterval(generateQueen(queenPhotos, queenQuotes), 6000)
+    let bgMusic = new Audio()
+    bgMusic.volume = 0.1
+    bgMusic.src = "/media/runway.mp3"
+    bgMusic.play()
+    easterEggArea.addEventListener('click', _ => {
+        bgMusic.pause()
+        document.getElementById("middle").removeChild(easterEggArea)
+        let queens = Array.from(document.getElementsByClassName("queen"))
+        queens.forEach(queen => {
+            document.body.removeChild(queen)
         })
-    }
+        queenPhotos.length = 0
+        queenQuotes.length = 0
+        currentView.style.display = "block"
+
+    })
+}
 
 
 function generateQueen(queenPhotos, queenQuotes) {
-        return function () {
-            if (queenPhotos.length > 0) {
-                let randomQueen = Math.floor(Math.random() * queenPhotos.length)
-                let queenQuote = new Audio()
-                queenQuote.src = queenQuotes[randomQueen]
-                let bottomValue = 250
-                let leftValue = 25
-                let queenDisplay = document.createElement("img")
-                queenDisplay.src = queenPhotos[randomQueen]
-                queenDisplay.classList.add("queen")
-                document.body.appendChild(queenDisplay)
-                queenDisplay.style.height= "300px"
-                queenDisplay.style.width="200px"
-                queenDisplay.style.zIndex = 2
-                queenDisplay.style.position = "absolute"
-                queenDisplay.style.bottom = bottomValue + "px"
-                queenDisplay.style.left = leftValue + "%"
-                queenDisplay.onclick = queenQuote.play()
-                moveQueen(queenDisplay, bottomValue, leftValue)
-                queenPhotos.splice(randomQueen, 1)
-                queenQuotes.splice(randomQueen, 1)
+    return function () {
+        if (queenPhotos.length > 0) {
+            let randomQueen = Math.floor(Math.random() * queenPhotos.length)
+            let queenQuote = new Audio()
+            queenQuote.src = queenQuotes[randomQueen]
+            let bottomValue = 200
+            let leftValue = 25
+            let queenDisplay = document.createElement("img")
+            queenDisplay.src = queenPhotos[randomQueen]
+            queenDisplay.classList.add("queen")
+            document.body.appendChild(queenDisplay)
+            queenDisplay.style.height = "300px"
+            queenDisplay.style.width = "200px"
+            queenDisplay.style.zIndex = 2
+            queenDisplay.style.position = "absolute"
+            queenDisplay.style.bottom = bottomValue + "%"
+            queenDisplay.style.left = leftValue + "%"
+            queenDisplay.onclick = queenQuote.play()
+            moveQueen(queenDisplay, bottomValue, leftValue)
+            queenPhotos.splice(randomQueen, 1)
+            queenQuotes.splice(randomQueen, 1)
 
-            }
         }
     }
+}
 
-    function moveQueen(queen, bottomValue, leftValue) {
-        setInterval(function () {
-            if (bottomValue > 10) {
-                bottomValue = bottomValue - 10
-                queen.style.bottom = bottomValue + "px"
-                leftValue = leftValue + 0.25
-                queen.style.left = leftValue + "%"
+function moveQueen(queen, bottomValue, leftValue) {
+    setInterval(function () {
+        if (bottomValue > 150) {
+            bottomValue = bottomValue - 0.25
+            queen.style.bottom = bottomValue + "%"
+            leftValue = leftValue + 0.25
+            queen.style.left = leftValue + "%"
 
-            } else {
-                document.body.removeChild(queen)
-            }
-        }, 180)
+        } else {
+            document.body.removeChild(queen)
+        }
+    }, 180)
 
-    }
+}
 
 
 // add fucntionality to make new lists clickable
