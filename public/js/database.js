@@ -68,7 +68,8 @@ function addGroceryList(user, groceryList){
 };
 
 function deleteGroceryList(user, groceryList){
-    if(getRecentList() == groceryList.slice(1)){
+    if(getRecentList((listName)=>{return function(listName){return listName == groceryList.slice(1)}})){
+        console.log("this is true");
         db.collection(user).doc("recentList").set({list: ""})
     };
     db.collection(user).doc(groceryList).delete().then(function() {
@@ -159,13 +160,15 @@ function loadNewList(UID, groceryList){
     .catch(error => console.log(error));
 };
 
-function getRecentList(){
+function getRecentList(myFun){
     db.collection(localStorage.getItem('uid')).doc("recentList").get()
     .then(data => {
         if(data.exists && data.data().list != ""){
-            return data.data().list.slice(1)
+            const listName = data.data().list.slice(1);
+            myFun(listName)();
         } else {
-            return ""
+            // fix later if broken
+            myFun(listName)();
         };
     })
     .catch(error => console.log(error));
@@ -210,10 +213,8 @@ function demo(){
 function onLoad(){
     //TODO check if async calls here will bug out.
     newListener();
-    //replace console.log with function that returns current list, "FIRSTLOAD" with correct value
-    if(currentListForDB() == "My List"){
-        // replace console.log with function that changes list
-        displayList(getRecentList())
+    if(currentListForDB() == "_My List"){
+        getRecentList(displayList);
     };
 };
 
