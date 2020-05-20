@@ -21,7 +21,7 @@ function addHTML(uid) {
             let name = doc.data().name;
             let email = doc.data().email;
             if (!document.getElementById(uid + "_S_row")) {
-                $('#sentFriends').prepend(generateHTML(name, email, uid));
+                $('.sentFriends').prepend(generateHTML(name, email, uid));
             }
         }
     }).catch(err => console.log(err));
