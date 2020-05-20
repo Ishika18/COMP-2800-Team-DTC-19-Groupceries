@@ -1,5 +1,17 @@
 const messaging = firebase.messaging();
 
+function sendTokenToServer(registrationToken) {
+  // add the token to firestore under uid.
+  let tokenDoc = db.collection(window.localStorage.getItem('uid')).doc('userInfo');
+  tokenDoc.set({ registrationTokens: firebase.firestore.FieldValue.arrayUnion(registrationToken) }, { merge: true }).catch((error) => { console.log(error) });
+  tokenDoc.set({ tokenSent:  true}, { merge: true }).catch((error) => { console.log(error) });
+}
+
+function setTokenSentToServer(boolean) {
+  let tokenDoc = db.collection(window.localStorage.getItem('uid')).doc('userInfo');
+  tokenDoc.set({ tokenSent:  boolean}, { merge: boolean }).catch((error) => { console.log(error) });
+}
+
 function onSignIn(googleUser) {
   let id_token = googleUser.getAuthResponse().id_token;
 
@@ -90,13 +102,13 @@ function subscribeToNotifications() {
   messaging.getToken().then((currentToken) => {
     if (currentToken) {
       console.log(currentToken);
-      //sendTokenToServer(currentToken);
-      updateUIForPushEnabled(currentToken);
+      sendTokenToServer(currentToken);
+      //updateUIForPushEnabled(currentToken);
     } else {
       // Show permission request.
       console.log('No Instance ID token available. Request permission to generate one.');
       // Show permission UI.
-      updateUIForPushPermissionRequired();
+      //updateUIForPushPermissionRequired();
       setTokenSentToServer(false);
     }
   }).catch((err) => {
@@ -120,4 +132,13 @@ messaging.onTokenRefresh(() => {
     console.log('Unable to retrieve refreshed token ', err);
     showToken('Unable to retrieve refreshed token ', err);
   });
+});
+
+// Handle incoming messages. Called when:
+// - a message is received while the app has focus
+// - the user clicks on an app notification created by a service worker
+//   `messaging.setBackgroundMessageHandler` handler.
+messaging.onMessage((payload) => {
+  console.log('Message received. ', payload);
+  // ...
 });

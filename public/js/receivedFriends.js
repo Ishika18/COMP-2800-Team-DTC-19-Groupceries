@@ -43,7 +43,9 @@ function addReceivedHTML(uid) {
         if (doc.exists) {
             let name = doc.data().name;
             let email = doc.data().email;
-            $('#receivedFriends').prepend(generateReceivedHTML(name, email, uid));
+            if (!document.getElementById(uid + "_R_row")) {
+                $('#receivedFriends').prepend(generateReceivedHTML(name, email, uid));
+            }
         }
     }).catch(err => console.log(err));
 }

@@ -4,48 +4,62 @@ require("firebase/firestore");
 require("firebase/messaging");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC59-CinZU4yGdTnIcQPXEaIOC5R7cGfLA",
-    authDomain: "groupceries-f6189.firebaseapp.com",
-    databaseURL: "https://groupceries-f6189.firebaseio.com",
-    projectId: "groupceries-f6189",
-    storageBucket: "groupceries-f6189.appspot.com",
-    messagingSenderId: "688161851064",
-    appId: "1:688161851064:web:23a0bc2b403535a57f964d"
+  apiKey: "AIzaSyC59-CinZU4yGdTnIcQPXEaIOC5R7cGfLA",
+  authDomain: "groupceries-f6189.firebaseapp.com",
+  databaseURL: "https://groupceries-f6189.firebaseio.com",
+  projectId: "groupceries-f6189",
+  storageBucket: "groupceries-f6189.appspot.com",
+  messagingSenderId: "688161851064",
+  appId: "1:688161851064:web:23a0bc2b403535a57f964d"
 };
 // Initialize FirebaseS
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 const admin = require('firebase-admin');
 
 let serviceAccount = require(".././groupceries-f6189-firebase-adminsdk-cxupm-fa31b03012.json");
+let db = firebase.firestore();
 
 if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://groupceries-f6189.firebaseio.com"
-    });
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://groupceries-f6189.firebaseio.com"
+  });
 }
 
-// This registration token comes from the client FCM SDKs.
-var registrationToken = 'YOUR_REGISTRATION_TOKEN';
+let notificaitonController = {
+  sendNotification: (uid) => {
+    // This registration token comes from the client FCM SDKs.
+    db.collection(uid).doc('userInfo').get().then((doc) => {
+      if (doc.exists) {
+        let registrationTokens = doc.data().registrationTokens;
+        let name = doc.data().name;
+        let message = {
+          notification: {
+            title: 'Friend Request',
+            body: `${name} sent you a friend request`,
+            icon: 'put some url maybe app logo because user image does not show up ',
+            // send the user to app ( will be changed to website url )
+            click_action: 'http://localhost:3000',
+            sound: 'default'
+          }
+        };
 
-var message = {
-  data: {
-    score: '850',
-    time: '2:45'
-  },
-  token: registrationToken
-};
+        admin.messaging().sendToDevice(registrationTokens, message)
+          .then(function (response) {
+            // See the MessagingDevicesResponse reference documentation for
+            // the contents of response.
+            console.log('Successfully sent message:', response);
+          })
+          .catch(function (error) {
+            /* Clean the invalid token, but errors could be here for more reasons too ? */
+            console.log('Error sending message:', error);
+          });
+      }
+    }).catch(err => console.log(err));
+  }
+}
 
-// Send a message to the device corresponding to the provided
-// registration token.
-admin.messaging().send(message)
-  .then((response) => {
-    // Response is a message ID string.
-    console.log('Successfully sent message:', response);
-  })
-  .catch((error) => {
-    console.log('Error sending message:', error);
-  });
+module.exports = notificaitonController;

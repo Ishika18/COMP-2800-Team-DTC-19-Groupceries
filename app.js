@@ -68,6 +68,7 @@ app.post("/home/user", function (req, res) {
     // find the user id using the email of the user.
     userController.getUID(friendEmail).then((friendID) => {
         friendController.sendRequest(currentUserID, friendID);
+        notificationController.sendNotification(friendID);
     }).catch( (error) => { console.log(error) });
 });
 
