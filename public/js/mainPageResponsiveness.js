@@ -56,7 +56,7 @@ function currentListButton() { //for mobile, allows user to view their selected 
     document.getElementById("mainPageButtons").style = 'display: visible'
     document.getElementById("friendsPageButtons").style = 'display: none'
     document.getElementById("pageTitle").style = 'display: none'
-    $(".pageArea").css('height', "calc(100vh - 9rem)");
+    $(".pageArea").css('height', "calc(100vh - 10rem)");
 
 }
 document.getElementById("currentList").onclick = currentListButton
@@ -76,7 +76,7 @@ function friendsButton() { //for mobile, allows user to view friends list when t
     document.getElementById("friendsPageButtons").style = 'display: visible'
     document.getElementById("pageTitle").style = 'display: visible'
     document.getElementById("pageTitle").innerHTML = 'Friends'
-    $(".pageArea").css('height', "calc(100vh - 9rem)");
+    $(".pageArea").css('height', "calc(100vh - 12.366rem)");
 }
 document.getElementById("friends").onclick = friendsButton
 
@@ -95,7 +95,7 @@ function aboutUsButton() { //for mobile, allows user to view about us page
     document.getElementById("friendsPageButtons").style = 'display: none'
     document.getElementById("pageTitle").style = 'display: visible'
     document.getElementById("pageTitle").innerHTML = 'About Us'
-    $(".pageArea").css('height', "calc(100vh - 9rem)");
+    $(".pageArea").css('height', "calc(100vh - 8.8rem)");
 }
 document.getElementById("aboutUs").onclick = aboutUsButton
 
@@ -114,15 +114,53 @@ function confirmOrCancelMergeButton () { // toggle display off for cancel and co
 document.getElementById("cancelMergeButton").onclick = confirmOrCancelMergeButton
 document.getElementById("confirmMergeButton").onclick = confirmOrCancelMergeButton
 
+function currentFriendsPage() {
+    document.getElementById("mobileContainerAcceptedFriends").style = 'display: block'
+    document.getElementById("pendingFriends").style = 'display: none'
+    document.getElementById("socialMediaPage").style = 'display: none'
+    document.getElementById("friendsPageFriendsButton").style = 'color: white'
+    document.getElementById("friendsPagePendingButton").style = 'color: grey'
+    document.getElementById("friendsPageSocialMediaButton").style = 'color: grey'
+};
+document.getElementById("friendsPageFriendsButton").onclick = currentFriendsPage
+
+function pendingFriendsPage() {
+    document.getElementById("mobileContainerAcceptedFriends").style = 'display: none'
+    document.getElementById("pendingFriends").style = 'display: block'
+    document.getElementById("socialMediaPage").style = 'display: none'
+    document.getElementById("friendsPageFriendsButton").style = 'color: grey'
+    document.getElementById("friendsPagePendingButton").style = 'color: white'
+    document.getElementById("friendsPageSocialMediaButton").style = 'color: grey'
+};
+document.getElementById("friendsPagePendingButton").onclick = pendingFriendsPage
+
+function socialMediaPage() {
+    document.getElementById("mobileContainerAcceptedFriends").style = 'display: none'
+    document.getElementById("pendingFriends").style = 'display: none'
+    document.getElementById("socialMediaPage").style = 'display: block'
+    document.getElementById("friendsPageFriendsButton").style = 'color: grey'
+    document.getElementById("friendsPagePendingButton").style = 'color: grey'
+    document.getElementById("friendsPageSocialMediaButton").style = 'color: white'
+};
+document.getElementById("friendsPageSocialMediaButton").onclick = socialMediaPage
+
+function setDocHeight() {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight/100}px`);
+};
+
+setDocHeight()
 document.getElementById("currentList").className = "navbar-brand navbarItemActive"
 document.getElementById("mergePageButtons").style = 'display: none'
 document.getElementById("mainPageButtons").style = 'display: visible'
 document.getElementById("friendsPageButtons").style = 'display: none'
 document.getElementById("mergeListsButton").style = 'display: visible'
-document.getElementById("cancelMergeButton").disabled = true;
-document.getElementById("confirmMergeButton").disabled = true;
-document.getElementById("removeFriendButton").disabled = true;
-document.getElementById("addFriendButton").disabled = true;
-document.getElementById("callFriendButton").disabled = true;
+document.getElementById("cancelMergeButton").style = 'visibility: hidden'
+document.getElementById("confirmMergeButton").style = 'visibility: hidden'
 document.getElementById("aboutUsPage").style = 'display: none'
 document.getElementById("pageTitle").style = 'display: none'
+document.getElementById("mobileContainerAcceptedFriends").style = 'display: block'
+document.getElementById("pendingFriends").style = 'display: none'
+document.getElementById("socialMediaPage").style = 'display: none'
+document.getElementById("friendsPageFriendsButton").style = 'color: white'
+addEventListener('resize', setDocHeight)
+addEventListener('orientationchange', setDocHeight)

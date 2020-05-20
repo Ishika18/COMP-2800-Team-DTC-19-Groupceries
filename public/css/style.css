@@ -184,6 +184,11 @@
 }
 
 @media (max-width: 1024px) {
+    #friendsPageNavBarContainer {
+        padding-bottom: 0!important;
+        height: auto!important;
+        flex-wrap: nowrap;
+    }
     .groupMemberPhoto {
         width: 35vw;
         height: 45vw;
@@ -224,7 +229,7 @@
         grid-template-columns: repeat(3,1fr);
     }
     body{
-        background-color:#140A26;
+        /* background-color:#140A26; */
         background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
         overflow-x: hidden;
     }
@@ -304,12 +309,14 @@
         color: white;
     }
     .centerbuttonbar {
-        margin-bottom: 3.1rem;
+        margin-bottom: 3rem;
         background-color: #140A26;
-        color:white;
+        color: white;
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 3rem;
+        padding-bottom: 3.5rem;
     }
     .addButton{
         width: 13vw!important;
@@ -331,7 +338,6 @@
     }
     .mobileNavbar { 
         padding: 0!important;
-        margin-bottom: 0.1rem;
     }
     .mobileNavbar form{ 
         display: flex;
@@ -377,7 +383,7 @@
     .itemsArea{
         overflow-y:scroll;
         width:100%;
-        height:calc(100vh - 13rem);
+        height:calc(100vh - 13rem - 60px);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -400,7 +406,7 @@
     .pageArea{
         overflow-y:scroll;
         width:100%;
-        height: calc(100vh - 9rem);
+        height: calc(100vh - 10rem);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -459,7 +465,7 @@
         font-size: 0.8rem!important;
     }
     #addFriendButton, #mergeListsButton, #confirmMergeButton {
-        background-color: green!important;
+        background-color: #00c587!important;
         margin-left: 6.25vw;
         font-size: 0.8rem;
         font-weight: bold;
@@ -485,7 +491,6 @@
     #groceryList {
         border-bottom: 1px solid grey;
         display: block;
-        margin-bottom: 1rem;
     }
     .editButton, .deleteButton, .cancelButton, .saveButton, .addButton {
         width: 100%!important;
@@ -605,6 +610,13 @@
         padding-top: 0.5rem;
         padding-bottom: 0.5rem!important;
     }
+    .friendsPageNavBar {
+        width: 100%;
+        height: 3.5rem;
+        color: grey;
+        border: 0;
+        background-color: #140A26!important;
+    }
 }
 #delIcon {
     width: 2rem;
@@ -622,10 +634,17 @@
     border: transparent;
     margin-top: 0.5rem;
 }
-.deleteEntireListButton, .addToListButton {
+.deleteEntireListButton {
     color: white;
     font-weight: bold;
     height: 100%;
+    float: right;
+    border: transparent;
+    font-size: 0.8rem;
+}
+.addToListButton {
+    color: white;
+    font-weight: bold;
     float: right;
     border: transparent;
     font-size: 0.8rem;

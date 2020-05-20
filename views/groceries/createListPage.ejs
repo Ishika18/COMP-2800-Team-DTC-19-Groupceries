@@ -12,9 +12,7 @@
             <%- include('../partials/appNavbar.ejs'); -%>
             <div class="col pageArea">
                 <div id="easterEgg">
-
-                </div>
-                
+                </div>       
                 <div class="col-lg-3" id="left" class="listsPageArea">
                     <div id="myLists">
                         <button id="createList"><i class="fas fa-plus"></i></button><br>
@@ -26,9 +24,6 @@
                             <newListButtonPlaceHolder id="newListButtonPlaceHolder"></newListButtonPlaceHolder>
                         </div>
                     </div>
-                
-                    
-
                     <div id="friendLists">
                         <div class="p-2 listCollapsible">
                             <label class="inputLabels">Friends' Lists</label>
@@ -53,8 +48,24 @@
                                 <label id="desktopMerge">Merge List</label>
                             </ul>
                         </div>
-                        <div id="friend">
-                                                            
+                        <div id="friend" class="listsArea">
+                            <div id ="mobileContainerAcceptedFriends">
+                                <h4>My Friends</h4>
+                                <%- include('../partials/acceptedFriends.ejs'); -%>
+                            </div>
+                            <div id="pendingFriends">
+                                <div id ="mobileContainerReceivedFriends">
+                                    <h4>Received Friend Requests</h4>
+                                    <%- include('../partials/receivedFriends.ejs'); -%>  
+                                </div>
+                                <div id ="mobileContainerSentFriends">
+                                    <h4>Sent Friend Requests</h4>
+                                    <%- include('../partials/sentFriends.ejs'); -%>
+                                </div> 
+                            </div>    
+                            <div id="socialMediaPage">
+                                <h4>Social Media</h4>
+                            </div>                        
                         </div>
                     </div>
                     <div class="col-lg-3" id="aboutUsPage">

@@ -6,7 +6,7 @@ function undoSentRequest(friendID) {
     // document friends of friend
     let friendDocs = db.collection(friendID).doc("Friends");
 
-    // delete the current uid to the friends'recieved
+    // delete the current uid to the friends'received
     friendDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
 
     // remove the notification (maybe ?)
@@ -21,7 +21,7 @@ function addHTML(uid) {
             let name = doc.data().name;
             let email = doc.data().email;
             if (!document.getElementById(uid + "_S_row")) {
-                $('#sentFriends').prepend(generateHTML(name, email, uid));
+                $('.sentFriends').prepend(generateHTML(name, email, uid));
             }
         }
     }).catch(err => console.log(err));

@@ -34,7 +34,7 @@ function declineRequest(friendID) {
 
     // remove the notification (maybe ?)
 
-    // delete the friend email or uid to the cuurent users' recieved
+    // delete the friend email or uid to the cuurent users' received
     currentUserDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
 }
 
@@ -44,7 +44,7 @@ function addReceivedHTML(uid) {
             let name = doc.data().name;
             let email = doc.data().email;
             if (!document.getElementById(uid + "_R_row")) {
-                $('#receivedFriends').prepend(generateReceivedHTML(name, email, uid));
+                $('.receivedFriends').prepend(generateReceivedHTML(name, email, uid));
             }
         }
     }).catch(err => console.log(err));
@@ -71,6 +71,7 @@ function generateReceivedHTML(name, email, uid) {
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
         if ($('.received').length != doc.data().received.length) {
+            console.log(doc.data(), "111ve")
             $(".received").remove();
             doc.data().received.forEach(function (item) {
                 addReceivedHTML(item);
