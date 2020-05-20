@@ -20,7 +20,7 @@ function loadItems(data) { //runs when page loads and loads all items from datab
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
+                let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
                 let input = document.createElement("select")
                 input.classList = fields[i]
                 input.classList.add("itemInfo")
@@ -194,7 +194,7 @@ function newItemField() {
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
+                let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
                 let input = document.createElement("select")
                 input.classList = fields[i]
                 input.classList.add("itemInfo")
@@ -226,6 +226,13 @@ function newItemField() {
             }
         }
         addButtons(item)
+    } else {
+        swal({
+            title: "Error",
+            text: "Please finish adding this item before adding another.",
+            icon: "warning",
+        });
+
     }
 }
 
@@ -237,16 +244,22 @@ function createEntryInDB() {
 
 function addItemDetails(item) {
     return function () {
-        dbEntry = createEntryInDB()
-        editDBEntry(item, dbEntry)
-        let addButton = item.getElementsByClassName("addButton")
-        addButton[0].style.display = "none"
-        let editButton = item.getElementsByClassName("editButton")
-        editButton[0].style.display = "inline-block"
-        let deleteButton = item.getElementsByClassName("deleteButton")
-        deleteButton[0].style.display = "inline-block"
-        toggleInputClass(item)
-        console.log(database)
+        let name = item.getElementsByClassName("Name").item(0).value.trim()
+        let quantity = parseFloat(item.getElementsByClassName("Quantity").item(0).value)
+        let units = item.getElementsByClassName("Units").item(0).value
+        if (name != "" && quantity > 0 && units != "") {
+            dbEntry = createEntryInDB()
+            editDBEntry(item, dbEntry)
+            let addButton = item.getElementsByClassName("addButton")
+            addButton[0].style.display = "none"
+            let editButton = item.getElementsByClassName("editButton")
+            editButton[0].style.display = "inline-block"
+            let deleteButton = item.getElementsByClassName("deleteButton")
+            deleteButton[0].style.display = "inline-block"
+            toggleInputClass(item)
+        } else {
+            evaluateFields(quantity, name, units)
+        }
     }
 }
 
@@ -310,19 +323,42 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 
 function deleteListItem(item) {
     return function () {
-        removeItem(uid, currentListForDB(), itemAsDBObject(item));
-        let itemData = getFieldData(item)
-        console.log(itemData)
-        let quantity = parseFloat(itemData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
-        item.remove()
-        database.items.splice(dbEntryLocation, 1)
-        console.log(database)
+        swal({
+            title: "Confirm",
+            text: "Are you sure you want to delete this item from your list?",
+            icon: "warning",
+            buttons: {
+                cancel: true,
+                confirm: {
+                    text: "Delete",
+                    value: "willDelete"
+                }
+            }
+        })
+            .then((value) => {
+                if (value) {
+                    removeItem(uid, currentListForDB(), itemAsDBObject(item));
+                    let itemData = getFieldData(item)
+                    console.log(itemData)
+                    let quantity = parseFloat(itemData[1])
+                    let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
+                    item.remove()
+                    database.items.splice(dbEntryLocation, 1)
+                    console.log(database)
+                }
+            })
     }
+
+
+
 }
 
-function cancelListEditing(item) {//needs to be re-done
+function cancelListEditing(item, currentFieldData) {//needs to be re-done
     return function () {
+        item.getElementsByClassName("Name").item(0).value = currentFieldData[0]
+        item.getElementsByClassName("Quantity").item(0).value = currentFieldData[1]
+        item.getElementsByClassName("Units").item(0).value = currentFieldData[2]
+        item.getElementsByClassName("Notes(Optional)").item(0).value = currentFieldData[3]
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
         let deleteButton = item.getElementsByClassName("deleteButton")
@@ -361,32 +397,58 @@ function edit(item) {
             let deleteButton = item.getElementsByClassName("deleteButton")
             deleteButton[0].style.display = "inline-block"
             toggleInputClass(item)
+        } else {
+            swal({
+                title: "Error",
+                text: "Please finish adding/editing other items before editing this one.",
+                icon: "warning",
+            })
         }
     }
 }
 function saveChanges(item, currentFieldData) {
     // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
-        editItem(uid, currentListForDB(), JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
-        let editButton = item.getElementsByClassName("editButton")
-        editButton[0].style.display = "inline-block"
-        let deleteButton = item.getElementsByClassName("deleteButton")
-        deleteButton[0].style.display = "inline-block"
-        let saveButton = item.getElementsByClassName("saveButton")
-        saveButton[0].style.display = "none"
-        let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "none"
-        toggleInputClass(item)
-        let quantity = parseFloat(currentFieldData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.quantity.amount === quantity && obj.quantity.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
         let userChanges = getFieldData(item)
-        let dbEntry = database.items[dbEntryLocation]
-        dbEntry.name = userChanges[0]
-        dbEntry.quantity.amount = parseFloat(userChanges[1])
-        dbEntry.quantity.unit = userChanges[2]
-        dbEntry.notes = userChanges[3]
-        console.log(database)
+        let quantity = parseFloat(userChanges[1])
+        let name = userChanges[0].trim()
+        let units = userChanges[2]
+        if (quantity > 0 && name != "" && units != "") {
+            editItem(uid, currentListForDB(), JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
+            let editButton = item.getElementsByClassName("editButton")
+            editButton[0].style.display = "inline-block"
+            let deleteButton = item.getElementsByClassName("deleteButton")
+            deleteButton[0].style.display = "inline-block"
+            let saveButton = item.getElementsByClassName("saveButton")
+            saveButton[0].style.display = "none"
+            let cancelButton = item.getElementsByClassName("cancelButton")
+            cancelButton[0].style.display = "none"
+            toggleInputClass(item)
+
+
+        } else {
+            evaluateFields(quantity, name, units)
+        }
     }
+}
+
+function evaluateFields(quantity, name, units) {
+    let errorMessage = ""
+    if (quantity <= 0 || isNaN(quantity)) {
+        errorMessage = " Quantity must be a number greater than 0."
+    }
+    if (name == "") {
+        errorMessage += " Please enter a name for your item."
+    }
+    if (units == "") {
+        errorMessage += " Please select a unit."
+
+    }
+    swal({
+        title: "Error",
+        text: errorMessage,
+        icon: "warning",
+    });
 }
 
 function collapse() {
@@ -519,6 +581,10 @@ let newListButton = document.querySelector("#createList")
 newListButton.onclick = createNewList
 
 function createNewList() {
+    let mobileDeviceWidth = window.matchMedia("(max-width:1024px)")
+        if (mobileDeviceWidth.matches) {
+            currentListButton()//if its the mobile view, run this function to switch the users view to the list page so they dont have to switch themselves
+        }
     let newListButton = document.querySelector("#createList")
     newListButton.onclick = "null"
     let newListTitle = document.createElement("input")
@@ -528,8 +594,11 @@ function createNewList() {
     let listTitleArea = document.querySelector("#listTitleSection")
     newListTitle.setAttribute("type", "text")
     newListTitle.placeholder = "Enter the name of your new list."
+    let cancelButton = document.createElement("button")
+    cancelButton.innerText = "Cancel"
     listTitleArea.appendChild(newListTitle)
     listTitleArea.appendChild(submitButton)
+    listTitleArea.appendChild(cancelButton)
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
@@ -537,6 +606,7 @@ function createNewList() {
         currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
         submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
+        cancelButton.style.display = "none"
         let listSection = document.getElementById(uid).parentElement.nextElementSibling
         createListElement(listSection, listName)//adds new list to side bar
         clearList() //clears list on UI so user can start with an empty list for their new list
@@ -544,28 +614,52 @@ function createNewList() {
         addGroceryList(uid, "_" + listName);
         loadNewList(uid, "_" + currentListName.innerText)
     })
+    cancelButton.addEventListener('click', _=>{
+        currentListTitle.style.display = "inline"
+        newListTitle.style.display = "none"
+        submitButton.style.display = "none"
+        newListButton.onclick = createNewList
+        cancelButton.style.display = "none"
+    })
 }
 
 
 
 
 function deleteList() { // deletes current list -  a user can only delete their own lists
+
     let deleteButton = document.getElementById("deleteEntireListButton")
     deleteButton.addEventListener('click', _ => {
-        let currentListName = document.getElementById("listTitle").innerText
-        let currentUserListSection = document.getElementById('availableLists')
-        let currentUsersLists = Array.from(currentUserListSection.getElementsByClassName('listElement'))
-        currentUsersLists.forEach(listElement => {
-            console.log(listElement)
-            if (listElement.firstChild.innerText === currentListName) {
-                document.getElementById('listTitle').innerText = ""
-                deleteGroceryList(uid, "_" + currentListName)
-                listElement.remove()
-                clearList()
-
-                //add functionality to load the next list in line
+        swal({
+            title: "Confirm",
+            text: "Are you sure you want to delete this list?",
+            icon: "warning",
+            buttons: {
+                cancel: true,
+                confirm: {
+                    text: "Delete",
+                    value: "willDelete"
+                }
             }
         })
+            .then((value) => {
+                if (value) {
+                    let currentListName = document.getElementById("listTitle").innerText
+                    let currentUserListSection = document.getElementById('availableLists')
+                    let currentUsersLists = Array.from(currentUserListSection.getElementsByClassName('listElement'))
+                    currentUsersLists.forEach(listElement => {
+                        console.log(listElement)
+                        if (listElement.firstChild.innerText === currentListName) {
+                            document.getElementById('listTitle').innerText = ""
+                            deleteGroceryList(uid, "_" + currentListName)
+                            listElement.remove()
+                            clearList()
+
+                            //add functionality to load the next list in line
+                        }
+                    })
+                }
+            })
 
     })
 }
@@ -579,33 +673,37 @@ function currentListForDB() {
 
 function displayList(listElement, listOwner) {//used for switching lists
     return function () {
-        let currentListName = document.getElementById('listTitle')//get name of current list displayed
-        currentListName.innerText = listElement // updates name of list
-         
-        clearList()//clears any elements from the previous list
-        loadNewList(listOwner, "_" + currentListName.innerText)//loads the list
-        if (listOwner != uid) {
-            document.getElementById('deleteEntireListButton').style.display = "none"
-            document.getElementById('newItem').style.display = "none" 
-            toggleButtonVisibility()            
-            
-              
-                 
-            
-        }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
-        if (listOwner === uid) {
-            document.getElementById('deleteEntireListButton').style.display = "inline-block"
-            
-        }//if the list does belong to the user, ensure they have the ability to edit
 
+        if (!checkIfOtherItemsAreBeingEdited()) {
+            let mobileDeviceWidth = window.matchMedia("(max-width:1024px)")
+            if (mobileDeviceWidth.matches) {
+                currentListButton()//if its the mobile view, run this function to switch the users view to the list page so they dont have to switch themselves
+            }
+            let currentListName = document.getElementById('listTitle')//get name of current list displayed
+            currentListName.innerText = listElement // updates name of list
+
+            clearList()//clears any elements from the previous list
+            loadNewList(listOwner, "_" + currentListName.innerText)//loads the list
+            if (listOwner != uid) {
+                document.getElementById('deleteEntireListButton').style.display = "none"
+                document.getElementById('newItem').style.display = "none"
+
+            }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
+            if (listOwner === uid) {
+                document.getElementById('deleteEntireListButton').style.display = "inline-block"
+                document.getElementById('newItem').style.display = "inline-block"
+
+            }//if the list does belong to the user, ensure they have the ability to edit
+
+        } else {
+            swal({
+                title: "Error",
+                text: "Please finish editing the current list before switching to another one.",
+                icon: "warning",
+            })
+        }
     }
 }
-
-function toggleButtonVisibility() {
-    console.log(Array.from(document.getElementsByClassName("editButton"))) 
-    
-}
-
 
 
 function clearList() {
@@ -665,7 +763,7 @@ function generateQueen(queenPhotos, queenQuotes) {
             queenDisplay.style.position = "absolute"
             queenDisplay.style.bottom = bottomValue + "vh"
             queenDisplay.style.left = leftValue + "vw"
-            queenDisplay.onclick = function() {
+            queenDisplay.onclick = function () {
                 queenQuote.play()
             }
             moveQueen(queenDisplay, bottomValue, leftValue)
@@ -692,8 +790,3 @@ function moveQueen(queen, bottomValue, leftValue) {
 }
 
 
-// add fucntionality to make new lists clickable
-// user's list to add, delete and update the same way friends list 
-// refactor how lists are created so they only write to the database 
-// input validation - dont create lists with duplicate names 
-// 
