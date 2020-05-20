@@ -321,7 +321,7 @@ function deleteListItem(item) {
     }
 }
 
-function cancelListEditing(item, currentFieldData) {//needs to be re-done
+function cancelListEditing(item) {//needs to be re-done
     return function () {
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
@@ -580,17 +580,30 @@ function currentListForDB() {
 function displayList(listElement, listOwner) {//used for switching lists
     return function () {
         let currentListName = document.getElementById('listTitle')//get name of current list displayed
-        if (listOwner != uid) {
-            document.getElementById('deleteEntireListButton').style.display = "none"
-        }// if the list to be displayed does not belong to the user, remove the option to delete the list
-        if (listOwner === uid) {
-            document.getElementById('deleteEntireListButton').style.display = "inline-block"
-        }//if the list does belong to the user, ensure they have the delete list button available to them.
         currentListName.innerText = listElement // updates name of list
+         
         clearList()//clears any elements from the previous list
         loadNewList(listOwner, "_" + currentListName.innerText)//loads the list
+        if (listOwner != uid) {
+            document.getElementById('deleteEntireListButton').style.display = "none"
+            document.getElementById('newItem').style.display = "none" 
+            toggleButtonVisibility()            
+            
+              
+                 
+            
+        }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
+        if (listOwner === uid) {
+            document.getElementById('deleteEntireListButton').style.display = "inline-block"
+            
+        }//if the list does belong to the user, ensure they have the ability to edit
 
     }
+}
+
+function toggleButtonVisibility() {
+    console.log(Array.from(document.getElementsByClassName("editButton"))) 
+    
 }
 
 
