@@ -185,7 +185,7 @@ function newItemField() {
         let item = document.createElement("div")
         item.className = "listItems"
         let list = document.getElementById("groceryList")
-        list.appendChild(item)
+        list.insertBefore(item, list.firstChild)
 
         var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
         var i
@@ -400,8 +400,10 @@ function collapse() {
             console.log($(this).parent()[0].nextElementSibling)
             if (content.style.display === "block") {
                 content.style.display = "none";
+                this.style = "color: black"
             } else {
                 content.style.display = "block";
+                this.style = "color: white"
             }
         };
     }
@@ -460,7 +462,7 @@ function findListEntry(friend) {
 function createFriendElement(friend) { //helper for loadlists
     let friendElementWrapper = document.createElement("div")
     friendElementWrapper.classList.add("p-2", "listCollapsibleLayer2")
-    let textContainer = document.createElement("h4")
+    let textContainer = document.createElement("h7")
     textContainer.className = "collapsibleText"
     let listLabel = document.createElement("label")
     listLabel.className = "inputLabels"
@@ -494,7 +496,7 @@ function createListElement(listSection, list) { //helper for loadLists
     listElementWrapper.classList.add("p-2","listCollapsibleLayer3", "listElement")
     let listLabel = document.createElement("label")
     listLabel.classList.add("inputLabels")
-    let textContainer = document.createElement("h4")
+    let textContainer = document.createElement("h7")
     textContainer.className = "collapsibleText"
     textContainer.innerText = list
     listLabel.appendChild(textContainer)
@@ -525,24 +527,29 @@ let newListButton = document.querySelector("#createList")
 newListButton.onclick = createNewList
 
 function createNewList() {
+    let okButtonLocation = document.getElementById("rightMostButton")
+    let inputLocation = document.getElementById("myListBar")
     let newListButton = document.querySelector("#createList")
     newListButton.onclick = "null"
     let newListTitle = document.createElement("input")
     let submitButton = document.createElement("button")
     submitButton.innerText = "OK"
+    submitButton.id = "createListButton"
     let currentListTitle = document.querySelector("#listTitle")
-    let listTitleArea = document.querySelector("#listTitleSection")
     newListTitle.setAttribute("type", "text")
     newListTitle.placeholder = "Enter the name of your new list."
-    listTitleArea.appendChild(newListTitle)
-    listTitleArea.appendChild(submitButton)
+    newListTitle.id = "newListTitleInputBar"
+    inputLocation.insertBefore(newListTitle, inputLocation.firstChild)
+    okButtonLocation.appendChild(submitButton)
+    document.getElementById("deleteEntireListButton").style.display = "none"
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
         currentListTitle.innerText = listName
-        currentListTitle.style.display = "inline"
+        currentListTitle.style.display = "block"
         newListTitle.style.display = "none"
         submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
+        document.getElementById("deleteEntireListButton").style.display = "inline-block"
         let listSection = document.getElementById(uid).parentElement.nextElementSibling
         createListElement(listSection, listName)//adds new list to side bar
         clearList() //clears list on UI so user can start with an empty list for their new list
@@ -550,6 +557,8 @@ function createNewList() {
         addGroceryList(uid, "_" + listName);
         loadNewList(uid, "_" + currentListName.innerText)
     })
+    clearList() 
+    currentListButton()
 }
 
 
@@ -587,11 +596,11 @@ function currentListForDB(){
 function displayList(listElement) {//used for switching lists
     return function() {
     let currentListName = document.getElementById('listTitle')
+    currentListButton()
     if (listElement !== currentListName.innerText) {
         currentListName.innerText = listElement // updates name of list
         clearList()
         loadNewList(uid, "_" + currentListName.innerText)
-
     }
 }
 }

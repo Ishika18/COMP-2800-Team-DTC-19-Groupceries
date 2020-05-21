@@ -35,11 +35,18 @@
           version          : 'v7.0'
         });
       };
+      $(window).on("load", function(){
+        $(".loader-wrapper").fadeOut("slow");
+        document.getElementById('loaderImage').style = "animation-iteration-count: 0;"
+      });
+      // gotten from https://redstapler.co/add-loading-animation-to-website/
     </script>
     <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
   </head>
   <body>
-
+    <div class="loader-wrapper">
+      <span class="loader"><img src="/images/logo.png" id="loaderImage"></span>
+    </div>
     <%- body %>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

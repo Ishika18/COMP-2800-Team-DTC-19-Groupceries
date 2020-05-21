@@ -11,6 +11,8 @@ function responsiveDivDisplay() {
         document.getElementById("right").className = "col-md-3"
         $('#newItem').insertAfter('.rightMostButton');
         document.getElementById("desktopFriendsMenu").style.display = "block"
+        document.getElementById("friend").style.display = "none"
+        document.getElementById("socialMediaPage").style.display = "none"
         // $('#createList').insertAfter('#myLists');
     }else {
         document.getElementById("left").style.display = "none"
@@ -19,7 +21,7 @@ function responsiveDivDisplay() {
         document.getElementById("middle").className = "col-md-12"
         document.getElementById("desktopFriendsMenu").style.display = "none"
         $('#newItem').insertAfter('#placeholder');
-        $('#createList').insertAfter('#newListButtonPlaceHolder');
+        $('#createList').insertAfter('placeholderForNewListButton');
     }
 }
 
@@ -127,6 +129,7 @@ function currentFriendsPage() {
     document.getElementById("receivedFriendListCollapsible").style = 'display: none'
     document.getElementById("sentFriendListCollapsible").style = 'display: none'    
     document.getElementById("friendListCollapsible").style = 'display: block'
+    document.getElementById("addFriendContainer").style = 'display: flex'
 };
 document.getElementById("friendsPageFriendsButton").onclick = currentFriendsPage
 
@@ -143,10 +146,12 @@ function pendingFriendsPage() {
     document.getElementById("sentFriendListCollapsible").style = 'display: block'  
     document.getElementById("mobileContainerReceivedFriends").style = 'display: block'
     document.getElementById("mobileContainerSentFriends").style = 'display: block'
+    document.getElementById("addFriendContainer").style = 'display: flex'
 };
 document.getElementById("friendsPagePendingButton").onclick = pendingFriendsPage
 
 function socialMediaPage() {
+    document.getElementById("friendListCollapsible").style = 'display: none'
     document.getElementById("mobileContainerAcceptedFriends").style = 'display: none'
     document.getElementById("pendingFriends").style = 'display: none'
     document.getElementById("socialMediaPage").style = 'display: block'
@@ -154,6 +159,7 @@ function socialMediaPage() {
     document.getElementById("friendsPagePendingButton").style = 'color: grey'
     document.getElementById("friendsPageSocialMediaButton").style = 'color: white'
     document.getElementById("pageTitle").innerHTML = 'Social Media'
+    document.getElementById("addFriendContainer").style = 'display: none'
 };
 document.getElementById("friendsPageSocialMediaButton").onclick = socialMediaPage
 

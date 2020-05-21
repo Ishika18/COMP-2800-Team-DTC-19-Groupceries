@@ -21,7 +21,6 @@
                            <button id="myGroceryLists" class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
                         </div>
                         <div id="availableLists" class="collapse listsArea">
-                            <newListButtonPlaceHolder id="newListButtonPlaceHolder"></newListButtonPlaceHolder>
                         </div>
                     </div>
                     <div id="friendLists">
@@ -29,7 +28,7 @@
                             <label class="inputLabels"><h4 class="collapsibleText">Friend' Lists</h4></label>
                             <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>
                         </div>
-                        <div class="collapse" id="friendsListCollapsibles">
+                        <div class="collapse listsArea" id="friendsListCollapsibles">
                         </div>
                     </div>
                 </div>
@@ -58,14 +57,14 @@
                             </div>
                             <div id="pendingFriends">
                                 <div class="p-2 listCollapsible" id="receivedFriendListCollapsible">
-                                    <label class="inputLabels"><h4 class="collapsibleText">Received Friend Requests</h4></label>
+                                    <label class="inputLabels"><h4 class="collapsibleText">Received Requests</h4></label>
                                    <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
                                 </div>
                                 <div id ="mobileContainerReceivedFriends">
                                     <%- include('../partials/receivedFriends.ejs'); -%>  
                                 </div>
                                 <div class="p-2 listCollapsible" id="sentFriendListCollapsible">
-                                    <label class="inputLabels"><h4 class="collapsibleText">Sent Friend Requests</h4></label>
+                                    <label class="inputLabels"><h4 class="collapsibleText">Sent Requests</h4></label>
                                    <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
                                 </div>
                                 <div id ="mobileContainerSentFriends">
@@ -73,7 +72,9 @@
                                 </div> 
                             </div>    
                             <div id="socialMediaPage">
-                            </div>                        
+                                <%- include('../partials/facebook.ejs'); -%>
+                                <%- include('../partials/twitter.ejs'); -%>
+                            </div>                   
                         </div>
                     </div>
                     <div class="col-lg-3" id="aboutUsPage">
@@ -134,9 +135,9 @@
                         <!-- <div id="listArea" class="itemsArea"> -->
                             <div class="groceryList">
                                 <div id="buttons">
-                                        <div class="d-flex addListBox">
+                                        <div class="d-flex addListBox" id="myListBar">
                                             <div class="mr-auto p-2" id="listTitleSection"><p id="listTitle">My List</p></div>
-                                            <div class="p-2 ml-auto rightMostButton"><button type="button" id="deleteEntireListButton" class="deleteEntireListButton"><i id="delIcon" class="far fa-trash-alt"></i></button>
+                                            <div class="p-2 ml-auto rightMostButton" id="rightMostButton"><button type="button" id="deleteEntireListButton" class="deleteEntireListButton"><i id="delIcon" class="far fa-trash-alt"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -150,15 +151,12 @@
         </div>
     </div>
 </div>
-<%- include('../partials/facebook.ejs'); -%> <br>
-<%- include('../partials/twitter.ejs'); -%> <br>
 <div class="row fixed-bottom" id="buttonFooter">
     <%- include('../partials/mergePageButtons.ejs'); -%>
     <%- include('../partials/friendsPageButtons.ejs'); -%>
     <%- include('../partials/mobileMainButtons.ejs'); -%>
     <%- include('../partials/mobileNavBar.ejs'); -%>
 </div>
-
 <script src="/js/lodash.js"></script>
 <script src="/js/firebaseInit.js"></script>
 <script src="/js/mainPageResponsiveness.js"></script>

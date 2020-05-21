@@ -8,6 +8,9 @@
 }
 
 @media (min-width: 1025px) {
+    #socialMediaPage {
+        display: none;
+    }
     #aboutUsPage {
         height: calc(100vh - 11rem);
         display: none
@@ -260,6 +263,7 @@
         margin-bottom: 0.625rem;
     }
     .addListBox {
+        height: 2.8rem;
         background-color: lightgray;
         margin-top: 0.625rem;
         margin-bottom: 0.625rem;
@@ -402,6 +406,7 @@
         align-self: center;
         padding-left: 0;
         padding-right: 0;
+        z-index: 1000;
     }
     .listsPageArea {
         overflow-y:scroll;
@@ -584,9 +589,14 @@
     #left {
         display: none;
         min-width: 100%;
+        overflow-y: scroll;
+        max-height: calc(100vh - 13rem - 60px);
     }
     #aboutUsPage {
         display: none;
+    }
+    .listCollapsible, .listCollapsibleLayer2, .listCollapsibleLayer3 {
+        height: 2.8rem;
     }
     .listCollapsible {
         background-color: whitesmoke;
@@ -624,16 +634,24 @@
         color: grey;
         border: 0;
         background-color: #140A26!important;
+        padding-left: 0;
+        padding-right: 18px;
     }
 }
+#right {
+    padding-left: 0;
+    padding-right: 0;
+    overflow-y: scroll;
+    max-height: calc(100vh - 13rem - 60px);
+}
 #mobileAddFriendButton {
-    width: 70%;
-    height: 100%;
+    width: auto;
+    height: auto;
     padding: 0.8rem;
     border-radius: 0.8rem;
     color: white;
 }
-/* #mobileAddFriendContainer {
+.mobileAddContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -641,7 +659,7 @@
     padding-bottom: 3.5rem;
     margin-bottom: 6.5rem;
     background: transparent;
-} */
+}
 #delIcon {
     width: 2rem;
 }
@@ -658,20 +676,20 @@
     border: transparent;
     margin-top: 0.5rem;
 }
-.deleteEntireListButton {
+.deleteEntireListButton, #createListButton, .addToListButton {
     color: white;
     font-weight: bold;
-    height: 100%;
     float: right;
     border: transparent;
     font-size: 0.8rem;
 }
-.addToListButton {
-    color: white;
-    font-weight: bold;
-    float: right;
-    border: transparent;
-    font-size: 0.8rem;
+#createListButton {
+    width: 150%;
+    background-color: #00c587;
+}
+#newListTitleInputBar {
+    width: 100%;
+    height: 100%;
 }
 .deleteEntireListButton{
     background-color: red;
@@ -747,4 +765,219 @@
 }
 #launchPageTop {
     background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
+}
+/* loader css */
+/* gotten from https://redstapler.co/add-loading-animation-to-website/ */
+.loader-wrapper {
+    z-index: 100000000000000;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #00c587;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader {
+    z-index: 100000000000001;
+    display: inline-block;
+}
+#loaderImage {
+    animation: loader 1.25s;
+    animation-iteration-count:infinite;
+}
+@keyframes loader {
+    0% { transform: rotate(0deg);}
+    1% { transform: rotate(0deg);}
+    2% { transform: rotate(0deg);}
+    3% { transform: rotate(0deg);}
+    4% { transform: rotate(0deg);}
+    5% { transform: rotate(0deg);}
+    6% { transform: rotate(0deg);}
+    7% { transform: rotate(0deg);}
+    8% { transform: rotate(0deg);}
+    9% { transform: rotate(0deg);}
+    10.0% { transform: rotate(0deg);}
+    10.5% { transform: rotate(2deg);}
+    11.0% { transform: rotate(4deg);}
+    11.5% { transform: rotate(6deg);}
+    12.0% { transform: rotate(8deg);}
+    12.5% { transform: rotate(10deg);}
+    13.0% { transform: rotate(12deg);}
+    13.5% { transform: rotate(14deg);}
+    14.0% { transform: rotate(16deg);}
+    14.5% { transform: rotate(18deg);}
+    15.0% { transform: rotate(20deg);}
+    15.5% { transform: rotate(22deg);}
+    16.0% { transform: rotate(24deg);}
+    16.5% { transform: rotate(26deg);}
+    17.0% { transform: rotate(28deg);}
+    17.5% { transform: rotate(30deg);}
+    18.0% { transform: rotate(32deg);}
+    18.5% { transform: rotate(34deg);}
+    19.0% { transform: rotate(36deg);}
+    19.5% { transform: rotate(38deg);}
+    20.0% { transform: rotate(40deg);}
+    20.5% { transform: rotate(42deg);}
+    21.0% { transform: rotate(44deg);}
+    21.5% { transform: rotate(46deg);}
+    22.0% { transform: rotate(48deg);}
+    22.5% { transform: rotate(50deg);}
+    23.0% { transform: rotate(52deg);}
+    23.5% { transform: rotate(54deg);}
+    24.0% { transform: rotate(56deg);}
+    24.5% { transform: rotate(58deg);}
+    25.0% { transform: rotate(60deg);}
+    25.5% { transform: rotate(62deg);}
+    26.0% { transform: rotate(64deg);}
+    26.5% { transform: rotate(66deg);}
+    27.0% { transform: rotate(68deg);}
+    27.5% { transform: rotate(70deg);}
+    28.0% { transform: rotate(72deg);}
+    28.5% { transform: rotate(74deg);}
+    29.0% { transform: rotate(76deg);}
+    29.5% { transform: rotate(78deg);}
+    30.0% { transform: rotate(80deg);}
+    30.5% { transform: rotate(82deg);}
+    31.0% { transform: rotate(84deg);}
+    31.5% { transform: rotate(86deg);}
+    32.0% { transform: rotate(88deg);}
+    32.5% { transform: rotate(90deg);}
+    33.0% { transform: rotate(92deg);}
+    33.5% { transform: rotate(94deg);}
+    34.0% { transform: rotate(96deg);}
+    34.5% { transform: rotate(98deg);}
+    35.0% { transform: rotate(100deg);}
+    35.5% { transform: rotate(102deg);}
+    36.0% { transform: rotate(104deg);}
+    36.5% { transform: rotate(106deg);}
+    37.0% { transform: rotate(108deg);}
+    37.5% { transform: rotate(110deg);}
+    38.0% { transform: rotate(112deg);}
+    38.5% { transform: rotate(114deg);}
+    39.0% { transform: rotate(116deg);}
+    39.5% { transform: rotate(118deg);}
+    40.0% { transform: rotate(120deg);}
+    40.5% { transform: rotate(122deg);}
+    41.0% { transform: rotate(124deg);}
+    41.5% { transform: rotate(126deg);}
+    42.0% { transform: rotate(128deg);}
+    42.5% { transform: rotate(130deg);}
+    43.0% { transform: rotate(132deg);}
+    43.5% { transform: rotate(134deg);}
+    44.0% { transform: rotate(136deg);}
+    44.5% { transform: rotate(138deg);}
+    45.0% { transform: rotate(140deg);}
+    45.5% { transform: rotate(142deg);}
+    46.0% { transform: rotate(144deg);}
+    46.5% { transform: rotate(146deg);}
+    47.0% { transform: rotate(148deg);}
+    47.5% { transform: rotate(150deg);}
+    48.0% { transform: rotate(152deg);}
+    48.5% { transform: rotate(154deg);}
+    49.0% { transform: rotate(156deg);}
+    49.5% { transform: rotate(158deg);}
+    50.0% { transform: rotate(160deg);}
+    50.5% { transform: rotate(162deg);}
+    51.0% { transform: rotate(164deg);}
+    51.5% { transform: rotate(166deg);}
+    52.0% { transform: rotate(168deg);}
+    52.5% { transform: rotate(170deg);}
+    53.0% { transform: rotate(172deg);}
+    53.5% { transform: rotate(174deg);}
+    54.0% { transform: rotate(176deg);}
+    54.5% { transform: rotate(178deg);}
+    55.0% { transform: rotate(180deg);}
+    55.5% { transform: rotate(182deg);}
+    56.0% { transform: rotate(184deg);}
+    56.5% { transform: rotate(186deg);}
+    57.0% { transform: rotate(188deg);}
+    57.5% { transform: rotate(190deg);}
+    58.0% { transform: rotate(192deg);}
+    58.5% { transform: rotate(194deg);}
+    59.0% { transform: rotate(196deg);}
+    59.5% { transform: rotate(198deg);}
+    60.0% { transform: rotate(200deg);}
+    60.5% { transform: rotate(202deg);}
+    61.0% { transform: rotate(204deg);}
+    61.5% { transform: rotate(206deg);}
+    62.0% { transform: rotate(208deg);}
+    62.5% { transform: rotate(210deg);}
+    63.0% { transform: rotate(212deg);}
+    63.5% { transform: rotate(214deg);}
+    64.0% { transform: rotate(216deg);}
+    64.5% { transform: rotate(218deg);}
+    65.0% { transform: rotate(220deg);}
+    65.5% { transform: rotate(222deg);}
+    66.0% { transform: rotate(224deg);}
+    66.5% { transform: rotate(226deg);}
+    67.0% { transform: rotate(228deg);}
+    67.5% { transform: rotate(230deg);}
+    68.0% { transform: rotate(232deg);}
+    68.5% { transform: rotate(234deg);}
+    69.0% { transform: rotate(236deg);}
+    69.5% { transform: rotate(238deg);}
+    70.0% { transform: rotate(240deg);}
+    70.5% { transform: rotate(242deg);}
+    71.0% { transform: rotate(244deg);}
+    71.5% { transform: rotate(246deg);}
+    72.0% { transform: rotate(248deg);}
+    72.5% { transform: rotate(250deg);}
+    73.0% { transform: rotate(252deg);}
+    73.5% { transform: rotate(254deg);}
+    74.0% { transform: rotate(256deg);}
+    74.5% { transform: rotate(258deg);}
+    75.0% { transform: rotate(260deg);}
+    75.5% { transform: rotate(262deg);}
+    76.0% { transform: rotate(264deg);}
+    76.5% { transform: rotate(266deg);}
+    77.0% { transform: rotate(268deg);}
+    77.5% { transform: rotate(270deg);}
+    78.0% { transform: rotate(272deg);}
+    78.5% { transform: rotate(274deg);}
+    79.0% { transform: rotate(276deg);}
+    79.5% { transform: rotate(278deg);}
+    80.0% { transform: rotate(280deg);}
+    80.5% { transform: rotate(282deg);}
+    81.0% { transform: rotate(284deg);}
+    81.5% { transform: rotate(286deg);}
+    82.0% { transform: rotate(288deg);}
+    82.5% { transform: rotate(290deg);}
+    83.0% { transform: rotate(292deg);}
+    83.5% { transform: rotate(294deg);}
+    84.0% { transform: rotate(296deg);}
+    84.5% { transform: rotate(298deg);}
+    85.0% { transform: rotate(300deg);}
+    85.5% { transform: rotate(302deg);}
+    86.0% { transform: rotate(304deg);}
+    86.5% { transform: rotate(306deg);}
+    87.0% { transform: rotate(308deg);}
+    87.5% { transform: rotate(310deg);}
+    88.0% { transform: rotate(312deg);}
+    88.5% { transform: rotate(314deg);}
+    89.0% { transform: rotate(316deg);}
+    89.5% { transform: rotate(318deg);}
+    90.0% { transform: rotate(320deg);}
+    90.5% { transform: rotate(322deg);}
+    91.0% { transform: rotate(324deg);}
+    91.5% { transform: rotate(326deg);}
+    92.0% { transform: rotate(328deg);}
+    92.5% { transform: rotate(330deg);}
+    93.0% { transform: rotate(332deg);}
+    93.5% { transform: rotate(334deg);}
+    94.0% { transform: rotate(336deg);}
+    94.5% { transform: rotate(338deg);}
+    95.0% { transform: rotate(340deg);}
+    95.5% { transform: rotate(342deg);}
+    96.0% { transform: rotate(344deg);}
+    96.5% { transform: rotate(346deg);}
+    97.0% { transform: rotate(348deg);}
+    97.5% { transform: rotate(350deg);}
+    98.0% { transform: rotate(352deg);}
+    98.5% { transform: rotate(354deg);}
+    99.0% { transform: rotate(356deg);}
+    99.5% { transform: rotate(358deg);}
+    100.0% { transform: rotate(360deg);}
 }

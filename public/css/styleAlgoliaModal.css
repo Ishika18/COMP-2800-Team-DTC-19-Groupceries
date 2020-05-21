@@ -1,12 +1,13 @@
 /* SS - algolia modal popup styling */
 
 .aa-input-container {
+    width: 100%!important;
     display: inline-block;
     position: relative;
 }
 
 .aa-input-search {
-    width: 300px;
+    width: 100%!important;
     padding: 12px 28px 12px 12px;
     border: 1px solid #e4e4e4;
     box-sizing: border-box;
@@ -59,3 +60,7 @@
 .aa-empty {
     padding: 6px 12px;
 } 
+
+.algolia-autocomplete {
+    width: 100%!important;
+}

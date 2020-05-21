@@ -1,30 +1,33 @@
-<h3>Sharing Links</h3>
-
-<div id="shareBtn" class="btn btn-success clearfix">Share Dialog</div>
-
-<script>
-document.getElementById('shareBtn').onclick = function() {
-  FB.ui({
-    display: 'popup',
-    method: 'share',
-    href: 'https://developers.facebook.com/docs/',
-  }, function(response){});
-}
-</script>
-
-<h3>Publishing Open Graph Stories</h3>
-
-<div id="ogBtn" class="btn btn-success clearfix">Simple OG Dialog</div>
-
-<script>
-document.getElementById('ogBtn').onclick = function() {
-  FB.ui({
-    display: 'popup',
-    method: 'share_open_graph',
-    action_type: 'og.likes',
-    action_properties: JSON.stringify({
-        object:'https://developers.facebook.com/docs/',
-    })
-  }, function(response){});
-}
-</script>
+<div>
+  <br>
+  <h5>Share about us on facebook!</h5>
+  <br>
+  <div id="shareBtn" class="btn btn-success clearfix">Share Dialog</div>
+  
+  <script>
+  document.getElementById('shareBtn').onclick = function() {
+    FB.ui({
+      display: 'popup',
+      method: 'share',
+      href: 'https://developers.facebook.com/docs/',
+    }, function(response){});
+  }
+  </script>
+  
+  <div id="ogBtn" class="btn btn-success clearfix">Simple OG Dialog</div>
+  
+  <script>
+  document.getElementById('ogBtn').onclick = function() {
+    FB.ui({
+      display: 'popup',
+      method: 'share_open_graph',
+      action_type: 'og.likes',
+      action_properties: JSON.stringify({
+          object:'https://developers.facebook.com/docs/',
+      })
+    }, function(response){});
+  }
+  </script>
+  <br>
+  <br>
+</div>
