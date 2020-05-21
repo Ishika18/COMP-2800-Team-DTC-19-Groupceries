@@ -418,7 +418,6 @@ $( document ).ready(function() {
 function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
     if(myList){myList.id = uid} // myList exists initially but then gets deleted, function breaks on subsequent calls.
-    console.log(friendObj)
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
@@ -426,7 +425,6 @@ function loadLists(friendObj) {
         }
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
-        console.log(friendsLists)
         friendsLists.forEach(list => {//loops through array of lists for each friend
             createListElement(listSection, list) // creates a list display element for each list
         })
@@ -496,8 +494,15 @@ function createListElement(listSection, list) { //helper for loadLists
     listElementWrapper.appendChild(listLabel)
     listElementWrapper.appendChild(listElement)
     listElement.onclick = function(event){
-        displayList(listLabel.innerText)()
-        console.log(event.target, event.target.parentElement.parentElement.parentElement)
+        
+        if(event.target.parentElement.parentElement.parentElement.id != "myLists"){
+            let listOwnerUID = event.target.parentElement.parentElement.previousElementSibling.lastElementChild.id;
+            console.log(1)
+            displayList(listLabel.innerText, listOwnerUID)();
+        } else {
+            console.log(2)
+            displayList(listLabel.innerText)();
+        }
     }    
     listSection.appendChild(listElementWrapper)
     listElement.innerHTML = "View List"
@@ -580,13 +585,14 @@ function currentListForDB(){
     return "_" + document.getElementById('listTitle').innerText;
 };
 
-function displayList(listElement) {//used for switching lists
+function displayList(listElement, UID = uid) {//used for switching lists
     return function() {
     let currentListName = document.getElementById('listTitle')
     if (listElement !== currentListName.innerText) {
         currentListName.innerText = listElement // updates name of list
+        // bugs out if friend list has same name as user list
         clearList()
-        loadNewList(uid, "_" + currentListName.innerText)
+        loadNewList(UID, "_" + currentListName.innerText)
 
     }
 }

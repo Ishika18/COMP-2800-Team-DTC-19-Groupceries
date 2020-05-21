@@ -44,8 +44,7 @@ function removeItem(user, groceryList, item){
     }, {merge: true})
     .then(function() {
         console.log("Write success, the database should now have removed contain this entry.")
-        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
-        
+        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");  
     })
     .catch(function(error) {
         console.error(error);
@@ -147,6 +146,7 @@ function newListener(){
 
 // this function will need to be somehow passed UID of friend if loading friend list
 function loadNewList(UID, groceryList){
+    console.log("lnl", UID, groceryList);
     if(UID == localStorage.getItem('uid')){
         db.collection(UID).doc("recentList").set({list: groceryList})
     };
