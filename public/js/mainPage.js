@@ -241,12 +241,35 @@ function createEntryInDB() {
     database.items.push(dbEntry)
     return dbEntry
 }
+function checkIfItemAlreadyExists(name, quantity, units, notes){
+    let existingItemsinDB = Array.from(document.getElementsByClassName("listItems"))
+    let alreadyExists = false
+    for (item in existingItemsinDB) {
+        if (Array.from(existingItemsinDB[item].getElementsByClassName("textInput")).length === 0){
+        let itemName = existingItemsinDB[item].getElementsByClassName("Name").item(0).value
+        let itemQty = parseFloat(existingItemsinDB[item].getElementsByClassName("Quantity").item(0).value)
+        let itemUnits = existingItemsinDB[item].getElementsByClassName("Units").item(0).value
+        let itemNotes = existingItemsinDB[item].getElementsByClassName("Notes(Optional)").item(0).value
+        if (itemName === name && itemQty === quantity && itemUnits === units && itemNotes === notes) {
+            alreadyExists = true
+            swal({
+                title: "Error",
+                text: "This item cannot be added because it is identical to an existing item.",
+                icon: "warning",
+            });
+        }
+    }
+}
+    return alreadyExists
+}
 
 function addItemDetails(item) {
     return function () {
         let name = item.getElementsByClassName("Name").item(0).value.trim()
         let quantity = parseFloat(item.getElementsByClassName("Quantity").item(0).value)
         let units = item.getElementsByClassName("Units").item(0).value
+        let notes = item.getElementsByClassName("Notes(Optional)").item(0).value
+        if (!checkIfItemAlreadyExists(name, quantity, units, notes)){
         if (name != "" && quantity > 0 && units != "") {
             dbEntry = createEntryInDB()
             editDBEntry(item, dbEntry)
@@ -260,7 +283,7 @@ function addItemDetails(item) {
         } else {
             evaluateFields(quantity, name, units)
         }
-    }
+    }}
 }
 
 function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
@@ -481,6 +504,7 @@ function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
     if(myList){myList.id = uid} // myList exists initially but then gets deleted, function breaks on subsequent calls.
     let friends = Object.keys(friendObj)
+    console.log(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
             createFriendElement(friend)//if not, creates one for it
@@ -489,7 +513,8 @@ function loadLists(friendObj) {
         let friendsLists = friendObj[friend]
         friendsLists.forEach(list => {//loops through array of lists for each friend
             createListElement(listSection, list, friend) // creates a list display element for each list
-        })
+            }
+        )
 
     });
 }
@@ -602,6 +627,14 @@ function createNewList() {
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
         let createList = true
+        if(listName.trim() === ""){
+            swal({
+                title: "Error",
+                text: "New list name cannot be blank.",
+                icon: "warning",
+            }); 
+            createList = false
+        }
         let usersExistingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
         for (list in usersExistingLists) {
             let existingListTitle = usersExistingLists[list].getElementsByClassName("inputLabels").item(0).innerText
@@ -621,7 +654,7 @@ function createNewList() {
         submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
         cancelButton.style.display = "none"
         let listSection = document.getElementById(uid).parentElement.nextElementSibling
-        createListElement(listSection, listName)//adds new list to side bar
+        createListElement(listSection, listName, uid)//adds new list to side bar
         clearList() //clears list on UI so user can start with an empty list for their new list
         newListButton.onclick = createNewList
         addGroceryList(uid, "_" + listName);
@@ -635,8 +668,6 @@ function createNewList() {
         cancelButton.style.display = "none"
     })
 }
-
-
 
 
 function deleteList() { // deletes current list -  a user can only delete their own lists
@@ -666,8 +697,8 @@ function deleteList() { // deletes current list -  a user can only delete their 
                             deleteGroceryList(uid, "_" + currentListName)
                             listElement.remove()
                             clearList()
+                            getNextList()
 
-                            //add functionality to load the next list in line
                         }
                     })
                 }
@@ -676,8 +707,14 @@ function deleteList() { // deletes current list -  a user can only delete their 
     })
 }
 
-
 deleteList()
+
+function getNextList() {
+    let remainingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
+    if (remainingLists.length != 0) {
+        remainingLists[0].lastChild.click()
+    }
+}
 
 function currentListForDB() {
     return "_" + document.getElementById('listTitle').innerText;
