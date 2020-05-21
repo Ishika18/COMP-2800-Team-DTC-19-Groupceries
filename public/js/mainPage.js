@@ -497,10 +497,8 @@ function createListElement(listSection, list) { //helper for loadLists
         
         if(event.target.parentElement.parentElement.parentElement.id != "myLists"){
             let listOwnerUID = event.target.parentElement.parentElement.previousElementSibling.lastElementChild.id;
-            console.log(1)
             displayList(listLabel.innerText, listOwnerUID)();
         } else {
-            console.log(2)
             displayList(listLabel.innerText)();
         }
     }    
@@ -587,16 +585,33 @@ function currentListForDB(){
 
 function displayList(listElement, UID = uid) {//used for switching lists
     return function() {
-    let currentListName = document.getElementById('listTitle')
-    if (listElement !== currentListName.innerText) {
-        currentListName.innerText = listElement // updates name of list
-        // bugs out if friend list has same name as user list
-        clearList()
-        loadNewList(UID, "_" + currentListName.innerText)
-
+        let currentListName = document.getElementById('listTitle')
+        if (listElement !== currentListName.innerText) {
+            currentListName.innerText = listElement // updates name of list
+            // bugs out if friend list has same name as user list
+            clearList();
+            loadNewList(UID, "_" + currentListName.innerText);
+        }
     }
 }
+
+function updateInteractionStatus(UID){
+    console.log(UID);
+    $("#newItem").prop("disabled", false);
+    $("#deleteEntireListButton").css("display", "block");
+    $("#readyForShoppingToggle").prop("disabled", false);
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
+    if(UID != uid){deleteInteraction()};
+};
+
+function deleteInteraction() {
+    $(".listItems button").css("display", "none");
+    $("#deleteEntireListButton").css("display", "none");
+    $("#newItem").prop("disabled", true);
+    $("#readyForShoppingToggle").prop("disabled", true);
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", "");
 }
+
     
 function clearList() {
         let currentList = document.getElementById("groceryList") //clears list area

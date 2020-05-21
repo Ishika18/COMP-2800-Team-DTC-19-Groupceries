@@ -154,6 +154,7 @@ function loadNewList(UID, groceryList){
     .then(data => {
         if(data.exists){
             updateClient(data.data().items);
+            updateInteractionStatus(UID);
             updateToggle(data.data().ready_to_buy);
         };
     })
