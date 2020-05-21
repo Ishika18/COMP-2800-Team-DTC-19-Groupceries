@@ -601,7 +601,20 @@ function createNewList() {
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
-        let usersExistingLists = $('*[data-belongs-to=' + uid + ']')
+        let createList = true
+        let usersExistingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
+        for (list in usersExistingLists) {
+            let existingListTitle = usersExistingLists[list].getElementsByClassName("inputLabels").item(0).innerText
+            if (existingListTitle === listName) {
+                swal({
+                    title: "Error",
+                    text: "You cannot have two lists with the same name. Please input a different name.",
+                    icon: "warning",
+                });
+                createList = false
+            }
+        }
+        if (createList){
         currentListTitle.innerText = listName
         currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
@@ -612,8 +625,8 @@ function createNewList() {
         clearList() //clears list on UI so user can start with an empty list for their new list
         newListButton.onclick = createNewList
         addGroceryList(uid, "_" + listName);
-        loadNewList(uid, "_" + currentListName.innerText)
-    })
+        loadNewList(uid, "_" + currentListTitle.innerText)
+    }})
     cancelButton.addEventListener('click', _=>{
         currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
@@ -648,7 +661,6 @@ function deleteList() { // deletes current list -  a user can only delete their 
                     let currentUserListSection = document.getElementById('availableLists')
                     let currentUsersLists = Array.from(currentUserListSection.getElementsByClassName('listElement'))
                     currentUsersLists.forEach(listElement => {
-                        console.log(listElement)
                         if (listElement.firstChild.innerText === currentListName) {
                             document.getElementById('listTitle').innerText = ""
                             deleteGroceryList(uid, "_" + currentListName)
@@ -682,14 +694,14 @@ function displayList(listElement, listOwner = uid) {//used for switching lists
             currentListName.innerText = listElement // updates name of list
             clearList()//clears any elements from the previous list
             loadNewList(listOwner, "_" + currentListName.innerText)
-            if (listOwner != uid) {
-                document.getElementById('deleteEntireListButton').style.display = "none"
-                document.getElementById('newItem').style.display = "none"
-            }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
-            if (listOwner === uid) {
-                document.getElementById('deleteEntireListButton').style.display = "inline-block"
-                document.getElementById('newItem').style.display = "inline-block"
-            }//if the list does belong to the user, ensure they have the ability to edit
+            // if (listOwner != uid) {
+            //     document.getElementById('deleteEntireListButton').style.display = "none"
+            //     document.getElementById('newItem').style.display = "none"
+            // }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
+            // if (listOwner === uid) {
+            //     document.getElementById('deleteEntireListButton').style.display = "inline-block"
+            //     document.getElementById('newItem').style.display = "inline-block"
+            // }//if the list does belong to the user, ensure they have the ability to edit
         } else {
             swal({
                 title: "Error",
@@ -701,17 +713,18 @@ function displayList(listElement, listOwner = uid) {//used for switching lists
 }
 
 function updateInteractionStatus(UID){
-    $("#newItem").prop("disabled", false);
+    $("#newItem").css("display", "block");
     $("#deleteEntireListButton").css("display", "block");
     $("#readyForShoppingToggle").prop("disabled", false);
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
     if(UID != uid){deleteInteraction()};
+        
 };
 
 function deleteInteraction() {
     $(".listItems button").css("display", "none");
     $("#deleteEntireListButton").css("display", "none");
-    $("#newItem").prop("disabled", true);
+    $("#newItem").css("display", "none");
     $("#readyForShoppingToggle").prop("disabled", true);
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", "");
 }
