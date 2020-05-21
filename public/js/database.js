@@ -3,23 +3,6 @@ function write(user, groceryList, itemList){
         items: itemList,
         ready_to_buy: false
     })
-    .then(function() {
-        console.log("Write success, the database should now contain this entry.")
-        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
-        
-    })
-    .catch(function(error) {
-        console.error(error);
-    });
-};
-
-function read(user){
-    db.collection(user).get().then(function(querySnapshot) {
-        console.log(querySnapshot.length)
-        querySnapshot.forEach(function(doc) {
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
     .catch(function(error) {
         console.error(error);
     });
@@ -28,11 +11,7 @@ function read(user){
 function addItem(user, groceryList, item){
     db.collection(user).doc(groceryList).set({
         items: firebase.firestore.FieldValue.arrayUnion(item)
-    }, {merge: true}).then(function() {
-        console.log("Write success, the database should now contain this entry.")
-        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
-        
-    })
+    }, {merge: true})
     .catch(function(error) {
         console.error(error);
     });
@@ -42,10 +21,6 @@ function removeItem(user, groceryList, item){
     db.collection(user).doc(groceryList).set({
         items: firebase.firestore.FieldValue.arrayRemove(item)
     }, {merge: true})
-    .then(function() {
-        console.log("Write success, the database should now have removed contain this entry.")
-        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");  
-    })
     .catch(function(error) {
         console.error(error);
     });
@@ -57,10 +32,6 @@ function addGroceryList(user, groceryList){
         ready_to_buy: false,
     };
     db.collection(user).doc(groceryList).set(GROCERY_LIST_INITIAL_STATE)
-    .then(function() {
-        console.log("Write success, the database should now contain this entry.")
-        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
-    })
     .catch(function(error) {
         console.error(error);
     });
@@ -71,10 +42,7 @@ function deleteGroceryList(user, groceryList){
         console.log("this is true");
         db.collection(user).doc("recentList").set({list: ""})
     };
-    db.collection(user).doc(groceryList).delete().then(function() {
-        console.log("Delete success, the database should no longer contain this entry");
-        console.log("Invoke 'read('" + user +"')' to view all lists for this user.");
-    }).catch(function(error) {
+    db.collection(user).doc(groceryList).delete().catch(function(error) {
         console.error(error);
     });
 };
@@ -124,18 +92,6 @@ function newListener(){
                     };
                 })
             };
-            if(change.doc.ref.id.charAt(0) == "_"){
-                if(change.type == "added"){
-                    // replace console.log with instantiate list function *
-                    // deprecate creating list in front end on list creation, move to here based on database change
-                    console.log(change.doc.ref.id.slice(1));
-                };
-                if(change.type == "removed"){
-                    // replace console.log with delete list function *
-                    console.log(change.doc.ref.id.slice(1));
-                };
-            };
-            console.log(change.type, "to list", change.doc.ref.id, change.doc.data());
             if(change.doc.ref.id == currentListForDB()){
                 updateClient(change.doc.data().items)
                 updateToggle(change.doc.data().ready_to_buy);
@@ -146,16 +102,16 @@ function newListener(){
 
 // this function will need to be somehow passed UID of friend if loading friend list
 function loadNewList(UID, groceryList){
-    console.log("lnl", UID, groceryList);
     if(UID == localStorage.getItem('uid')){
         db.collection(UID).doc("recentList").set({list: groceryList})
     };
     db.collection(UID).doc(groceryList).get()
     .then(data => {
         if(data.exists){
+            console.log(data.data(), data.data().ready_to_buy);
             updateClient(data.data().items);
-            updateInteractionStatus(UID);
             updateToggle(data.data().ready_to_buy);
+            updateInteractionStatus(UID);   
         };
     })
     .catch(error => console.log(error));
@@ -228,11 +184,13 @@ function toggleReadyDatabase(){
 
 function toggleReadyDatabaseMobile(value){
     db.collection(localStorage.getItem('uid')).doc(currentListForDB()).get().then(data => {
-        currentValue = data.data().ready_to_buy;
-        if(currentValue != value){
-            db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: !currentValue})
+        if(data.exists){
+            currentValue = data.data().ready_to_buy;
+            if(currentValue != value){
+                db.collection(localStorage.getItem('uid')).doc(currentListForDB()).update({ready_to_buy: !currentValue})
+            };
         };
-    })
+    }).catch(error => console.log(error));
 };
 
 onLoad();
