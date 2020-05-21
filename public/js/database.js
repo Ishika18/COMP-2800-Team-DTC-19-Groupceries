@@ -103,6 +103,7 @@ function newListener(){
                     });
                 }).finally(() => {
                     friendsAndTheirLists[localStorage.getItem('uid')] = userLists
+                    if(friendsList.length == 0){loadLists(friendsAndTheirLists);};
                     // Shagun needs to initalize so accepted exists, length != null/undefined *
                     for(let i = 0; i < friendsList.length; i++){
                         let friendUID = friendsList[i];
@@ -114,7 +115,6 @@ function newListener(){
                                 };
                             });
                         }).finally(()=>{
-                            console.log(friendUID);
                             friendsAndTheirLists[friendUID] = listNames;
                             finishedPromises++;
                             if(finishedPromises == friendsList.length){
