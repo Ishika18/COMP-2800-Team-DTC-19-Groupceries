@@ -602,6 +602,7 @@ function createNewList() {
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
+        let usersExistingLists = $('*[data-belongs-to=' + uid + ']')
         currentListTitle.innerText = listName
         currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
@@ -681,9 +682,8 @@ function displayList(listElement, listOwner) {//used for switching lists
             }
             let currentListName = document.getElementById('listTitle')//get name of current list displayed
             currentListName.innerText = listElement // updates name of list
-
             clearList()//clears any elements from the previous list
-            loadNewList(listOwner, "_" + currentListName.innerText)//loads the list
+            loadNewList(listOwner, "_" + currentListName.innerText)
             if (listOwner != uid) {
                 document.getElementById('deleteEntireListButton').style.display = "none"
                 document.getElementById('newItem').style.display = "none"
@@ -692,6 +692,7 @@ function displayList(listElement, listOwner) {//used for switching lists
             if (listOwner === uid) {
                 document.getElementById('deleteEntireListButton').style.display = "inline-block"
                 document.getElementById('newItem').style.display = "inline-block"
+                
 
             }//if the list does belong to the user, ensure they have the ability to edit
 
