@@ -10,12 +10,14 @@ function responsiveDivDisplay() {
         document.getElementById("middle").className = "col-md-6"
         document.getElementById("right").className = "col-md-3"
         $('#newItem').insertAfter('.rightMostButton');
+        document.getElementById("desktopFriendsMenu").style.display = "block"
         // $('#createList').insertAfter('#myLists');
     }else {
         document.getElementById("left").style.display = "none"
         document.getElementById("middle").style.display = "block"
         document.getElementById("right").style.display = "none"
         document.getElementById("middle").className = "col-md-12"
+        document.getElementById("desktopFriendsMenu").style.display = "none"
         $('#newItem').insertAfter('#placeholder');
         $('#createList').insertAfter('#newListButtonPlaceHolder');
     }
@@ -75,7 +77,7 @@ function friendsButton() { //for mobile, allows user to view friends list when t
     document.getElementById("mainPageButtons").style = 'display: none'
     document.getElementById("friendsPageButtons").style = 'display: visible'
     document.getElementById("pageTitle").style = 'display: visible'
-    document.getElementById("pageTitle").innerHTML = 'Friends'
+    document.getElementById("pageTitle").innerHTML = 'My Friends'
     $(".pageArea").css('height', "calc(100vh - 12.366rem)");
 }
 document.getElementById("friends").onclick = friendsButton
@@ -121,6 +123,10 @@ function currentFriendsPage() {
     document.getElementById("friendsPageFriendsButton").style = 'color: white'
     document.getElementById("friendsPagePendingButton").style = 'color: grey'
     document.getElementById("friendsPageSocialMediaButton").style = 'color: grey'
+    document.getElementById("pageTitle").innerHTML = 'My Friends'
+    document.getElementById("receivedFriendListCollapsible").style = 'display: none'
+    document.getElementById("sentFriendListCollapsible").style = 'display: none'    
+    document.getElementById("friendListCollapsible").style = 'display: block'
 };
 document.getElementById("friendsPageFriendsButton").onclick = currentFriendsPage
 
@@ -131,6 +137,12 @@ function pendingFriendsPage() {
     document.getElementById("friendsPageFriendsButton").style = 'color: grey'
     document.getElementById("friendsPagePendingButton").style = 'color: white'
     document.getElementById("friendsPageSocialMediaButton").style = 'color: grey'
+    document.getElementById("pageTitle").innerHTML = 'Pending Requests'
+    document.getElementById("friendListCollapsible").style = 'display: none'
+    document.getElementById("receivedFriendListCollapsible").style = 'display: block'
+    document.getElementById("sentFriendListCollapsible").style = 'display: block'  
+    document.getElementById("mobileContainerReceivedFriends").style = 'display: block'
+    document.getElementById("mobileContainerSentFriends").style = 'display: block'
 };
 document.getElementById("friendsPagePendingButton").onclick = pendingFriendsPage
 
@@ -141,6 +153,7 @@ function socialMediaPage() {
     document.getElementById("friendsPageFriendsButton").style = 'color: grey'
     document.getElementById("friendsPagePendingButton").style = 'color: grey'
     document.getElementById("friendsPageSocialMediaButton").style = 'color: white'
+    document.getElementById("pageTitle").innerHTML = 'Social Media'
 };
 document.getElementById("friendsPageSocialMediaButton").onclick = socialMediaPage
 

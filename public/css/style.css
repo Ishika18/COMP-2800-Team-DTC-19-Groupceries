@@ -309,7 +309,7 @@
         color: white;
     }
     .centerbuttonbar {
-        margin-bottom: 3rem;
+        margin-bottom: 2.95rem;
         background-color: #140A26;
         color: white;
         display: flex;
@@ -384,6 +384,14 @@
         overflow-y:scroll;
         width:100%;
         height:calc(100vh - 13rem - 60px);
+        align-self: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .friendsArea{
+        display: block;
+        overflow-y:scroll;
+        width:100%;
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -618,6 +626,22 @@
         background-color: #140A26!important;
     }
 }
+#mobileAddFriendButton {
+    width: 70%;
+    height: 100%;
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    color: white;
+}
+/* #mobileAddFriendContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    padding-bottom: 3.5rem;
+    margin-bottom: 6.5rem;
+    background: transparent;
+} */
 #delIcon {
     width: 2rem;
 }
@@ -666,11 +690,21 @@
     height: 100%;
     width: max-content;
 }
-.viewListsbutton {
+.viewListsbutton, .acceptRequestButton, .cancelRequestButton, .removeFriendButton {
     float: right;
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+    padding: .4rem 1rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    color: white;
+}
+.viewListsbutton {
     background-color: lightskyblue;
+}
+.cancelRequestButton, .removeFriendButton {
+    background-color: red!important;
+}
+.collapsibleText {
+    margin-bottom: 0!important;
 }
 .deleteButton, .deleteListButton, .cancelButton {
     background-color: red;
@@ -678,9 +712,13 @@
 .editButton {
     background-color: rgb(50, 131, 238);
 } 
-.addButton, .saveButton, .addItemButton, .addToListButton {
-    background-color: #00c587
-} 
+.addButton, .saveButton, .addItemButton, .addToListButton, .acceptRequestButton, #mobileAddFriendButton{
+    background-color: #00c587;
+    border: #00c587;
+}
+.acceptRequestButton {
+    margin-left: 3%;
+}
 .p-2 {
     padding-bottom: 0!important;
     padding-right: 0!important;

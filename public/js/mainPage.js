@@ -460,7 +460,11 @@ function findListEntry(friend) {
 function createFriendElement(friend) { //helper for loadlists
     let friendElementWrapper = document.createElement("div")
     friendElementWrapper.classList.add("p-2", "listCollapsibleLayer2")
+    let textContainer = document.createElement("h4")
+    textContainer.className = "collapsibleText"
     let listLabel = document.createElement("label")
+    listLabel.className = "inputLabels"
+    listLabel.appendChild(textContainer)
     friendElementWrapper.appendChild(listLabel)
     let friendElement = document.createElement("button")
     friendElement.classList.add("btn", "collapsible", "viewListsbutton")
@@ -474,7 +478,7 @@ function createFriendElement(friend) { //helper for loadlists
     db.collection(friend).doc('userInfo').get()
         .then((doc) => {
             let name = doc.data().name
-            listLabel.innerHTML = name + "'s Lists"
+            textContainer.innerHTML = name + "'s Lists"
         })
 
     
@@ -490,7 +494,10 @@ function createListElement(listSection, list) { //helper for loadLists
     listElementWrapper.classList.add("p-2","listCollapsibleLayer3", "listElement")
     let listLabel = document.createElement("label")
     listLabel.classList.add("inputLabels")
-    listLabel.innerText = list
+    let textContainer = document.createElement("h4")
+    textContainer.className = "collapsibleText"
+    textContainer.innerText = list
+    listLabel.appendChild(textContainer)
     let listElement = document.createElement("button")
     listElement.classList.add("btn", "viewListsbutton")
     listElementWrapper.appendChild(listLabel)

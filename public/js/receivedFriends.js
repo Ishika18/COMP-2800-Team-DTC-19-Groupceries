@@ -52,19 +52,11 @@ function addReceivedHTML(uid) {
 
 function generateReceivedHTML(name, email, uid) {
     return `
-    <div class="row received" id=${uid}_R_row>
-      <div class="col-md">
-        <b>${name}</b>
-        <i>${email}</i>
-      </div>
-      <div class="col-sm">
-          <!-- The id for buttons are very important -->
-          <!-- Please don't change the id -->
-        <button id=${uid}_R onclick="acceptRequest('${uid}')">Accept</button>
-        <button id=${uid}_R onclick="declineRequest('${uid}')">Decline</button>
-      </div>
+    <div class="p-2 listCollapsibleLayer2 received" id=${uid}_R_row>
+        <label class="inputLabels"><h4 class="collapsibleText">${name}</h4></label>
+        <button id=${uid}_R onclick="acceptRequest('${uid}')" class="btn acceptRequestButton"><i class="fas fa-check"></i></button>
+        <button id=${uid}_R onclick="declineRequest('${uid}')" class="btn cancelRequestButton"><i class="fas fa-times"></i></button>
     </div>
-  </div>
     `
 }
 

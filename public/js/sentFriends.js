@@ -29,18 +29,10 @@ function addHTML(uid) {
 
 function generateHTML(name, email, uid) {
     return `
-    <div class="row sent" id=${uid}_S_row>
-      <div class="col-md">
-        <b>${name}</b>
-        <i>${email}</i>
-      </div>
-      <div class="col-sm">
-          <!-- The id for buttons are very important -->
-          <!-- Please don't change the id -->
-          <button id="${uid}_S" onclick="undoSentRequest('${uid}')">Undo Request</button>
-      </div>
+    <div class="p-2 listCollapsibleLayer2 sent" id=${uid}_S_row>
+        <label class="inputLabels"><h4 class="collapsibleText">${name}</h4></label>
+        <button id="${uid}_S" onclick="undoSentRequest('${uid}')" class="btn cancelRequestButton"><i class="fas fa-times"></i></button>
     </div>
-  </div>
     `
 }
 

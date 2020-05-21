@@ -20,8 +20,9 @@ let db = firebase.firestore();
 
 let friendController = {
     sendRequest: (currentUser, friendID) => {
-        console.log(currentUser);
-        console.log(friendID);
+        if ( currentUser == friendID ) {
+            return;
+        }
         // document friends of current user
         let currentUserDocs = db.collection(currentUser).doc("Friends");
 
