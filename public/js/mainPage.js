@@ -106,7 +106,6 @@ function updateClient(DBItems) {
 
 function findItemInClient(DBItem) {
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
-    console.log(listItems)
     for (let i = 0; i < listItems.length; i++) {
         if (_.isEqual(itemAsDBObject(listItems[i]), DBItem)) {
             return listItems[i];
@@ -145,7 +144,6 @@ function contains(item, items) {
 function stringifyDB(DBItems) { // deprecated for now
     let DBItemsAsStrings = [];
     for (let i = 0; i < DBItems.length; i++) {
-        console.log("item2", JSON.stringify(DBItems[i]))
         DBItemsAsStrings.push(JSON.stringify(DBItems[i]))
     };
     return DBItemsAsStrings;
@@ -273,7 +271,6 @@ function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new
     dbEntry.quantity.amount = parseFloat(fieldData[1])
     dbEntry.quantity.unit = fieldData[2]
     dbEntry.notes = fieldData[3]
-    console.log(database)
 }
 
 function toggleInputClass(item) { //disable or enable inputs as necessary, helper function for many other functions
@@ -339,12 +336,10 @@ function deleteListItem(item) {
                 if (value) {
                     removeItem(uid, currentListForDB(), itemAsDBObject(item));
                     let itemData = getFieldData(item)
-                    console.log(itemData)
                     let quantity = parseFloat(itemData[1])
                     let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
                     item.remove()
                     database.items.splice(dbEntryLocation, 1)
-                    console.log(database)
                 }
             })
     }
@@ -459,7 +454,6 @@ function collapse() {
         coll[i].onclick = function () {
             this.classList.toggle("active");
             let content = $(this).parent()[0].nextElementSibling;
-            console.log($(this).parent()[0].nextElementSibling)
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
@@ -648,7 +642,6 @@ function deleteList() { // deletes current list -  a user can only delete their 
                     let currentUserListSection = document.getElementById('availableLists')
                     let currentUsersLists = Array.from(currentUserListSection.getElementsByClassName('listElement'))
                     currentUsersLists.forEach(listElement => {
-                        console.log(listElement)
                         if (listElement.firstChild.innerText === currentListName) {
                             document.getElementById('listTitle').innerText = ""
                             deleteGroceryList(uid, "_" + currentListName)
