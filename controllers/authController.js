@@ -26,6 +26,12 @@ function intializeUser(user) {
             name: user.displayName,
             email: user.email
         }).catch(error => {console.log(error)});
+
+        db.collection(user.uid).doc("Friends").set({
+            accepted: [],
+            received: [],
+            sent: []
+        }).catch(error => {console.log(error)});
     }
 }
 

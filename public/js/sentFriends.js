@@ -6,7 +6,7 @@ function undoSentRequest(friendID) {
     // document friends of friend
     let friendDocs = db.collection(friendID).doc("Friends");
 
-    // delete the current uid to the friends'recieved
+    // delete the current uid to the friends'received
     friendDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
 
     // remove the notification (maybe ?)
@@ -21,7 +21,7 @@ function addHTML(uid) {
             let name = doc.data().name;
             let email = doc.data().email;
             if (!document.getElementById(uid + "_S_row")) {
-                $('#sentFriends').prepend(generateHTML(name, email, uid));
+                $('.sentFriends').prepend(generateHTML(name, email, uid));
             }
         }
     }).catch(err => console.log(err));
@@ -29,18 +29,10 @@ function addHTML(uid) {
 
 function generateHTML(name, email, uid) {
     return `
-    <div class="row sent" id=${uid}_S_row>
-      <div class="col-md">
-        <b>${name}</b>
-        <i>${email}</i>
-      </div>
-      <div class="col-sm">
-          <!-- The id for buttons are very important -->
-          <!-- Please don't change the id -->
-          <button id="${uid}_S" onclick="undoSentRequest('${uid}')">Undo Request</button>
-      </div>
+    <div class="p-2 listCollapsibleLayer2 sent" id=${uid}_S_row>
+        <label class="inputLabels"><h4 class="collapsibleText">${name}</h4></label>
+        <button id="${uid}_S" onclick="undoSentRequest('${uid}')" class="btn cancelRequestButton"><i class="fas fa-times"></i></button>
     </div>
-  </div>
     `
 }
 

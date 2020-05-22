@@ -20,15 +20,16 @@ let db = firebase.firestore();
 
 let friendController = {
     sendRequest: (currentUser, friendID) => {
-        console.log(currentUser);
-        console.log(friendID);
+        if ( currentUser == friendID ) {
+            return;
+        }
         // document friends of current user
         let currentUserDocs = db.collection(currentUser).doc("Friends");
 
         // document friends of friend
         let friendDocs = db.collection(friendID).doc("Friends");
 
-        // add the current uid to the friends' recieved
+        // add the current uid to the friends' received
         /* .arrayRemove can be used to remove elements from an array. */
         friendDocs.set({ received: firebase.firestore.FieldValue.arrayUnion(currentUser) }, { merge: true }).catch((error) => { console.log(error) });
 
@@ -45,7 +46,7 @@ let friendController = {
         // document friends of friend
         let friendDocs = db.collection(friendID).doc("Friends");
 
-        // delete the current uid to the friends'recieved
+        // delete the current uid to the friends'received
         friendDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(currentUser) }).catch((error) => { console.log(error) });
 
         // remove the notification (maybe ?)
@@ -83,7 +84,7 @@ let friendController = {
 
         // remove the notification (maybe ?)
 
-        // delete the friend email or uid to the cuurent users' recieved
+        // delete the friend email or uid to the cuurent users' received
         currentUserDocs.update({ received: firebase.firestore.FieldValue.arrayRemove(friendID) }).catch((error) => { console.log(error) });
     },
 
