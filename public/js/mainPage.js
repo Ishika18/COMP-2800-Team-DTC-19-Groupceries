@@ -473,7 +473,7 @@ function checkForList(list, friend){
     let alreadyExists = false
     let existingLists = Array.from($('*[data-belongs-to=' + friend + ']'))
     for (existingList in existingLists) {
-        if (existingLists[existingList].firstChild.innerText = list){
+        if (existingLists[existingList].firstChild.innerText === list){
             alreadyExists = true
         }
     }
