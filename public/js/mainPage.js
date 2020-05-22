@@ -461,13 +461,24 @@ function loadLists(friendObj) {
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
         friendsLists.forEach(list => {//loops through array of lists for each friend
+            if (!checkForList(list, friend)) {
             createListElement(listSection, list, friend) // creates a list display element for each list
-        }
+        }}
         )
 
     });
 };
 
+function checkForList(list, friend){
+    let alreadyExists = false
+    let existingLists = Array.from($('*[data-belongs-to=' + friend + ']'))
+    for (existingList in existingLists) {
+        if (existingLists[existingList].firstChild.innerText = list){
+            alreadyExists = true
+        }
+    }
+    return alreadyExists
+}
 function updateToggleMobile() {
     value = !document.getElementById("readyForShoppingToggle").checked;
     toggleReadyDatabaseMobile(value);
