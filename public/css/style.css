@@ -600,38 +600,11 @@
     #aboutUsPage {
         display: none;
     }
-    .listCollapsible, .listCollapsibleLayer2, .listCollapsibleLayer3 {
-        height: 2.8rem;
-    }
-    .listCollapsible {
-        background-color: whitesmoke;
-        margin-top: 1rem;
-        padding-top: 0rem!important;
-    }
-    .listCollapsibleLayer2 {
-        background-color: whitesmoke;
-        margin-top: 1rem;
-        padding-top: 0rem!important;
-        max-width: 95%;
-        margin-left: 5%;
-    }
-    .listCollapsibleLayer3 {
-        background-color: whitesmoke;
-        margin-top: 1rem;
-        padding-top: 0rem!important;
-        max-width: 90%;
-        margin-left: 10%;
-    }
     #listTitleSection {
         padding-top: 0!important;
     }
     .groceryList {
         overflow-y: hidden;
-    }
-    .inputLabels {
-        margin-bottom: 0;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem!important;
     }
     .friendsPageNavBar {
         width: 100%;
@@ -642,6 +615,33 @@
         padding-left: 0;
         padding-right: 18px;
     }
+}
+.listCollapsible, .listCollapsibleLayer2, .listCollapsibleLayer3 {
+    height: 2.8rem;
+}
+.listCollapsible {
+    background-color: whitesmoke;
+    margin-top: 1rem;
+    padding-top: 0rem!important;
+}
+.listCollapsibleLayer2 {
+    background-color: whitesmoke;
+    margin-top: 1rem;
+    padding-top: 0rem!important;
+    max-width: 95%;
+    margin-left: 5%;
+}
+.listCollapsibleLayer3 {
+    background-color: whitesmoke;
+    margin-top: 1rem;
+    padding-top: 0rem!important;
+    max-width: 90%;
+    margin-left: 10%;
+}
+.inputLabels {
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem!important;
 }
 #right {
     padding-left: 0;
