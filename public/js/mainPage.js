@@ -609,6 +609,7 @@ function createNewList() {
     document.getElementById("deleteEntireListButton").style.display = "none"
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
+        let newList = document.querySelector("#newListTitleInputBar")
         let listName = newList.value
         let createList = true
         if(listName.trim() === ""){
