@@ -9,19 +9,22 @@ function responsiveDivDisplay() {
         document.getElementById("left").className = "col-md-3"
         document.getElementById("middle").className = "col-md-6"
         document.getElementById("right").className = "col-md-3"
-        $('#newItem').insertAfter('#listTitleSection');
         document.getElementById("desktopFriendsMenu").style.display = "block"
         document.getElementById("friend").style.display = "none"
-        document.getElementById("socialMediaPage").style.display = "none"
+        document.getElementById("socialMediaPage").style.display = "block"
         $('#createList').insertAfter('#availableLists');
+        $('#newItem').insertAfter('#listTitleSection');
+        $('#socialMediaPage').insertAfter('#socialMediaDesktop');
     }else {
         document.getElementById("left").style.display = "none"
         document.getElementById("middle").style.display = "block"
         document.getElementById("right").style.display = "none"
         document.getElementById("middle").className = "col-md-12"
         document.getElementById("desktopFriendsMenu").style.display = "none"
+        document.getElementById("socialMediaPage").style = 'display: none'
         $('#newItem').insertAfter('#placeholder');
         $('#createList').insertAfter('placeholderForNewListButton');
+        $('#socialMediaPage').insertAfter('#pendingFriends');
     }
 }
 
@@ -67,6 +70,7 @@ document.getElementById("currentList").onclick = currentListButton
 
 function friendsButton() { //for mobile, allows user to view friends list when they click the friends button
     document.getElementById("left").style.display = "none"
+    document.getElementById("friend").style.display = "block"
     document.getElementById("middle").style.display = "none"
     document.getElementById("aboutUsPage").style.display = "none"
     document.getElementById("right").style.display = "block"
@@ -160,14 +164,23 @@ function socialMediaPage() {
     document.getElementById("friendsPageSocialMediaButton").style = 'color: white'
     document.getElementById("pageTitle").innerHTML = 'Social Media'
     document.getElementById("addFriendContainer").style = 'display: none'
-    $('#twitter-widget-0').insertAfter('#twitterButtonFixerContainerr');
-    $('#twitter-widget-1').insertAfter('#twitterButtonFixerContainer');
-    $('#twitter-widget-2').insertAfter('#twitterButtonFixerContainer');
-    $('#twitter-widget-0').insertAfter('#postFixLocationForTwitterButtons');
-    $('#twitter-widget-1').insertAfter('#postFixLocationForTwitterButtons');
-    $('#twitter-widget-2').insertAfter('#postFixLocationForTwitterButtons');
+    fixSocialMediaForDesktop()
 };
 document.getElementById("friendsPageSocialMediaButton").onclick = socialMediaPage
+
+function fixSocialMediaForDesktop() {
+    let i=0;
+    let x=0;
+    for (i=0; i <= 2; i++) {
+        let widgetId = '#twitter-widget-' + i
+        $(widgetId).insertAfter('#twitterButtonFixerContainer');
+    }
+    for (x=0; x <= 2; x++) {
+        let widgetId = '#twitter-widget-' + x
+        $(widgetId).insertAfter('#postFixLocationForTwitterButtons');
+    }
+}
+document.getElementById("socialMediaModalToggleButton").onclick = fixSocialMediaForDesktop
 
 function setDocHeight() {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight/100}px`);
@@ -185,7 +198,6 @@ document.getElementById("aboutUsPage").style = 'display: none'
 document.getElementById("pageTitle").style = 'display: none'
 document.getElementById("mobileContainerAcceptedFriends").style = 'display: block'
 document.getElementById("pendingFriends").style = 'display: none'
-document.getElementById("socialMediaPage").style = 'display: none'
 document.getElementById("friendsPageFriendsButton").style = 'color: white'
 addEventListener('resize', setDocHeight)
 addEventListener('orientationchange', setDocHeight)

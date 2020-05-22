@@ -13,8 +13,8 @@
 }
 
 @media (min-width: 1025px) {
-    #socialMediaPage {
-        display: none;
+    #socialMediaModalToggleButton {
+        margin-left: 15px;
     }
     #aboutUsPage {
         height: calc(100vh - 11rem);
@@ -615,6 +615,9 @@
         padding-left: 0;
         padding-right: 18px;
     }
+    #twitter-widget-0, #twitter-widget-1, #twitter-widget-2 {
+        width: 520px!important;
+    }
 }
 .listCollapsible, .listCollapsibleLayer2, .listCollapsibleLayer3 {
     height: 2.8rem;
@@ -776,9 +779,7 @@
 #twitterButtonFixerContainer {
     display: none;
 }
-#twitter-widget-0, #twitter-widget-1, #twitter-widget-2 {
-    width: 520px!important;
-}
+
 /* loader css */
 /* gotten from https://redstapler.co/add-loading-animation-to-website/ */
 .loader-wrapper {
