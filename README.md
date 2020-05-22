@@ -29,7 +29,7 @@ Include a link to 04b Surprise challenge #2b testing plan you have completed so 
 
 Languages:
 
-Groupceries is written in JavaScript and Node.js.
+Groupceries is written in JavaScript, JQuery and Node.js.
 
 IDEs:
 
@@ -49,7 +49,7 @@ Download & install the following 3rd Party APIs & frameworks:
 - Twitter API
 - Facebook API
 - Express
-- 
+- Node js
 
 
 Testing Plan: 
