@@ -1,55 +1,22 @@
-const uid = localStorage.getItem('uid')
-
-function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
-    this.name = ""
-    this.quantity = { amount: null, unit: undefined }
-    this.notes = ""
-}
+const uid = localStorage.getItem('uid')//the current users ID
 
 function loadItems(data) { //runs when page loads and loads all items from database and makes them visible on list.
     for (item in data.items) {
-        let listItem = document.createElement("div")
+        let listItem = document.createElement("div")//creates container that holds the entire list entry
         listItem.className = "listItems"
-        let list = document.getElementById("groceryList")
-        list.appendChild(listItem)
+        $("#groceryList").append(listItem)
         var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
         var i
+        let inputType = "disabledInput"
+        let disabled = true
 
-        for (i = 0; i < fields.length; i++) {
-            container = document.createElement("div")
+        for (i = 0; i < fields.length; i++) {//this loop creates four input fields
+            let container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
-                let input = document.createElement("select")
-                input.classList = fields[i]
-                input.classList.add("itemInfo")
-                input.classList.add("disabledInput")
-                input.disabled = true
-                let label = document.createElement("label")
-                label.innerHTML = fields[i]
-                label.classList = "listInputLabels"
-                for (unit in possibleUnits) {
-                    let option = document.createElement("option")
-                    option.innerHTML = possibleUnits[unit]
-                    option.value = possibleUnits[unit]
-                    input.appendChild(option)
-                }
-                container.appendChild(label)
-                container.appendChild(input)
-                listItem.appendChild(container)
+                createUnitInput(container, listItem, inputType, disabled)
             } else {
-                let input = document.createElement("input")
-                input.setAttribute("type", "text")
-                input.classList = fields[i]
-                input.classList.add("itemInfo")
-                input.classList.add("disabledInput")
-                input.disabled = true
-                let label = document.createElement("label")
-                label.innerHTML = fields[i]
-                label.classList = "listInputLabels"
-                container.appendChild(label)
-                container.appendChild(input)
-                listItem.appendChild(container)
+                createInput(fields[i], container, listItem, inputType, disabled)
             }
         }
         addButtons(listItem)
@@ -62,6 +29,40 @@ function loadItems(data) { //runs when page loads and loads all items from datab
         fillFields(listItem, data.items[item])
     }
 
+}
+function createInput(field, container, listItem, inputType, disabled) {//creates inputs when loading lists
+    let input = document.createElement("input")
+    input.setAttribute("type", "text")
+    input.classList = field
+    input.classList.add("itemInfo")
+    input.classList.add(inputType)
+    input.disabled = disabled
+    let label = document.createElement("label")
+    label.innerHTML = field
+    label.classList = "listInputLabels"
+    container.appendChild(label)
+    container.appendChild(input)
+    listItem.appendChild(container)
+}
+function createUnitInput(container, listItem, inputType, disabled) { //creates unit input because its constructed differently than the others
+    let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
+    let input = document.createElement("select")
+    input.classList = "Units"
+    input.classList.add("itemInfo")
+    input.classList.add(inputType)
+    input.disabled = disabled
+    let label = document.createElement("label")
+    label.innerHTML = "Units"
+    label.classList = "listInputLabels"
+    for (unit in possibleUnits) {
+        let option = document.createElement("option")
+        option.innerHTML = possibleUnits[unit]
+        option.value = possibleUnits[unit]
+        input.appendChild(option)
+    }
+    container.appendChild(label)
+    container.appendChild(input)
+    listItem.appendChild(container)
 }
 
 
@@ -103,9 +104,9 @@ function updateClient(DBItems) {
     };
 };
 
+
 function findItemInClient(DBItem) {
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
-    console.log(listItems)
     for (let i = 0; i < listItems.length; i++) {
         if (_.isEqual(itemAsDBObject(listItems[i]), DBItem)) {
             return listItems[i];
@@ -180,48 +181,23 @@ function itemAsDBObject(item) {
 };
 
 function newItemField() {
-    if (!checkIfOtherItemsAreBeingEdited()) {
+    if (!checkIfOtherItemsAreBeingEdited()) {//will not run if other items are being edited or added
         let item = document.createElement("div")
         item.className = "listItems"
-        let list = document.getElementById("groceryList")
-        list.appendChild(item)
+        $("#groceryList").prepend(item)
 
         var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
         var i
+        let inputType = "textInput"
+        let disabled = false
 
         for (i = 0; i < fields.length; i++) {
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
-                let input = document.createElement("select")
-                input.classList = fields[i]
-                input.classList.add("itemInfo")
-                input.classList.add("textInput")
-                let label = document.createElement("label")
-                label.innerHTML = fields[i]
-                label.classList = "listInputLabels"
-                for (unit in possibleUnits) {
-                    let option = document.createElement("option")
-                    option.innerHTML = possibleUnits[unit]
-                    option.value = possibleUnits[unit]
-                    input.appendChild(option)
-                }
-                container.appendChild(label)
-                container.appendChild(input)
-                item.appendChild(container)
+                createUnitInput(container, item, inputType, disabled)
             } else {
-                let input = document.createElement("input")
-                input.setAttribute("type", "text")
-                input.classList = fields[i]
-                input.classList.add("textInput")
-                input.classList.add("itemInfo")
-                let label = document.createElement("label")
-                label.innerHTML = fields[i]
-                label.classList = "listInputLabels"
-                container.appendChild(label)
-                container.appendChild(input)
-                item.appendChild(container)
+                createInput(fields[i], container, item, inputType, disabled)
             }
         }
         addButtons(item)
@@ -235,25 +211,25 @@ function newItemField() {
     }
 }
 
-function checkIfItemAlreadyExists(name, quantity, units, notes){
+function checkIfItemAlreadyExists(name, quantity, units, notes) { //verifies the item being added is unique
     let existingItemsinDB = Array.from(document.getElementsByClassName("listItems"))
     let alreadyExists = false
     for (item in existingItemsinDB) {
-        if (Array.from(existingItemsinDB[item].getElementsByClassName("textInput")).length === 0){
-        let itemName = existingItemsinDB[item].getElementsByClassName("Name").item(0).value
-        let itemQty = parseFloat(existingItemsinDB[item].getElementsByClassName("Quantity").item(0).value)
-        let itemUnits = existingItemsinDB[item].getElementsByClassName("Units").item(0).value
-        let itemNotes = existingItemsinDB[item].getElementsByClassName("Notes(Optional)").item(0).value
-        if (itemName === name && itemQty === quantity && itemUnits === units && itemNotes === notes) {
-            alreadyExists = true
-            swal({
-                title: "Error",
-                text: "This item cannot be added because it is identical to an existing item.",
-                icon: "warning",
-            });
+        if (Array.from(existingItemsinDB[item].getElementsByClassName("textInput")).length === 0) {//ensures the item currently being added is not included in this comparison
+            let itemName = existingItemsinDB[item].getElementsByClassName("Name").item(0).value
+            let itemQty = parseFloat(existingItemsinDB[item].getElementsByClassName("Quantity").item(0).value)
+            let itemUnits = existingItemsinDB[item].getElementsByClassName("Units").item(0).value
+            let itemNotes = existingItemsinDB[item].getElementsByClassName("Notes(Optional)").item(0).value
+            if (itemName === name && itemQty === quantity && itemUnits === units && itemNotes === notes) {
+                alreadyExists = true
+                swal({
+                    title: "Error",
+                    text: "This item cannot be added because it is identical to an existing item.",
+                    icon: "warning",
+                });
+            }
         }
     }
-}
     return alreadyExists
 }
 
@@ -263,20 +239,21 @@ function addItemDetails(item) {
         let quantity = parseFloat(item.getElementsByClassName("Quantity").item(0).value)
         let units = item.getElementsByClassName("Units").item(0).value
         let notes = item.getElementsByClassName("Notes(Optional)").item(0).value
-        if (!checkIfItemAlreadyExists(name, quantity, units, notes)){
-        if (name != "" && quantity > 0 && units != "") {
-            editDBEntry(item)
-            let addButton = item.getElementsByClassName("addButton")
-            addButton[0].style.display = "none"
-            let editButton = item.getElementsByClassName("editButton")
-            editButton[0].style.display = "inline-block"
-            let deleteButton = item.getElementsByClassName("deleteButton")
-            deleteButton[0].style.display = "inline-block"
-            toggleInputClass(item)
-        } else {
-            evaluateFields(quantity, name, units)
+        if (!checkIfItemAlreadyExists(name, quantity, units, notes)) {
+            if (name != "" && quantity > 0 && units != "") {
+                editDBEntry(item)
+                let addButton = item.getElementsByClassName("addButton")
+                addButton[0].style.display = "none"
+                let editButton = item.getElementsByClassName("editButton")
+                editButton[0].style.display = "inline-block"
+                let deleteButton = item.getElementsByClassName("deleteButton")
+                deleteButton[0].style.display = "inline-block"
+                toggleInputClass(item)
+            } else {
+                evaluateFields(quantity, name, units)
+            }
         }
-    }}
+    }
 }
 
 function editDBEntry(item) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
@@ -285,7 +262,7 @@ function editDBEntry(item) { //called when a user clicks "Add" on a new item aft
     if (fieldData[0] === "realness") {
         easterEgg()
     }
-    
+
 }
 
 function toggleInputClass(item) { //disable or enable inputs as necessary, helper function for many other functions
@@ -350,22 +327,13 @@ function deleteListItem(item) {
             .then((value) => {
                 if (value) {
                     removeItem(uid, currentListForDB(), itemAsDBObject(item));
-                    let itemData = getFieldData(item)
-                    console.log(itemData)
-                    let quantity = parseFloat(itemData[1])
-                    let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
                     item.remove()
-                    database.items.splice(dbEntryLocation, 1)
-                    console.log(database)
                 }
             })
     }
-
-
-
 }
 
-function cancelListEditing(item, currentFieldData) {//needs to be re-done
+function cancelListEditing(item, currentFieldData) {
     return function () {
         item.getElementsByClassName("Name").item(0).value = currentFieldData[0]
         item.getElementsByClassName("Quantity").item(0).value = currentFieldData[1]
@@ -418,7 +386,7 @@ function edit(item) {
         }
     }
 }
-function saveChanges(item, currentFieldData) {
+function saveChanges(item) {
     // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
         let userChanges = getFieldData(item)
@@ -471,7 +439,6 @@ function collapse() {
         coll[i].onclick = function () {
             this.classList.toggle("active");
             let content = $(this).parent()[0].nextElementSibling;
-            console.log($(this).parent()[0].nextElementSibling)
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
@@ -481,19 +448,11 @@ function collapse() {
     }
 }
 
-document.getElementById("newItem").onclick = newItemField
-setInterval(collapse, 1)
-$(document).ready(function () {
-    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
-});
 
-
-//format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
-    if(myList){myList.id = uid} // myList exists initially but then gets deleted, function breaks on subsequent calls.
+    if (myList) { myList.id = uid }
     let friends = Object.keys(friendObj)
-    console.log(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {//checks if a friend already has a display element
             createFriendElement(friend)//if not, creates one for it
@@ -502,7 +461,7 @@ function loadLists(friendObj) {
         let friendsLists = friendObj[friend]
         friendsLists.forEach(list => {//loops through array of lists for each friend
             createListElement(listSection, list, friend) // creates a list display element for each list
-            }
+        }
         )
 
     });
@@ -595,9 +554,9 @@ newListButton.onclick = createNewList
 
 function createNewList() {
     let mobileDeviceWidth = window.matchMedia("(max-width:1024px)")
-        if (mobileDeviceWidth.matches) {
-            currentListButton()//if its the mobile view, run this function to switch the users view to the list page so they dont have to switch themselves
-        }
+    if (mobileDeviceWidth.matches) {
+        currentListButton()//if its the mobile view, run this function to switch the users view to the list page so they dont have to switch themselves
+    }
     let newListButton = document.querySelector("#createList")
     newListButton.onclick = "null"
     let newListTitle = document.createElement("input")
@@ -616,12 +575,12 @@ function createNewList() {
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
         let createList = true
-        if(listName.trim() === ""){
+        if (listName.trim() === "") {
             swal({
                 title: "Error",
                 text: "New list name cannot be blank.",
                 icon: "warning",
-            }); 
+            });
             createList = false
         }
         let usersExistingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
@@ -636,20 +595,21 @@ function createNewList() {
                 createList = false
             }
         }
-        if (createList){
-        currentListTitle.innerText = listName
-        currentListTitle.style.display = "inline"
-        newListTitle.style.display = "none"
-        submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
-        cancelButton.style.display = "none"
-        let listSection = document.getElementById(uid).parentElement.nextElementSibling
-        createListElement(listSection, listName, uid)//adds new list to side bar
-        clearList() //clears list on UI so user can start with an empty list for their new list
-        newListButton.onclick = createNewList
-        addGroceryList(uid, "_" + listName);
-        loadNewList(uid, "_" + currentListTitle.innerText)
-    }})
-    cancelButton.addEventListener('click', _=>{
+        if (createList) {
+            currentListTitle.innerText = listName
+            currentListTitle.style.display = "inline"
+            newListTitle.style.display = "none"
+            submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
+            cancelButton.style.display = "none"
+            let listSection = document.getElementById(uid).parentElement.nextElementSibling
+            createListElement(listSection, listName, uid)//adds new list to side bar
+            clearList() //clears list on UI so user can start with an empty list for their new list
+            newListButton.onclick = createNewList
+            addGroceryList(uid, "_" + listName);
+            loadNewList(uid, "_" + currentListTitle.innerText)
+        }
+    })
+    cancelButton.addEventListener('click', _ => {
         currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
         submitButton.style.display = "none"
@@ -659,8 +619,7 @@ function createNewList() {
 }
 
 
-function deleteList() { // deletes current list -  a user can only delete their own lists
-
+function deleteList() {
     let deleteButton = document.getElementById("deleteEntireListButton")
     deleteButton.addEventListener('click', _ => {
         swal({
@@ -692,11 +651,9 @@ function deleteList() { // deletes current list -  a user can only delete their 
                     })
                 }
             })
-
     })
 }
 
-deleteList()
 
 function getNextList() {
     let remainingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
@@ -720,14 +677,6 @@ function displayList(listElement, listOwner = uid) {//used for switching lists
             currentListName.innerText = listElement // updates name of list
             clearList()//clears any elements from the previous list
             loadNewList(listOwner, "_" + currentListName.innerText)
-            // if (listOwner != uid) {
-            //     document.getElementById('deleteEntireListButton').style.display = "none"
-            //     document.getElementById('newItem').style.display = "none"
-            // }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
-            // if (listOwner === uid) {
-            //     document.getElementById('deleteEntireListButton').style.display = "inline-block"
-            //     document.getElementById('newItem').style.display = "inline-block"
-            // }//if the list does belong to the user, ensure they have the ability to edit
         } else {
             swal({
                 title: "Error",
@@ -738,13 +687,13 @@ function displayList(listElement, listOwner = uid) {//used for switching lists
     }
 }
 
-function updateInteractionStatus(UID){
+function updateInteractionStatus(UID) {
     $("#newItem").css("display", "block");
     $("#deleteEntireListButton").css("display", "block");
     $("#readyForShoppingToggle").prop("disabled", false);
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
-    if(UID != uid){deleteInteraction()};
-        
+    if (UID != uid) { deleteInteraction() };
+
 };
 
 function deleteInteraction() {
@@ -755,7 +704,7 @@ function deleteInteraction() {
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", "");
 }
 
-    
+
 function clearList() {
     let currentList = document.getElementById("groceryList") //clears list area
     let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
@@ -836,7 +785,11 @@ function moveQueen(queen, bottomValue, leftValue) {
             document.body.removeChild(queen)
         }
     }, 180)
-
 }
 
-
+document.getElementById("newItem").onclick = newItemField
+setInterval(collapse, 1)
+$(document).ready(function () {
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
+});
+deleteList()
