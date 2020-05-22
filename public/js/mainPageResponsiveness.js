@@ -16,15 +16,16 @@ function responsiveDivDisplay() {
         $('#newItem').insertAfter('#listTitleSection');
         $('#socialMediaPage').insertAfter('#socialMediaDesktop');
     }else {
+        document.getElementById("desktopFriendsMenu").style.display = "none"
         document.getElementById("left").style.display = "none"
         document.getElementById("middle").style.display = "block"
         document.getElementById("right").style.display = "none"
         document.getElementById("middle").className = "col-md-12"
-        document.getElementById("desktopFriendsMenu").style.display = "none"
         document.getElementById("socialMediaPage").style = 'display: none'
         $('#newItem').insertAfter('#placeholder');
         $('#createList').insertAfter('placeholderForNewListButton');
         $('#socialMediaPage').insertAfter('#pendingFriends');
+        currentListButton()
     }
 }
 
@@ -180,7 +181,6 @@ function fixSocialMediaForDesktop() {
         $(widgetId).insertAfter('#postFixLocationForTwitterButtons');
     }
 }
-document.getElementById("socialMediaModalToggleButton").onclick = fixSocialMediaForDesktop
 
 function setDocHeight() {
     document.documentElement.style.setProperty('--vh', `${window.innerHeight/100}px`);

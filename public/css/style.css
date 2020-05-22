@@ -37,12 +37,6 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem!important;
 }
-#right {
-    padding-left: 0;
-    padding-right: 0;
-    overflow-y: scroll;
-    max-height: calc(100vh - 13rem - 60px);
-}
 #mobileAddFriendButton {
     width: auto;
     height: auto;
@@ -483,7 +477,6 @@
         width: 13vw!important;
     }
     .rectangularButton {
-        background-color: #5B3E96;
         border: none;
         color: white;
         width: 25vw;
@@ -745,6 +738,12 @@
         overflow-y: scroll;
         max-height: calc(100vh - 13rem - 60px);
     }
+    #right {
+        padding-left: 0;
+        padding-right: 0;
+        overflow-y: scroll;
+        max-height: calc(100vh - 13rem - 60px);
+    }
     #aboutUsPage {
         display: none;
     }
@@ -766,6 +765,7 @@
     #twitter-widget-0, #twitter-widget-1, #twitter-widget-2 {
         width: 520px!important;
     }
+
 }
 /* loader css */
 /* gotten from https://redstapler.co/add-loading-animation-to-website/ */
