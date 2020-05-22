@@ -135,6 +135,14 @@ https://www.algolia.com/doc/rest-api/search/
    npm install algoliasearch
 2. Add your application id and admin api key in algoliaController.js line 1
     const client = algoliasearch('YOUR_APP_ID', 'YOUR_ADMIN_API');
+    
+# Serve-favicon
+Set-Up
+1. Perform the following command in the terminal: npm install serve-favicon
+
+2. Add the following statement to the top of the app.js file: const favicon = require('serve-favicon'); ( will be there when you clone      the repo )
+
+3. Add the following statement to the app.js file: app.use(favicon(__dirname + 'where the favicon file is stored'));
 
 Testing Plan: 
 https://docs.google.com/spreadsheets/d/1htzCYm5rM19eaZYk712kJHbJ9eVWcBI4weaWHKEUAOA/edit?usp=sharing
