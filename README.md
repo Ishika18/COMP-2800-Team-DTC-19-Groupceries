@@ -144,5 +144,31 @@ Set-Up
 
 3. Add the following statement to the app.js file: app.use(favicon(__dirname + 'where the favicon file is stored'));
 
+# Twitter api
+1. Add the twitter SDKS in the twitter.ejs ( will be there when you clone the repo )
+
+# Facebook api
+https://developers.facebook.com/docs/
+1. Make a facebook app.
+2. Initialise facebook in layout.ejs
+<script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : 'YOUR_APP_ID',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v7.0'
+        });
+      };
+      $(window).on("load", function(){
+        $(".loader-wrapper").fadeOut("slow");
+        document.getElementById('loaderImage').style = "animation-iteration-count: 0;"
+      });
+      // gotten from https://redstapler.co/add-loading-animation-to-website/
+    </script>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+3. To make your app live, you need to make a privacy policy certificate with facebook and add the privacy policy url ro your app            https://developers.facebook.com/apps/YOUR_APP_ID/settings/basic/
+4. Whitelist your website url in faccebook console.
+
 Testing Plan: 
 https://docs.google.com/spreadsheets/d/1htzCYm5rM19eaZYk712kJHbJ9eVWcBI4weaWHKEUAOA/edit?usp=sharing
