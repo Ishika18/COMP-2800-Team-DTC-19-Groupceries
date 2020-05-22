@@ -1,10 +1,11 @@
 #easterEgg {
     display: none;
     margin: auto;
-    width: 700px;
-    height: 700px;
     background-image: url("/images/rupaulstage.jpg");
+    width: 100vw;
+    height:100vh;
     background-position: center;
+    background-size: cover;
 }
 
 @media (min-width: 1025px) {
@@ -684,8 +685,10 @@
     font-size: 0.8rem;
 }
 #createListButton {
-    width: 150%;
     background-color: #00c587;
+    padding: .4rem 1rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
 }
 #newListTitleInputBar {
     width: 100%;
@@ -693,6 +696,9 @@
 }
 .deleteEntireListButton{
     background-color: red;
+    padding: .4rem 1rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
 }
 .deleteListButton{
     font-weight: bold;

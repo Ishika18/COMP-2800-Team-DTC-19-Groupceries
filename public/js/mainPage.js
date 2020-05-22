@@ -1,7 +1,7 @@
 let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
 const uid = localStorage.getItem('uid')
 
-function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
+function databaseListItem() { // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
     this.name = ""
     this.quantity = { amount: null, unit: undefined }
     this.notes = ""
@@ -20,7 +20,7 @@ function loadItems(data) { //runs when page loads and loads all items from datab
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
+                let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
                 let input = document.createElement("select")
                 input.classList = fields[i]
                 input.classList.add("itemInfo")
@@ -62,7 +62,6 @@ function loadItems(data) { //runs when page loads and loads all items from datab
         deleteButton[0].style.display = "inline-block"
         fillFields(listItem, data.items[item])
     }
-
 }
 document.onload = loadItems(database)
 
@@ -77,8 +76,7 @@ function fillFields(item, DBitem) { //called by each list item loaded from datab
     notes[0].value = DBitem.notes
 }
 
-
-function getFieldData(item) { //helper function for editDBEntry()
+function getFieldData(item) {
     let nameField = item.getElementsByClassName("Name")
     let name = nameField[0].value
     let qtyField = item.getElementsByClassName("Quantity")
@@ -94,7 +92,7 @@ function updateClient(DBItems) {
     let discrepencies = findDifference(DBItems);
     if (discrepencies[1]) { // if DB has items not in client, must add items to client
         for (item in discrepencies[0]) {
-            loadItems({ items: [discrepencies[0][item]] }); // this structure is required for loadItems to work. will need to refactor later
+            loadItems({ items: [discrepencies[0][item]] }); // this structure is required for loadItems to work
         };
     } else { // if client has items not in DB, must delete those items
         for (item in discrepencies[0]) {
@@ -106,14 +104,12 @@ function updateClient(DBItems) {
 
 function findItemInClient(DBItem) {
     let listItems = document.getElementById("groceryList").getElementsByClassName("listItems");
-    console.log(listItems)
     for (let i = 0; i < listItems.length; i++) {
         if (_.isEqual(itemAsDBObject(listItems[i]), DBItem)) {
             return listItems[i];
         };
     };
 };
-
 
 function findDifference(DBItems) {
     let clientItems = parseAllItemsToDB();
@@ -128,7 +124,7 @@ function findDifference(DBItems) {
         let inClientNotDB = clientItems.filter(item => !contains(item, DBItems));
         for (item in inClientNotDB) {
             differentItems.push(inClientNotDB[item]);
-        }; // all items in client not in DB
+        };
         return [differentItems, false] // bool represents if different items are in DB
     }
 };
@@ -142,10 +138,9 @@ function contains(item, items) {
     return false
 }
 
-function stringifyDB(DBItems) { // deprecated for now
+function stringifyDB(DBItems) {
     let DBItemsAsStrings = [];
     for (let i = 0; i < DBItems.length; i++) {
-        console.log("item2", JSON.stringify(DBItems[i]))
         DBItemsAsStrings.push(JSON.stringify(DBItems[i]))
     };
     return DBItemsAsStrings;
@@ -189,12 +184,11 @@ function newItemField() {
 
         var fields = ["Name", "Quantity", "Units", "Notes(Optional)"]
         var i
-
         for (i = 0; i < fields.length; i++) {
             container = document.createElement("div")
             container.classList = "p-2"
             if (fields[i] === "Units") {
-                let possibleUnits = ["units", "pack", "kg", "g", "L", "mL",]
+                let possibleUnits = ["", "units", "pack", "kg", "g", "L", "mL",]
                 let input = document.createElement("select")
                 input.classList = fields[i]
                 input.classList.add("itemInfo")
@@ -226,6 +220,12 @@ function newItemField() {
             }
         }
         addButtons(item)
+    } else {
+        swal({
+            title: "Error",
+            text: "Please finish adding this item before adding another.",
+            icon: "warning",
+        });
     }
 }
 
@@ -237,16 +237,22 @@ function createEntryInDB() {
 
 function addItemDetails(item) {
     return function () {
-        dbEntry = createEntryInDB()
-        editDBEntry(item, dbEntry)
-        let addButton = item.getElementsByClassName("addButton")
-        addButton[0].style.display = "none"
-        let editButton = item.getElementsByClassName("editButton")
-        editButton[0].style.display = "inline-block"
-        let deleteButton = item.getElementsByClassName("deleteButton")
-        deleteButton[0].style.display = "inline-block"
-        toggleInputClass(item)
-        console.log(database)
+        let name = item.getElementsByClassName("Name").item(0).value.trim()
+        let quantity = parseFloat(item.getElementsByClassName("Quantity").item(0).value)
+        let units = item.getElementsByClassName("Units").item(0).value
+        if (name != "" && quantity > 0 && units != "") {
+            dbEntry = createEntryInDB()
+            editDBEntry(item, dbEntry)
+            let addButton = item.getElementsByClassName("addButton")
+            addButton[0].style.display = "none"
+            let editButton = item.getElementsByClassName("editButton")
+            editButton[0].style.display = "inline-block"
+            let deleteButton = item.getElementsByClassName("deleteButton")
+            deleteButton[0].style.display = "inline-block"
+            toggleInputClass(item)
+        } else {
+            evaluateFields(quantity, name, units)
+        }
     }
 }
 
@@ -260,7 +266,6 @@ function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new
     dbEntry.quantity.amount = parseFloat(fieldData[1])
     dbEntry.quantity.unit = fieldData[2]
     dbEntry.notes = fieldData[3]
-    console.log(database)
 }
 
 function toggleInputClass(item) { //disable or enable inputs as necessary, helper function for many other functions
@@ -270,10 +275,9 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
     } //this section of code determines which class of input is currently present.
     var fieldsCopy = []
     for (field in fields) {
-        fieldsCopy[field] = fields[field] //create shallow copy to prevent errors related to list length
+        fieldsCopy[field] = fields[field]
     }
     var i
-
     for (i = 0; i < fieldsCopy.length; i++) {
         input = fieldsCopy[i]
         if (input.classList.contains("textInput")) {
@@ -286,12 +290,12 @@ function toggleInputClass(item) { //disable or enable inputs as necessary, helpe
         if (input.disabled == true) {
             input.disabled = false
         } else {
-            input.disabled = true// this part actually disables or enables the textbox (depending on its current state) by changing the 'disabled' property
+            input.disabled = true
         }
     }
 }
 
-function addButtons(item) { //creates all of the necessary buttons for the list field
+function addButtons(item) {
     let buttonInnerHTML = ["Add", "Edit", "Save Changes", "Cancel", "Delete Item"]
     let buttonClass = ["addButton", "editButton", "saveButton", "cancelButton", "deleteButton"]
     let buttonFunctions = [addItemDetails(item), edit(item), undefined, undefined, deleteListItem(item)]
@@ -310,19 +314,36 @@ function addButtons(item) { //creates all of the necessary buttons for the list 
 
 function deleteListItem(item) {
     return function () {
-        removeItem(uid, currentListForDB(), itemAsDBObject(item));
-        let itemData = getFieldData(item)
-        console.log(itemData)
-        let quantity = parseFloat(itemData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
-        item.remove()
-        database.items.splice(dbEntryLocation, 1)
-        console.log(database)
+        swal({
+            title: "Confirm",
+            text: "Are you sure you want to delete this item from your list?",
+            icon: "warning",
+            buttons: {
+                cancel: true,
+                confirm: {
+                    text: "Delete",
+                    value: "willDelete"
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                removeItem(uid, currentListForDB(), itemAsDBObject(item));
+                let itemData = getFieldData(item)
+                let quantity = parseFloat(itemData[1])
+                let dbEntryLocation = database.items.findIndex(obj => obj.name === itemData[0] && obj.quantity.amount === quantity && obj.quantity.unit === itemData[2] && obj.notes === itemData[3])
+                item.remove()
+                database.items.splice(dbEntryLocation, 1)
+            }
+        })
     }
 }
 
-function cancelListEditing(item, currentFieldData) {//needs to be re-done
+function cancelListEditing(item, currentFieldData) {
     return function () {
+        item.getElementsByClassName("Name").item(0).value = currentFieldData[0]
+        item.getElementsByClassName("Quantity").item(0).value = currentFieldData[1]
+        item.getElementsByClassName("Units").item(0).value = currentFieldData[2]
+        item.getElementsByClassName("Notes(Optional)").item(0).value = currentFieldData[3]
         let editButton = item.getElementsByClassName("editButton")
         editButton[0].style.display = "inline-block"
         let deleteButton = item.getElementsByClassName("deleteButton")
@@ -361,43 +382,64 @@ function edit(item) {
             let deleteButton = item.getElementsByClassName("deleteButton")
             deleteButton[0].style.display = "inline-block"
             toggleInputClass(item)
+        } else {
+            swal({
+                title: "Error",
+                text: "Please finish adding/editing other items before editing this one.",
+                icon: "warning",
+            })
         }
     }
 }
+
 function saveChanges(item, currentFieldData) {
-    // will eventually refactor database out of everything, change currentFieldData to encompass old item instead
     return function () {
-        editItem(uid, currentListForDB(), JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
-        let editButton = item.getElementsByClassName("editButton")
-        editButton[0].style.display = "inline-block"
-        let deleteButton = item.getElementsByClassName("deleteButton")
-        deleteButton[0].style.display = "inline-block"
-        let saveButton = item.getElementsByClassName("saveButton")
-        saveButton[0].style.display = "none"
-        let cancelButton = item.getElementsByClassName("cancelButton")
-        cancelButton[0].style.display = "none"
-        toggleInputClass(item)
-        let quantity = parseFloat(currentFieldData[1])
-        let dbEntryLocation = database.items.findIndex(obj => obj.name === currentFieldData[0] && obj.quantity.amount === quantity && obj.quantity.unit === currentFieldData[2] && obj.notes === currentFieldData[3])
         let userChanges = getFieldData(item)
-        let dbEntry = database.items[dbEntryLocation]
-        dbEntry.name = userChanges[0]
-        dbEntry.quantity.amount = parseFloat(userChanges[1])
-        dbEntry.quantity.unit = userChanges[2]
-        dbEntry.notes = userChanges[3]
-        console.log(database)
+        let quantity = parseFloat(userChanges[1])
+        let name = userChanges[0].trim()
+        let units = userChanges[2]
+        if (quantity > 0 && name != "" && units != "") {
+            editItem(uid, currentListForDB(), JSON.parse(item.dataset.oldItem), itemAsDBObject(item));
+            let editButton = item.getElementsByClassName("editButton")
+            editButton[0].style.display = "inline-block"
+            let deleteButton = item.getElementsByClassName("deleteButton")
+            deleteButton[0].style.display = "inline-block"
+            let saveButton = item.getElementsByClassName("saveButton")
+            saveButton[0].style.display = "none"
+            let cancelButton = item.getElementsByClassName("cancelButton")
+            cancelButton[0].style.display = "none"
+            toggleInputClass(item)
+        } else {
+            evaluateFields(quantity, name, units)
+        }
     }
+}
+
+function evaluateFields(quantity, name, units) {
+    let errorMessage = ""
+    if (quantity <= 0 || isNaN(quantity)) {
+        errorMessage = " Quantity must be a number greater than 0."
+    }
+    if (name == "") {
+        errorMessage += " Please enter a name for your item."
+    }
+    if (units == "") {
+        errorMessage += " Please select a unit."
+    }
+    swal({
+        title: "Error",
+        text: errorMessage,
+        icon: "warning",
+    });
 }
 
 function collapse() {
     var coll = document.getElementsByClassName("collapsible");
     var i;
-
     for (i = 0; i < coll.length; i++) {
-       coll[i].onclick = function () {
+        coll[i].onclick = function () {
             this.classList.toggle("active");
             let content = $(this).parent()[0].nextElementSibling;
-            console.log($(this).parent()[0].nextElementSibling)
             if (content.style.display === "block") {
                 content.style.display = "none";
                 this.style = "color: black"
@@ -409,39 +451,31 @@ function collapse() {
     }
 }
 
-document.getElementById("newItem").onclick = newItemField
-setInterval(collapse, 1)
-$( document ).ready(function() {
-    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
-});
-
-
 //format: {friend1: [list1, list2, list3], friend2: [list1, list2, list3]}
 function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
-    myList.id = uid
-    console.log(friendObj)
+    if (myList) { myList.id = uid } // handle cases where myList is deleted
     let friends = Object.keys(friendObj)
     friends.forEach(friend => {
-        if (!checkForFriend(friend)) {//checks if a friend already has a display element
-            createFriendElement(friend)//if not, creates one for it
+        if (!checkForFriend(friend)) {
+            createFriendElement(friend)
         }
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
-        console.log(friendsLists)
-        friendsLists.forEach(list => {//loops through array of lists for each friend
-            createListElement(listSection, list) // creates a list display element for each list
+        friendsLists.forEach(list => {
+            createListElement(listSection, list, friend)
         })
-
     });
-}
-function updateToggleMobile(){
+};
+
+function updateToggleMobile() {
     value = !document.getElementById("readyForShoppingToggle").checked;
     toggleReadyDatabaseMobile(value);
-}
+};
 
-function updateToggle(value){
-    if(document.getElementById("readyForShoppingToggle").checked != value){
+function updateToggle(value) {
+    if (document.getElementById("readyForShoppingToggle").checked != value) {
+        $("#readyForShoppingToggle").prop("disabled", false);
         document.getElementById("readyForShoppingToggle").parentElement.click();
     }
     document.getElementById("flip-checkbox-2").checked = value;
@@ -456,10 +490,9 @@ function findListEntry(friend) {
             return existingFriendsArray[entry].parentElement.nextElementSibling
         }
     }
+};
 
-}
-
-function createFriendElement(friend) { //helper for loadlists
+function createFriendElement(friend) {
     let friendElementWrapper = document.createElement("div")
     friendElementWrapper.classList.add("p-2", "listCollapsibleLayer2")
     let textContainer = document.createElement("h7")
@@ -482,8 +515,6 @@ function createFriendElement(friend) { //helper for loadlists
             let name = doc.data().name
             textContainer.innerHTML = name + "'s Lists"
         })
-
-    
     friendElement.id = friend
     let listSection = document.createElement("section")
     listSection.classList.add("collapse")
@@ -491,9 +522,10 @@ function createFriendElement(friend) { //helper for loadlists
     return listSection
 }
 
-function createListElement(listSection, list) { //helper for loadLists
+function createListElement(listSection, list, friend) {
     let listElementWrapper = document.createElement("div")
-    listElementWrapper.classList.add("p-2","listCollapsibleLayer3", "listElement")
+    listElementWrapper.dataset.belongsTo = friend
+    listElementWrapper.classList.add("p-2", "listCollapsibleLayer3", "listElement")
     let listLabel = document.createElement("label")
     listLabel.classList.add("inputLabels")
     let textContainer = document.createElement("h7")
@@ -504,12 +536,12 @@ function createListElement(listSection, list) { //helper for loadLists
     listElement.classList.add("btn", "viewListsbutton")
     listElementWrapper.appendChild(listLabel)
     listElementWrapper.appendChild(listElement)
-    listElement.onclick = displayList(listLabel.innerText)
+    listElement.onclick = displayList(listLabel.innerText, friend)
     listSection.appendChild(listElementWrapper)
     listElement.innerHTML = "View List"
 }
 
-function checkForFriend(friend) {//helper for load lists
+function checkForFriend(friend) {
     let alreadyInList = false
     let friendList = document.getElementById("left")
     let existingFriends = friendList.getElementsByClassName("collapsible")
@@ -518,177 +550,242 @@ function checkForFriend(friend) {//helper for load lists
         if (friendEntry.id.includes(friend)) {
             alreadyInList = true
         }
-
     })
     return alreadyInList
 }
 
-let newListButton = document.querySelector("#createList")
-newListButton.onclick = createNewList
-
 function createNewList() {
-    let okButtonLocation = document.getElementById("rightMostButton")
+    let okButtonLocation = document.getElementById("myListBar")
     let inputLocation = document.getElementById("myListBar")
+    let mobileDeviceWidth = window.matchMedia("(max-width:1024px)")
+    clearList()
+    if (mobileDeviceWidth.matches) {
+        currentListButton()//if its the mobile view, run this function to switch the users view to the list page so they dont have to switch themselves
+    }
+    let cancelIcon = document.createElement("i")
+    cancelIcon.className = "fas fa-times"
+
+    let confirmIcon = document.createElement("i")
+    confirmIcon.className = "fas fa-check"
+
     let newListButton = document.querySelector("#createList")
     newListButton.onclick = "null"
+
     let newListTitle = document.createElement("input")
+
     let submitButton = document.createElement("button")
-    submitButton.innerText = "OK"
+    submitButton.appendChild(confirmIcon)
     submitButton.id = "createListButton"
-    let currentListTitle = document.querySelector("#listTitle")
+
+    let currentListTitle = document.querySelector("#listTitleSection")
     newListTitle.setAttribute("type", "text")
     newListTitle.placeholder = "Enter the name of your new list."
     newListTitle.id = "newListTitleInputBar"
+
+    let cancelButton = document.createElement("button")
+    cancelButton.appendChild(cancelIcon)
+    cancelButton.className = "deleteEntireListButton"
+
     inputLocation.insertBefore(newListTitle, inputLocation.firstChild)
     okButtonLocation.appendChild(submitButton)
+    okButtonLocation.appendChild(cancelButton)
+
     document.getElementById("deleteEntireListButton").style.display = "none"
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
         let listName = newListTitle.value
-        currentListTitle.innerText = listName
-        currentListTitle.style.display = "block"
+        let usersExistingLists = $('*[data-belongs-to=' + uid + ']')
+        document.getElementById("listTitle").remove();
+        let titleContainer = document.createElement("p")
+        titleContainer.id = "listTitle"
+        titleContainer.innerText = listName
+        currentListTitle.appendChild(titleContainer)
+        currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
         submitButton.style.display = "none"// when the user hits "OK" after typing the new list name, the new list name appears in place of the input text box
         document.getElementById("deleteEntireListButton").style.display = "inline-block"
+        cancelButton.style.display = "none"
         let listSection = document.getElementById(uid).parentElement.nextElementSibling
         createListElement(listSection, listName)//adds new list to side bar
-        clearList() //clears list on UI so user can start with an empty list for their new list
+        clearList()
         newListButton.onclick = createNewList
         addGroceryList(uid, "_" + listName);
         loadNewList(uid, "_" + currentListName.innerText)
     })
-    clearList() 
-    currentListButton()
+    cancelButton.addEventListener('click', _ => {
+        currentListTitle.style.display = "inline"
+        newListTitle.style.display = "none"
+        submitButton.style.display = "none"
+        newListButton.onclick = createNewList
+        cancelButton.style.display = "none"
+    })
 }
 
-
-
-
-function deleteList() { // deletes current list -  a user can only delete their own lists
+function deleteList() {
     let deleteButton = document.getElementById("deleteEntireListButton")
     deleteButton.addEventListener('click', _ => {
-        let currentList = document.getElementById("listTitle").innerText
-        let listArea = document.getElementById('left')
-        let allLists = Array.from(listArea.getElementsByClassName("collapsible"))
-        allLists.forEach(element => {//loops through all list elements in sidebar
-            if (element.id === uid) {
-                let sections = Array.from(element.parentElement.nextElementSibling.childNodes)
-                sections.forEach(section => {
-                    if (section.innerText === currentList) {
-                        deleteGroceryList(uid, "_" + currentList);
-                        section.remove()//when it finds the one that matches the current list and user, it deletes it
-                        clearList()// clears list
-                        //need to make it load next list in line
+        swal({
+            title: "Confirm",
+            text: "Are you sure you want to delete this list?",
+            icon: "warning",
+            buttons: {
+                cancel: true,
+                confirm: {
+                    text: "Delete",
+                    value: "willDelete"
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                let currentListName = document.getElementById("listTitle").innerText
+                let currentUserListSection = document.getElementById('availableLists')
+                let currentUsersLists = Array.from(currentUserListSection.getElementsByClassName('listElement'))
+                currentUsersLists.forEach(listElement => {
+                    if (listElement.firstChild.innerText === currentListName) {
+                        document.getElementById('listTitle').innerText = ""
+                        deleteGroceryList(uid, "_" + currentListName)
+                        listElement.remove()
+                        clearList()
                     }
                 })
             }
         })
+
     })
 }
 
 
-deleteList()
-
-function currentListForDB(){
+function currentListForDB() {
     return "_" + document.getElementById('listTitle').innerText;
 };
 
-function displayList(listElement) {//used for switching lists
-    return function() {
-    let currentListName = document.getElementById('listTitle')
-    currentListButton()
-    if (listElement !== currentListName.innerText) {
-        currentListName.innerText = listElement // updates name of list
-        clearList()
-        loadNewList(uid, "_" + currentListName.innerText)
-    }
-}
-}
-    
-function clearList() {
-        let currentList = document.getElementById("groceryList") //clears list area
-        let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
-        currentListItems.forEach(item => {
-            currentList.removeChild(item)
-        })
-    }
-
-
-function easterEgg() {
-        let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
-            "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.png", "/images/phiphi.jpg", "/images/rupaul.png", "/images/valentina.png"]
-        let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
-            "/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
-        let easterEggArea = document.getElementById("easterEgg")
-        let currentView = document.getElementById("listArea")
-        currentView.style.display = "none"
-        easterEggArea.style.display = "block"
-        document.getElementById("middle").appendChild(easterEggArea)
-        setInterval(generateQueen(queenPhotos, queenQuotes), 6000)
-        let bgMusic = new Audio()
-        bgMusic.volume = 0.1
-        bgMusic.src = "/media/runway.mp3"
-        bgMusic.play()
-        easterEggArea.addEventListener('click', _=> {
-            bgMusic.pause()
-            document.getElementById("middle").removeChild(easterEggArea)
-            let queens = Array.from(document.getElementsByClassName("queen"))
-            queens.forEach(queen => {
-                document.body.removeChild(queen)
-            })
-            queenPhotos.length = 0
-            queenQuotes.length = 0 
-            currentView.style.display="block"
-            
-        })
-    }
-
-
-function generateQueen(queenPhotos, queenQuotes) {
-        return function () {
-            if (queenPhotos.length > 0) {
-                let randomQueen = Math.floor(Math.random() * queenPhotos.length)
-                let queenQuote = new Audio()
-                queenQuote.src = queenQuotes[randomQueen]
-                let bottomValue = 250
-                let leftValue = 25
-                let queenDisplay = document.createElement("img")
-                queenDisplay.src = queenPhotos[randomQueen]
-                queenDisplay.classList.add("queen")
-                document.body.appendChild(queenDisplay)
-                queenDisplay.style.height= "300px"
-                queenDisplay.style.width="200px"
-                queenDisplay.style.zIndex = 2
-                queenDisplay.style.position = "absolute"
-                queenDisplay.style.bottom = bottomValue + "px"
-                queenDisplay.style.left = leftValue + "%"
-                queenDisplay.onclick = queenQuote.play()
-                moveQueen(queenDisplay, bottomValue, leftValue)
-                queenPhotos.splice(randomQueen, 1)
-                queenQuotes.splice(randomQueen, 1)
-
+function displayList(listElement, listOwner = uid) {
+    return function () {
+        if (!checkIfOtherItemsAreBeingEdited()) {
+            let mobileDeviceWidth = window.matchMedia("(max-width:1024px)")
+            if (mobileDeviceWidth.matches) {
+                currentListButton()//if its the mobile view, run this function to switch the users view to the list page so they dont have to switch themselves
             }
+            let currentListName = document.getElementById('listTitle')//get name of current list displayed
+            currentListName.innerText = listElement
+            clearList()
+            loadNewList(listOwner, "_" + currentListName.innerText)
+            if (listOwner != uid) {
+                document.getElementById('deleteEntireListButton').style.display = "none"
+                document.getElementById('newItem').style.display = "none"
+            }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
+            if (listOwner === uid) {
+                document.getElementById('deleteEntireListButton').style.display = "inline-block"
+                document.getElementById('newItem').style.display = "inline-block"
+            }//if the list does belong to the user, ensure they have the ability to edit
+        } else {
+            swal({
+                title: "Error",
+                text: "Please finish editing the current list before switching to another one.",
+                icon: "warning",
+            })
         }
     }
+}
 
-    function moveQueen(queen, bottomValue, leftValue) {
-        setInterval(function () {
-            if (bottomValue > 10) {
-                bottomValue = bottomValue - 10
-                queen.style.bottom = bottomValue + "px"
-                leftValue = leftValue + 0.25
-                queen.style.left = leftValue + "%"
+function updateInteractionStatus(UID) {
+    $("#newItem").prop("disabled", false);
+    $("#deleteEntireListButton").css("display", "block");
+    $("#readyForShoppingToggle").prop("disabled", false);
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
+    if (UID != uid) { deleteInteraction() };
+};
 
-            } else {
-                document.body.removeChild(queen)
+function deleteInteraction() {
+    $(".listItems button").css("display", "none");
+    $("#deleteEntireListButton").css("display", "none");
+    $("#newItem").prop("disabled", true);
+    $("#readyForShoppingToggle").prop("disabled", true);
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", "");
+}
+
+function clearList() {
+    let currentList = document.getElementById("groceryList")
+    let currentListItems = Array.from(currentList.getElementsByClassName('listItems'))
+    currentListItems.forEach(item => {
+        currentList.removeChild(item)
+    })
+}
+
+function easterEgg() {
+    let queenPhotos = ["/images/alyssaedwards.png", "/images/bobthedragqueen.png", "/images/latriceroyale.png",
+        "/images/michellevisage.png", "/images/missvanjie.jpg", "/images/moniqueheart.png", "/images/phiphi.jpg", "/images/rupaul.png", "/images/valentina.png"]
+    let queenQuotes = ["/media/alyssaedwards.mp3", "/media/bobthedragqueen.mp3", "/media/latriceroyale.mp3", "/media/michellevisage.mp3",
+        "/media/vanjie.mp3", "/media/moniqueheart.mp3", "/media/phiphiohara.mp3", "/media/rupaul.mp3", "/media/valentina.mp3"]
+    let easterEggArea = document.getElementById("easterEgg")
+    let currentView = document.getElementById("listArea")
+    currentView.style.display = "none"
+    easterEggArea.style.display = "block"
+    document.getElementById("middle").appendChild(easterEggArea)
+    setInterval(generateQueen(queenPhotos, queenQuotes), 6000)
+    let bgMusic = new Audio()
+    bgMusic.volume = 0.1
+    bgMusic.src = "/media/runway.mp3"
+    bgMusic.play()
+    easterEggArea.addEventListener('click', _ => {
+        bgMusic.pause()
+        document.getElementById("middle").removeChild(easterEggArea)
+        let queens = Array.from(document.getElementsByClassName("queen"))
+        queens.forEach(queen => {
+            document.body.removeChild(queen)
+        })
+        queenPhotos.length = 0
+        queenQuotes.length = 0
+        currentView.style.display = "block"
+    })
+}
+
+function generateQueen(queenPhotos, queenQuotes) {
+    return function () {
+        if (queenPhotos.length > 0) {
+            let randomQueen = Math.floor(Math.random() * queenPhotos.length)
+            let queenQuote = new Audio()
+            queenQuote.src = queenQuotes[randomQueen]
+            let bottomValue = 50
+            let leftValue = 17
+            let queenDisplay = document.createElement("img")
+            queenDisplay.src = queenPhotos[randomQueen]
+            queenDisplay.classList.add("queen")
+            document.body.appendChild(queenDisplay)
+            queenDisplay.style.height = "45vh"
+            queenDisplay.style.width = "32vw"
+            queenDisplay.style.zIndex = 2
+            queenDisplay.style.position = "absolute"
+            queenDisplay.style.bottom = bottomValue + "vh"
+            queenDisplay.style.left = leftValue + "vw"
+            queenDisplay.onclick = function () {
+                queenQuote.play()
             }
-        }, 180)
-
+            moveQueen(queenDisplay, bottomValue, leftValue)
+            queenPhotos.splice(randomQueen, 1)
+            queenQuotes.splice(randomQueen, 1)
+        }
     }
+}
 
+function moveQueen(queen, bottomValue, leftValue) {
+    setInterval(function () {
+        if (bottomValue > 10) {
+            bottomValue = bottomValue - 2
+            queen.style.bottom = bottomValue + "vh"
+            leftValue = leftValue + 0.75
+            queen.style.left = leftValue + "vw"
+        } else {
+            document.body.removeChild(queen);
+        }
+    }, 180)
+}
 
-// add fucntionality to make new lists clickable
-// user's list to add, delete and update the same way friends list 
-// refactor how lists are created so they only write to the database 
-// input validation - dont create lists with duplicate names 
-// 
+document.getElementById("newItem").onclick = newItemField
+setInterval(collapse, 1)
+$(document).ready(function () {
+    $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
+});
+let newListButton = document.querySelector("#createList")
+newListButton.onclick = createNewList
+deleteList()
