@@ -1,4 +1,3 @@
-let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
 const uid = localStorage.getItem('uid')
 
 function databaseListItem() {         // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
@@ -64,7 +63,7 @@ function loadItems(data) { //runs when page loads and loads all items from datab
     }
 
 }
-document.onload = loadItems(database)
+
 
 function fillFields(item, DBitem) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
     let nameField = item.getElementsByClassName("Name")
@@ -236,11 +235,6 @@ function newItemField() {
     }
 }
 
-function createEntryInDB() {
-    let dbEntry = new databaseListItem()
-    database.items.push(dbEntry)
-    return dbEntry
-}
 function checkIfItemAlreadyExists(name, quantity, units, notes){
     let existingItemsinDB = Array.from(document.getElementsByClassName("listItems"))
     let alreadyExists = false
@@ -271,8 +265,7 @@ function addItemDetails(item) {
         let notes = item.getElementsByClassName("Notes(Optional)").item(0).value
         if (!checkIfItemAlreadyExists(name, quantity, units, notes)){
         if (name != "" && quantity > 0 && units != "") {
-            dbEntry = createEntryInDB()
-            editDBEntry(item, dbEntry)
+            editDBEntry(item)
             let addButton = item.getElementsByClassName("addButton")
             addButton[0].style.display = "none"
             let editButton = item.getElementsByClassName("editButton")
@@ -286,17 +279,13 @@ function addItemDetails(item) {
     }}
 }
 
-function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+function editDBEntry(item) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
     addItem(uid, currentListForDB(), itemAsDBObject(item));
     fieldData = getFieldData(item)
     if (fieldData[0] === "realness") {
         easterEgg()
     }
-    dbEntry.name = fieldData[0]
-    dbEntry.quantity.amount = parseFloat(fieldData[1])
-    dbEntry.quantity.unit = fieldData[2]
-    dbEntry.notes = fieldData[3]
-    console.log(database)
+    
 }
 
 function toggleInputClass(item) { //disable or enable inputs as necessary, helper function for many other functions
