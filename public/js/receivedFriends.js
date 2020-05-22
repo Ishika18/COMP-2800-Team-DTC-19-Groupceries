@@ -63,7 +63,6 @@ function generateReceivedHTML(name, email, uid) {
 db.collection(window.localStorage.getItem('uid')).doc("Friends")
     .onSnapshot(function (doc) {
         if ($('.received').length != doc.data().received.length) {
-            console.log(doc.data(), "111ve")
             $(".received").remove();
             doc.data().received.forEach(function (item) {
                 addReceivedHTML(item);
