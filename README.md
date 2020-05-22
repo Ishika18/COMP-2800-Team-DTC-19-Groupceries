@@ -111,5 +111,15 @@ https://firebase.google.com/docs/auth/web/start
     npm install firebaseauth
 2. require('firebase/auth'); ( will be there when you clone the repo )
 
+# Google oAuth
+https://developers.google.com/assistant/identity/google-sign-in-oauth
+
+1. configure a google web project
+    https://developers.google.com/assistant/identity/google-sign-in-oauth#configure_the_project
+2. Create new oauth credential for your app
+3. Add your cliend id in the layout page line 9 
+    meta name="google-signin-client_id" content= *"YOUR_OWN_CLIENT_ID"*>
+4. Whitelist your app website in the google oauth credential.
+
 Testing Plan: 
 https://docs.google.com/spreadsheets/d/1htzCYm5rM19eaZYk712kJHbJ9eVWcBI4weaWHKEUAOA/edit?usp=sharing
