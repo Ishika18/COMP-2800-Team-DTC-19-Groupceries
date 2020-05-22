@@ -98,7 +98,8 @@ not required ( only works for server side )
 ### Server side
 1. npm install firebase admin SDK
     $ npm install firebase-admin --save
-2. var admin = require('firebase-admin'); ( will be there when you clone the repo )
+2. Generate a private key file for your service account and add the ervice-account-file.json in your root directory in the place of        groupceries-f6189-firebase-adminsdk-cxupm-fa31b03012
+3. var admin = require('firebase-admin'); ( will be there when you clone the repo )
 
 ## Firebase authentication
 https://firebase.google.com/docs/auth/web/start
@@ -114,12 +115,26 @@ https://firebase.google.com/docs/auth/web/start
 # Google oAuth
 https://developers.google.com/assistant/identity/google-sign-in-oauth
 
-1. configure a google web project
+1. Configure a google web project
     https://developers.google.com/assistant/identity/google-sign-in-oauth#configure_the_project
 2. Create new oauth credential for your app
-3. Add your cliend id in the layout page line 9 
+3. Add your client id in the layout page line 9 
     meta name="google-signin-client_id" content= *"YOUR_OWN_CLIENT_ID"*>
 4. Whitelist your app website in the google oauth credential.
+
+# Algolia
+https://www.algolia.com/doc/rest-api/search/
+
+## Client side
+1. Add the SDKs ( will be there when you clone the repo )
+2. Add your application id and search only api key in algolia.js line 1
+    const client = algoliasearch('YOUR_APP_ID', 'YOUR_SEARCH_ONLY_API');
+
+## Server side
+1. Install algoliasearch npm module
+   npm install algoliasearch
+2. Add your application id and admin api key in algoliaController.js line 1
+    const client = algoliasearch('YOUR_APP_ID', 'YOUR_ADMIN_API');
 
 Testing Plan: 
 https://docs.google.com/spreadsheets/d/1htzCYm5rM19eaZYk712kJHbJ9eVWcBI4weaWHKEUAOA/edit?usp=sharing
