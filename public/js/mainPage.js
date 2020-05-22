@@ -1,4 +1,3 @@
-let database = { user: 123, listName: "Silvana's List", readyToPurchase: false, items: [] }
 const uid = localStorage.getItem('uid')
 
 function databaseListItem() { // object constructor for new database entries. Creates an empty grocery list item object. This is called when the user presses "new item".
@@ -63,7 +62,7 @@ function loadItems(data) { //runs when page loads and loads all items from datab
         fillFields(listItem, data.items[item])
     }
 }
-document.onload = loadItems(database)
+
 
 function fillFields(item, DBitem) { //called by each list item loaded from database. grabs field information and makes it visible in html page.
     let nameField = item.getElementsByClassName("Name")
@@ -229,10 +228,26 @@ function newItemField() {
     }
 }
 
-function createEntryInDB() {
-    let dbEntry = new databaseListItem()
-    database.items.push(dbEntry)
-    return dbEntry
+function checkIfItemAlreadyExists(name, quantity, units, notes){
+    let existingItemsinDB = Array.from(document.getElementsByClassName("listItems"))
+    let alreadyExists = false
+    for (item in existingItemsinDB) {
+        if (Array.from(existingItemsinDB[item].getElementsByClassName("textInput")).length === 0){
+        let itemName = existingItemsinDB[item].getElementsByClassName("Name").item(0).value
+        let itemQty = parseFloat(existingItemsinDB[item].getElementsByClassName("Quantity").item(0).value)
+        let itemUnits = existingItemsinDB[item].getElementsByClassName("Units").item(0).value
+        let itemNotes = existingItemsinDB[item].getElementsByClassName("Notes(Optional)").item(0).value
+        if (itemName === name && itemQty === quantity && itemUnits === units && itemNotes === notes) {
+            alreadyExists = true
+            swal({
+                title: "Error",
+                text: "This item cannot be added because it is identical to an existing item.",
+                icon: "warning",
+            });
+        }
+    }
+}
+    return alreadyExists
 }
 
 function addItemDetails(item) {
@@ -240,9 +255,10 @@ function addItemDetails(item) {
         let name = item.getElementsByClassName("Name").item(0).value.trim()
         let quantity = parseFloat(item.getElementsByClassName("Quantity").item(0).value)
         let units = item.getElementsByClassName("Units").item(0).value
+        let notes = item.getElementsByClassName("Notes(Optional)").item(0).value
+        if (!checkIfItemAlreadyExists(name, quantity, units, notes)){
         if (name != "" && quantity > 0 && units != "") {
-            dbEntry = createEntryInDB()
-            editDBEntry(item, dbEntry)
+            editDBEntry(item)
             let addButton = item.getElementsByClassName("addButton")
             addButton[0].style.display = "none"
             let editButton = item.getElementsByClassName("editButton")
@@ -253,19 +269,16 @@ function addItemDetails(item) {
         } else {
             evaluateFields(quantity, name, units)
         }
-    }
+    }}
 }
 
-function editDBEntry(item, dbEntry) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
+function editDBEntry(item) { //called when a user clicks "Add" on a new item after filling out the fields. Edits item in database's fields to reflect user input.
     addItem(uid, currentListForDB(), itemAsDBObject(item));
     fieldData = getFieldData(item)
     if (fieldData[0] === "realness") {
         easterEgg()
     }
-    dbEntry.name = fieldData[0]
-    dbEntry.quantity.amount = parseFloat(fieldData[1])
-    dbEntry.quantity.unit = fieldData[2]
-    dbEntry.notes = fieldData[3]
+    
 }
 
 function toggleInputClass(item) { //disable or enable inputs as necessary, helper function for many other functions
@@ -456,15 +469,18 @@ function loadLists(friendObj) {
     let myList = document.getElementById("myGroceryLists")
     if (myList) { myList.id = uid } // handle cases where myList is deleted
     let friends = Object.keys(friendObj)
+    console.log(friendObj)
     friends.forEach(friend => {
         if (!checkForFriend(friend)) {
             createFriendElement(friend)
         }
         let listSection = findListEntry(friend)
         let friendsLists = friendObj[friend]
-        friendsLists.forEach(list => {
-            createListElement(listSection, list, friend)
-        })
+        friendsLists.forEach(list => {//loops through array of lists for each friend
+            createListElement(listSection, list, friend) // creates a list display element for each list
+            }
+        )
+
     });
 };
 
@@ -593,8 +609,29 @@ function createNewList() {
     document.getElementById("deleteEntireListButton").style.display = "none"
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
-        let listName = newListTitle.value
-        let usersExistingLists = $('*[data-belongs-to=' + uid + ']')
+        let listName = newList.value
+        let createList = true
+        if(listName.trim() === ""){
+            swal({
+                title: "Error",
+                text: "New list name cannot be blank.",
+                icon: "warning",
+            }); 
+            createList = false
+        }
+        let usersExistingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
+        for (list in usersExistingLists) {
+            let existingListTitle = usersExistingLists[list].getElementsByClassName("inputLabels").item(0).innerText
+            if (existingListTitle === listName) {
+                swal({
+                    title: "Error",
+                    text: "You cannot have two lists with the same name. Please input a different name.",
+                    icon: "warning",
+                });
+                createList = false
+            }
+        }
+        if (createList){
         document.getElementById("listTitle").remove();
         let titleContainer = document.createElement("p")
         titleContainer.id = "listTitle"
@@ -606,13 +643,13 @@ function createNewList() {
         document.getElementById("deleteEntireListButton").style.display = "inline-block"
         cancelButton.style.display = "none"
         let listSection = document.getElementById(uid).parentElement.nextElementSibling
-        createListElement(listSection, listName)//adds new list to side bar
-        clearList()
+        createListElement(listSection, listName, uid)//adds new list to side bar
+        clearList() //clears list on UI so user can start with an empty list for their new list
         newListButton.onclick = createNewList
         addGroceryList(uid, "_" + listName);
-        loadNewList(uid, "_" + currentListName.innerText)
-    })
-    cancelButton.addEventListener('click', _ => {
+        loadNewList(uid, "_" + currentListTitle.innerText)
+    }})
+    cancelButton.addEventListener('click', _=>{
         currentListTitle.style.display = "inline"
         newListTitle.style.display = "none"
         submitButton.style.display = "none"
@@ -646,14 +683,20 @@ function deleteList() {
                         deleteGroceryList(uid, "_" + currentListName)
                         listElement.remove()
                         clearList()
+                        getNextList()
                     }
                 })
             }
         })
-
     })
 }
 
+function getNextList() {
+    let remainingLists = Array.from($('*[data-belongs-to=' + uid + ']'))
+    if (remainingLists.length != 0) {
+        remainingLists[0].lastChild.click()
+    }
+}
 
 function currentListForDB() {
     return "_" + document.getElementById('listTitle').innerText;
@@ -670,14 +713,14 @@ function displayList(listElement, listOwner = uid) {
             currentListName.innerText = listElement
             clearList()
             loadNewList(listOwner, "_" + currentListName.innerText)
-            if (listOwner != uid) {
-                document.getElementById('deleteEntireListButton').style.display = "none"
-                document.getElementById('newItem').style.display = "none"
-            }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
-            if (listOwner === uid) {
-                document.getElementById('deleteEntireListButton').style.display = "inline-block"
-                document.getElementById('newItem').style.display = "inline-block"
-            }//if the list does belong to the user, ensure they have the ability to edit
+            // if (listOwner != uid) {
+            //     document.getElementById('deleteEntireListButton').style.display = "none"
+            //     document.getElementById('newItem').style.display = "none"
+            // }// if the list to be displayed does not belong to the user, remove the option to delete or edit the list or any list items
+            // if (listOwner === uid) {
+            //     document.getElementById('deleteEntireListButton').style.display = "inline-block"
+            //     document.getElementById('newItem').style.display = "inline-block"
+            // }//if the list does belong to the user, ensure they have the ability to edit
         } else {
             swal({
                 title: "Error",
@@ -688,18 +731,19 @@ function displayList(listElement, listOwner = uid) {
     }
 }
 
-function updateInteractionStatus(UID) {
-    $("#newItem").prop("disabled", false);
+function updateInteractionStatus(UID){
+    $("#newItem").css("display", "block");
     $("#deleteEntireListButton").css("display", "block");
     $("#readyForShoppingToggle").prop("disabled", false);
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", updateToggleMobile);
-    if (UID != uid) { deleteInteraction() };
+    if(UID != uid){deleteInteraction()};
+        
 };
 
 function deleteInteraction() {
     $(".listItems button").css("display", "none");
     $("#deleteEntireListButton").css("display", "none");
-    $("#newItem").prop("disabled", true);
+    $("#newItem").css("display", "none");
     $("#readyForShoppingToggle").prop("disabled", true);
     $("html body div#buttonFooter.row.fixed-bottom mainpagebuttons#mainPageButtons div.row.fixed-bottom.centerbuttonbar div.toggle.btn.ios.btn-primary").on("click", "");
 }
