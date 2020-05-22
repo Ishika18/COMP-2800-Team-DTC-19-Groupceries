@@ -29,7 +29,7 @@ Include a link to 04b Surprise challenge #2b testing plan you have completed so 
 
 Languages:
 
-Groupceries is written in JavaScript and Node.js.
+Groupceries is written in JavaScript, JQuery and Node.js.
 
 IDEs:
 
@@ -49,8 +49,67 @@ Download & install the following 3rd Party APIs & frameworks:
 - Twitter API
 - Facebook API
 - Express
-- 
+- Node js
 
+Steps to install
+# Firebase intialisation
+1. Make a firebase account ( https://firebase.google.com/ )
+2. Go to firebase console and create a new app if you don't have one made already.
+3. Register the app and add firebase SDKs to the botton of your <body> tag ( change the firebaseConfig with your own firebaseConfig )
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "Your_api_key",
+        authDomain: "auth_domain_provided_by_firebaese",
+        databaseURL: "database_url_provided_by_firebaese",
+        projectId: "projectID_provided_by_firebaese",
+        storageBucket: "storage_bucket_provided_by_firebaese",
+        messagingSenderId: "*******",
+        appId: "Your_app_Id_provided_by_firebase"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+## Firebase Firestore
+https://firebase.google.com/docs/firestore/quickstart
+
+### Client side
+1. Add the SDK in for firebase firestore ( will be already present when you clone the repo )
+
+### Server side
+1. Install firebase npm module
+    npm init
+    npm install --save firebase
+2. var firebase = require('firebase/app'); ( will be there when you clone the repo )
+
+## Firebase admin SDK
+https://firebase.google.com/docs/admin/setup
+
+### Client side 
+not required ( only works for server side )
+
+### Server side
+1. npm install firebase admin SDK
+    $ npm install firebase-admin --save
+2. var admin = require('firebase-admin'); ( will be there when you clone the repo )
+
+## Firebase authentication
+https://firebase.google.com/docs/auth/web/start
+
+### Client side
+1. Add the SDK in for firebase firestore ( will be already present when you clone the repo )
+
+### Server side
+1. Install firebase npm module
+    npm install firebaseauth
+2. require('firebase/auth'); ( will be there when you clone the repo )
 
 Testing Plan: 
 https://docs.google.com/spreadsheets/d/1htzCYm5rM19eaZYk712kJHbJ9eVWcBI4weaWHKEUAOA/edit?usp=sharing
