@@ -9,11 +9,11 @@ function responsiveDivDisplay() {
         document.getElementById("left").className = "col-md-3"
         document.getElementById("middle").className = "col-md-6"
         document.getElementById("right").className = "col-md-3"
-        $('#newItem').insertAfter('.rightMostButton');
+        $('#newItem').insertAfter('#listTitleSection');
         document.getElementById("desktopFriendsMenu").style.display = "block"
         document.getElementById("friend").style.display = "none"
         document.getElementById("socialMediaPage").style.display = "none"
-        // $('#createList').insertAfter('#myLists');
+        $('#createList').insertAfter('#availableLists');
     }else {
         document.getElementById("left").style.display = "none"
         document.getElementById("middle").style.display = "block"
