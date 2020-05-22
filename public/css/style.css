@@ -763,14 +763,17 @@
 #aboutUsPage .card {
     background-color: transparent;
 }
-/* #aboutUsPageLoggedOut .card {
-    background-color: transparent;
-} */
 .aboutUsTitle {
     color: white;
 }
 #launchPageTop {
     background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
+}
+#twitterButtonFixerContainer {
+    display: none;
+}
+#twitter-widget-0, #twitter-widget-1, #twitter-widget-2 {
+    width: 520px!important;
 }
 /* loader css */
 /* gotten from https://redstapler.co/add-loading-animation-to-website/ */

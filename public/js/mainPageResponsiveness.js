@@ -160,6 +160,12 @@ function socialMediaPage() {
     document.getElementById("friendsPageSocialMediaButton").style = 'color: white'
     document.getElementById("pageTitle").innerHTML = 'Social Media'
     document.getElementById("addFriendContainer").style = 'display: none'
+    $('#twitter-widget-0').insertAfter('#twitterButtonFixerContainerr');
+    $('#twitter-widget-1').insertAfter('#twitterButtonFixerContainer');
+    $('#twitter-widget-2').insertAfter('#twitterButtonFixerContainer');
+    $('#twitter-widget-0').insertAfter('#postFixLocationForTwitterButtons');
+    $('#twitter-widget-1').insertAfter('#postFixLocationForTwitterButtons');
+    $('#twitter-widget-2').insertAfter('#postFixLocationForTwitterButtons');
 };
 document.getElementById("friendsPageSocialMediaButton").onclick = socialMediaPage
 
