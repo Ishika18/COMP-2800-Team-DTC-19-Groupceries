@@ -601,7 +601,8 @@ function createNewList() {
     okButtonLocation.appendChild(submitButton)
     okButtonLocation.appendChild(cancelButton)
 
-    document.getElementById("deleteEntireListButton").style.display = "none"
+    document.getElementById("deleteEntireListButton").style.display = "none";
+    document.getElementById('newItem').style.display = "none";
     currentListTitle.style.display = "none"//When "create list" is pressed, an input field for the name of the new list appears where the list title was
     submitButton.addEventListener('click', _ => {
         let newList = document.querySelector("#newListTitleInputBar")
@@ -651,6 +652,8 @@ function createNewList() {
         submitButton.style.display = "none"
         newListButton.onclick = createNewList
         cancelButton.style.display = "none"
+        document.getElementById("deleteEntireListButton").style.display = "inline-block";
+        document.getElementById('newItem').style.display = "inline-block";
     })
 }
 
