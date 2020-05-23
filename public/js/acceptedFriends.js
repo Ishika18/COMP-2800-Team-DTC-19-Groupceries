@@ -14,7 +14,7 @@ function addAcceptedHTML(uid) {
             let name = doc.data().name;
             let email = doc.data().email;
             if (!document.getElementById(uid + "_A_row")) {
-                $('#acceptedFriends').prepend(generateAcceptedHTML(name, email, uid));
+                $('.acceptedFriends').prepend(generateAcceptedHTML(name, email, uid));
             }
         }
     }).catch(err => console.log(err));
@@ -22,18 +22,10 @@ function addAcceptedHTML(uid) {
 
 function generateAcceptedHTML(name, email, uid) {
     return `
-    <div class="row accepted" id=${uid}_A_row>
-      <div class="col-md">
-        <b>${name}</b>
-        <i>${email}</i>
-      </div>
-      <div class="col-sm">
-          <!-- The id for buttons are very important -->
-          <!-- Please don't change the id -->
-        <button id=${uid}_A onclick="unfriend('${uid}')">Unfriend</button>
-      </div>
+    <div class="p-2 listCollapsibleLayer2 accepted" id=${uid}_A_row>
+        <label class="inputLabels"><h4 class="collapsibleText">${name}</h4></label>
+        <button id=${uid}_A onclick="unfriend('${uid}')" class="btn removeFriendButton"><i class="fas fa-user-times"></i></button>
     </div>
-  </div>
     `
 }
 
@@ -46,4 +38,3 @@ db.collection(window.localStorage.getItem('uid')).doc("Friends")
             })
         }
     })
-

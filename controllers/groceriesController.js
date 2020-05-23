@@ -1,8 +1,6 @@
 const firebase = require("firebase/app");
 require('firebase/firestore');
 
-
-
 const firebaseConfig = {
     apiKey: "AIzaSyC59-CinZU4yGdTnIcQPXEaIOC5R7cGfLA",
     authDomain: "groupceries-f6189.firebaseapp.com",

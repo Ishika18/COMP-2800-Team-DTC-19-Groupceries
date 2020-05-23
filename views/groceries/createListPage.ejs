@@ -1,7 +1,5 @@
 <!-- SS - modal pop up for add friends -->
 <%- include('../partials/friendsModal.ejs'); -%>
-
-<!-- SS - modal pop up for add friends -->
 <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
@@ -12,29 +10,23 @@
             <%- include('../partials/appNavbar.ejs'); -%>
             <div class="col pageArea">
                 <div id="easterEgg">
-
-                </div>
-                
+                </div>       
                 <div class="col-lg-3" id="left" class="listsPageArea">
                     <div id="myLists">
-                        <button id="createList"><i class="fas fa-plus"></i></button><br>
+                        <button id="createList"><i class="fas fa-plus"></i></button>
                         <div class="p-2 listCollapsible">
-                            <label class="inputLabels">My Lists</label>
+                            <label class="inputLabels"><h4 class="collapsibleText">My Lists</h4></label>
                            <button id="myGroceryLists" class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
                         </div>
                         <div id="availableLists" class="collapse listsArea">
-                            <newListButtonPlaceHolder id="newListButtonPlaceHolder"></newListButtonPlaceHolder>
                         </div>
                     </div>
-                
-                    
-
                     <div id="friendLists">
                         <div class="p-2 listCollapsible">
-                            <label class="inputLabels">Friends' Lists</label>
+                            <label class="inputLabels"><h4 class="collapsibleText">Friend' Lists</h4></label>
                             <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i></button>
                         </div>
-                        <div class="collapse" id="friendsListCollapsibles">
+                        <div class="collapse listsArea" id="friendsListCollapsibles">
                         </div>
                     </div>
                 </div>
@@ -52,9 +44,37 @@
                                 <br>
                                 <label id="desktopMerge">Merge List</label>
                             </ul>
+                            <socialMediaDesktop id="socialMediaDesktop">
+                            </socialMediaDesktop>  
                         </div>
                         <div id="friend">
-                                                            
+                            <div class="p-2 listCollapsible" id="friendListCollapsible">
+                                <label class="inputLabels"><h4 class="collapsibleText">Friends</h4></label>
+                               <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
+                            </div>
+                            <div id ="mobileContainerAcceptedFriends">
+                                <%- include('../partials/acceptedFriends.ejs'); -%>
+                            </div>
+                            <div id="pendingFriends">
+                                <div class="p-2 listCollapsible" id="receivedFriendListCollapsible">
+                                    <label class="inputLabels"><h4 class="collapsibleText">Received Requests</h4></label>
+                                   <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
+                                </div>
+                                <div id ="mobileContainerReceivedFriends">
+                                    <%- include('../partials/receivedFriends.ejs'); -%>  
+                                </div>
+                                <div class="p-2 listCollapsible" id="sentFriendListCollapsible">
+                                    <label class="inputLabels"><h4 class="collapsibleText">Sent Requests</h4></label>
+                                   <button class="btn collapsible viewListsbutton"><i class="fas fa-chevron-down"></i> </button>
+                                </div>
+                                <div id ="mobileContainerSentFriends">
+                                    <%- include('../partials/sentFriends.ejs'); -%>
+                                </div> 
+                            </div>    
+                            <div id="socialMediaPage">
+                                <%- include('../partials/facebook.ejs'); -%>
+                                <%- include('../partials/twitter.ejs'); -%>
+                            </div>                   
                         </div>
                     </div>
                     <div class="col-lg-3" id="aboutUsPage">
@@ -115,10 +135,9 @@
                         <!-- <div id="listArea" class="itemsArea"> -->
                             <div class="groceryList">
                                 <div id="buttons">
-                                        <div class="d-flex addListBox">
-                                            <div class="mr-auto p-2" id="listTitleSection"><p id="listTitle">My List</p></div>
-                                            <div class="p-2 ml-auto rightMostButton"><button type="button" id="deleteEntireListButton" class="deleteEntireListButton"><i id="delIcon" class="far fa-trash-alt"></i></button>
-                                        </div>
+                                    <div class="d-flex addListBox" id="myListBar">
+                                        <div class="mr-auto p-2" id="listTitleSection"><p id="listTitle">My List</p></div>
+                                        <button type="button" id="deleteEntireListButton" class="deleteEntireListButton"><i id="delIcon" class="far fa-trash-alt"></i></button>
                                     </div>
                                 </div>
                                 <div id="groceryList" class="itemsArea">
@@ -137,10 +156,14 @@
     <%- include('../partials/mobileMainButtons.ejs'); -%>
     <%- include('../partials/mobileNavBar.ejs'); -%>
 </div>
-
+<div>
+    <twitterButtonFixerContainer id="twitterButtonFixerContainer">
+    </twitterButtonFixerContainer>
+</div>
 <script src="/js/lodash.js"></script>
 <script src="/js/firebaseInit.js"></script>
 <script src="/js/mainPageResponsiveness.js"></script>
 <script src="/js/mainPage.js"></script>
 <script src="/js/database.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- the sidebar is to be included as well. -->

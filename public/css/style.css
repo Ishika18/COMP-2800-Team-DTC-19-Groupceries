@@ -1,13 +1,173 @@
 #easterEgg {
     display: none;
     margin: auto;
-    width: 700px;
-    height: 700px;
     background-image: url("/images/rupaulstage.jpg");
+    width: 100vw;
+    height:100vh;
     background-position: center;
+    background-size: cover;
 }
-
+.col-lg-3 {
+    max-width: 100vw;
+}
+.listCollapsible, .listCollapsibleLayer2, .listCollapsibleLayer3 {
+    height: 2.8rem;
+}
+.listCollapsible {
+    background-color: whitesmoke;
+    margin-top: 1rem;
+    padding-top: 0rem!important;
+}
+.listCollapsibleLayer2 {
+    background-color: whitesmoke;
+    margin-top: 1rem;
+    padding-top: 0rem!important;
+    max-width: 95%;
+    margin-left: 5%;
+}
+.listCollapsibleLayer3 {
+    background-color: whitesmoke;
+    margin-top: 1rem;
+    padding-top: 0rem!important;
+    max-width: 90%;
+    margin-left: 10%;
+}
+.inputLabels {
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem!important;
+}
+#mobileAddFriendButton {
+    width: auto;
+    height: auto;
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    color: white;
+}
+.mobileAddContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    padding-bottom: 3.5rem;
+    margin-bottom: 6.5rem;
+    background: transparent;
+}
+#delIcon {
+    width: 2rem;
+}
+#middle {
+    max-width: none;
+}
+.editButton, .deleteButton, .saveButton, .cancelButton, .addButton{
+    color: white;
+    background-color: red;
+    font-weight: bold;
+    height: 100%;
+    display: flex;
+    float: right;
+    border: transparent;
+    margin-top: 0.5rem;
+}
+.deleteEntireListButton, #createListButton, .addToListButton {
+    color: white;
+    font-weight: bold;
+    float: right;
+    border: transparent;
+    font-size: 0.8rem;
+}
+#createListButton {
+    background-color: #00c587;
+    padding: .4rem 1rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+}
+#newListTitleInputBar {
+    width: 100%;
+    height: 100%;
+}
+.deleteEntireListButton{
+    background-color: red;
+    padding: .4rem 1rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+}
+.deleteListButton{
+    font-weight: bold;
+    border: none;
+    color: white;
+    height: 100%;
+    width: max-content;
+}
+.addItemButton, .saveButton, .cancelButton{
+    font-weight: bold;
+    border: none;
+    color: white;
+    height: 100%;
+    width: max-content;
+}
+.viewListsbutton, .acceptRequestButton, .cancelRequestButton, .removeFriendButton {
+    float: right;
+    padding: .4rem 1rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+    color: white;
+}
+.viewListsbutton {
+    background-color: lightskyblue;
+}
+.cancelRequestButton, .removeFriendButton {
+    background-color: red!important;
+}
+.collapsibleText {
+    margin-bottom: 0!important;
+}
+.deleteButton, .deleteListButton, .cancelButton {
+    background-color: red;
+} 
+.editButton {
+    background-color: rgb(50, 131, 238);
+} 
+.addButton, .saveButton, .addItemButton, .addToListButton, .acceptRequestButton, #mobileAddFriendButton{
+    background-color: #00c587;
+    border: #00c587;
+}
+.acceptRequestButton {
+    margin-left: 3%;
+}
+.p-2 {
+    padding-bottom: 0!important;
+    padding-right: 0!important;
+}
+.itemsArea input ,select{
+    display: flex;
+    float: right;
+}
+.itemsArea .itemInfo, .viewListsButton {
+    width: 161px;
+    height: 22px;
+}
+.rightMostButton {
+    padding-top: 0!important;
+    padding-right: 0!important;
+    width: fit-content;
+}
+#aboutUsPage .card {
+    background-color: transparent;
+}
+.aboutUsTitle {
+    color: white;
+}
+#launchPageTop {
+    background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
+}
+#twitterButtonFixerContainer {
+    display: none;
+}
 @media (min-width: 1025px) {
+    #socialMediaModalToggleButton {
+        margin-left: 15px;
+    }
     #aboutUsPage {
         height: calc(100vh - 11rem);
         display: none
@@ -162,10 +322,6 @@
     .centerbuttonbar {
         display: none;
     }
-    /* #aboutUsPage {
-        margin-top: 4.3rem;
-        color: white;
-    } */
     #aboutUsHomeBtn {
         display: none;
     }
@@ -184,6 +340,11 @@
 }
 
 @media (max-width: 1024px) {
+    #friendsPageNavBarContainer {
+        padding-bottom: 0!important;
+        height: auto!important;
+        flex-wrap: nowrap;
+    }
     .groupMemberPhoto {
         width: 35vw;
         height: 45vw;
@@ -224,7 +385,6 @@
         grid-template-columns: repeat(3,1fr);
     }
     body{
-        background-color:#140A26;
         background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
         overflow-x: hidden;
     }
@@ -233,7 +393,6 @@
         border: 16px;
     }
     #topbar {
-        /* background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84)!important; */
         background-color: white;
         position: fixed;
     }
@@ -255,6 +414,7 @@
         margin-bottom: 0.625rem;
     }
     .addListBox {
+        height: 2.8rem;
         background-color: lightgray;
         margin-top: 0.625rem;
         margin-bottom: 0.625rem;
@@ -304,18 +464,19 @@
         color: white;
     }
     .centerbuttonbar {
-        margin-bottom: 3.1rem;
+        margin-bottom: 2.95rem;
         background-color: #140A26;
-        color:white;
+        color: white;
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 3rem;
+        padding-bottom: 3.5rem;
     }
     .addButton{
         width: 13vw!important;
     }
     .rectangularButton {
-        background-color: #5B3E96;
         border: none;
         color: white;
         width: 25vw;
@@ -331,7 +492,6 @@
     }
     .mobileNavbar { 
         padding: 0!important;
-        margin-bottom: 0.1rem;
     }
     .mobileNavbar form{ 
         display: flex;
@@ -377,7 +537,15 @@
     .itemsArea{
         overflow-y:scroll;
         width:100%;
-        height:calc(100vh - 13rem);
+        height:calc(100vh - 13rem - 60px);
+        align-self: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .friendsArea{
+        display: block;
+        overflow-y:scroll;
+        width:100%;
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -388,6 +556,7 @@
         align-self: center;
         padding-left: 0;
         padding-right: 0;
+        z-index: 1000;
     }
     .listsPageArea {
         overflow-y:scroll;
@@ -400,7 +569,7 @@
     .pageArea{
         overflow-y:scroll;
         width:100%;
-        height: calc(100vh - 9rem);
+        height: calc(100vh - 10rem);
         align-self: center;
         padding-left: 0;
         padding-right: 0;
@@ -459,7 +628,7 @@
         font-size: 0.8rem!important;
     }
     #addFriendButton, #mergeListsButton, #confirmMergeButton {
-        background-color: green!important;
+        background-color: #00c587!important;
         margin-left: 6.25vw;
         font-size: 0.8rem;
         font-weight: bold;
@@ -485,7 +654,6 @@
     #groceryList {
         border-bottom: 1px solid grey;
         display: block;
-        margin-bottom: 1rem;
     }
     .editButton, .deleteButton, .cancelButton, .saveButton, .addButton {
         width: 100%!important;
@@ -513,10 +681,6 @@
         padding-left: 1px;
         padding-right: 1px;
     }
-    /* #pageTitle {
-        border-bottom: solid grey 1px;
-        padding-bottom: 5px;
-    } */
     .deskTopShoppingListsTitle {
         display: none;
     }
@@ -571,28 +735,17 @@
     #left {
         display: none;
         min-width: 100%;
+        overflow-y: scroll;
+        max-height: calc(100vh - 13rem - 60px);
+    }
+    #right {
+        padding-left: 0;
+        padding-right: 0;
+        overflow-y: scroll;
+        max-height: calc(100vh - 13rem - 60px);
     }
     #aboutUsPage {
         display: none;
-    }
-    .listCollapsible {
-        background-color: whitesmoke;
-        margin-top: 1rem;
-        padding-top: 0rem!important;
-    }
-    .listCollapsibleLayer2 {
-        background-color: whitesmoke;
-        margin-top: 1rem;
-        padding-top: 0rem!important;
-        max-width: 95%;
-        margin-left: 5%;
-    }
-    .listCollapsibleLayer3 {
-        background-color: whitesmoke;
-        margin-top: 1rem;
-        padding-top: 0rem!important;
-        max-width: 90%;
-        margin-left: 10%;
     }
     #listTitleSection {
         padding-top: 0!important;
@@ -600,94 +753,232 @@
     .groceryList {
         overflow-y: hidden;
     }
-    .inputLabels {
-        margin-bottom: 0;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem!important;
+    .friendsPageNavBar {
+        width: 100%;
+        height: 3.5rem;
+        color: grey;
+        border: 0;
+        background-color: #140A26!important;
+        padding-left: 0;
+        padding-right: 18px;
     }
+    #twitter-widget-0, #twitter-widget-1, #twitter-widget-2 {
+        width: 520px!important;
+    }
+
 }
-#delIcon {
-    width: 2rem;
-}
-#middle {
-    max-width: none;
-}
-.editButton, .deleteButton, .saveButton, .cancelButton, .addButton{
-    color: white;
-    background-color: red;
-    font-weight: bold;
+/* loader css */
+/* gotten from https://redstapler.co/add-loading-animation-to-website/ */
+.loader-wrapper {
+    z-index: 100000000000000;
+    width: 100%;
     height: 100%;
-    display: flex;
-    float: right;
-    border: transparent;
-    margin-top: 0.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #00c587;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
-.deleteEntireListButton, .addToListButton {
-    color: white;
-    font-weight: bold;
-    height: 100%;
-    float: right;
-    border: transparent;
-    font-size: 0.8rem;
+.loader {
+    z-index: 100000000000001;
+    display: inline-block;
 }
-.deleteEntireListButton{
-    background-color: red;
+#loaderImage {
+    animation: loader 1.25s;
+    animation-iteration-count:infinite;
 }
-.deleteListButton{
-    font-weight: bold;
-    border: none;
-    color: white;
-    height: 100%;
-    width: max-content;
-}
-.addItemButton, .saveButton, .cancelButton{
-    font-weight: bold;
-    border: none;
-    color: white;
-    height: 100%;
-    width: max-content;
-}
-.viewListsbutton {
-    float: right;
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
-    background-color: lightskyblue;
-}
-.deleteButton, .deleteListButton, .cancelButton {
-    background-color: red;
-} 
-.editButton {
-    background-color: rgb(50, 131, 238);
-} 
-.addButton, .saveButton, .addItemButton, .addToListButton {
-    background-color: #00c587
-} 
-.p-2 {
-    padding-bottom: 0!important;
-    padding-right: 0!important;
-}
-.itemsArea input ,select{
-    display: flex;
-    float: right;
-}
-.itemsArea .itemInfo, .viewListsButton {
-    width: 161px;
-    height: 22px;
-}
-.rightMostButton {
-    padding-top: 0!important;
-    padding-right: 0!important;
-    width: fit-content;
-}
-#aboutUsPage .card {
-    background-color: transparent;
-}
-/* #aboutUsPageLoggedOut .card {
-    background-color: transparent;
-} */
-.aboutUsTitle {
-    color: white;
-}
-#launchPageTop {
-    background-image: linear-gradient(to left, #01dc86, #00d187, #00c587, #00ba86, #11ae84);
+@keyframes loader {
+    0% { transform: rotate(0deg);}
+    1% { transform: rotate(0deg);}
+    2% { transform: rotate(0deg);}
+    3% { transform: rotate(0deg);}
+    4% { transform: rotate(0deg);}
+    5% { transform: rotate(0deg);}
+    6% { transform: rotate(0deg);}
+    7% { transform: rotate(0deg);}
+    8% { transform: rotate(0deg);}
+    9% { transform: rotate(0deg);}
+    10.0% { transform: rotate(0deg);}
+    10.5% { transform: rotate(2deg);}
+    11.0% { transform: rotate(4deg);}
+    11.5% { transform: rotate(6deg);}
+    12.0% { transform: rotate(8deg);}
+    12.5% { transform: rotate(10deg);}
+    13.0% { transform: rotate(12deg);}
+    13.5% { transform: rotate(14deg);}
+    14.0% { transform: rotate(16deg);}
+    14.5% { transform: rotate(18deg);}
+    15.0% { transform: rotate(20deg);}
+    15.5% { transform: rotate(22deg);}
+    16.0% { transform: rotate(24deg);}
+    16.5% { transform: rotate(26deg);}
+    17.0% { transform: rotate(28deg);}
+    17.5% { transform: rotate(30deg);}
+    18.0% { transform: rotate(32deg);}
+    18.5% { transform: rotate(34deg);}
+    19.0% { transform: rotate(36deg);}
+    19.5% { transform: rotate(38deg);}
+    20.0% { transform: rotate(40deg);}
+    20.5% { transform: rotate(42deg);}
+    21.0% { transform: rotate(44deg);}
+    21.5% { transform: rotate(46deg);}
+    22.0% { transform: rotate(48deg);}
+    22.5% { transform: rotate(50deg);}
+    23.0% { transform: rotate(52deg);}
+    23.5% { transform: rotate(54deg);}
+    24.0% { transform: rotate(56deg);}
+    24.5% { transform: rotate(58deg);}
+    25.0% { transform: rotate(60deg);}
+    25.5% { transform: rotate(62deg);}
+    26.0% { transform: rotate(64deg);}
+    26.5% { transform: rotate(66deg);}
+    27.0% { transform: rotate(68deg);}
+    27.5% { transform: rotate(70deg);}
+    28.0% { transform: rotate(72deg);}
+    28.5% { transform: rotate(74deg);}
+    29.0% { transform: rotate(76deg);}
+    29.5% { transform: rotate(78deg);}
+    30.0% { transform: rotate(80deg);}
+    30.5% { transform: rotate(82deg);}
+    31.0% { transform: rotate(84deg);}
+    31.5% { transform: rotate(86deg);}
+    32.0% { transform: rotate(88deg);}
+    32.5% { transform: rotate(90deg);}
+    33.0% { transform: rotate(92deg);}
+    33.5% { transform: rotate(94deg);}
+    34.0% { transform: rotate(96deg);}
+    34.5% { transform: rotate(98deg);}
+    35.0% { transform: rotate(100deg);}
+    35.5% { transform: rotate(102deg);}
+    36.0% { transform: rotate(104deg);}
+    36.5% { transform: rotate(106deg);}
+    37.0% { transform: rotate(108deg);}
+    37.5% { transform: rotate(110deg);}
+    38.0% { transform: rotate(112deg);}
+    38.5% { transform: rotate(114deg);}
+    39.0% { transform: rotate(116deg);}
+    39.5% { transform: rotate(118deg);}
+    40.0% { transform: rotate(120deg);}
+    40.5% { transform: rotate(122deg);}
+    41.0% { transform: rotate(124deg);}
+    41.5% { transform: rotate(126deg);}
+    42.0% { transform: rotate(128deg);}
+    42.5% { transform: rotate(130deg);}
+    43.0% { transform: rotate(132deg);}
+    43.5% { transform: rotate(134deg);}
+    44.0% { transform: rotate(136deg);}
+    44.5% { transform: rotate(138deg);}
+    45.0% { transform: rotate(140deg);}
+    45.5% { transform: rotate(142deg);}
+    46.0% { transform: rotate(144deg);}
+    46.5% { transform: rotate(146deg);}
+    47.0% { transform: rotate(148deg);}
+    47.5% { transform: rotate(150deg);}
+    48.0% { transform: rotate(152deg);}
+    48.5% { transform: rotate(154deg);}
+    49.0% { transform: rotate(156deg);}
+    49.5% { transform: rotate(158deg);}
+    50.0% { transform: rotate(160deg);}
+    50.5% { transform: rotate(162deg);}
+    51.0% { transform: rotate(164deg);}
+    51.5% { transform: rotate(166deg);}
+    52.0% { transform: rotate(168deg);}
+    52.5% { transform: rotate(170deg);}
+    53.0% { transform: rotate(172deg);}
+    53.5% { transform: rotate(174deg);}
+    54.0% { transform: rotate(176deg);}
+    54.5% { transform: rotate(178deg);}
+    55.0% { transform: rotate(180deg);}
+    55.5% { transform: rotate(182deg);}
+    56.0% { transform: rotate(184deg);}
+    56.5% { transform: rotate(186deg);}
+    57.0% { transform: rotate(188deg);}
+    57.5% { transform: rotate(190deg);}
+    58.0% { transform: rotate(192deg);}
+    58.5% { transform: rotate(194deg);}
+    59.0% { transform: rotate(196deg);}
+    59.5% { transform: rotate(198deg);}
+    60.0% { transform: rotate(200deg);}
+    60.5% { transform: rotate(202deg);}
+    61.0% { transform: rotate(204deg);}
+    61.5% { transform: rotate(206deg);}
+    62.0% { transform: rotate(208deg);}
+    62.5% { transform: rotate(210deg);}
+    63.0% { transform: rotate(212deg);}
+    63.5% { transform: rotate(214deg);}
+    64.0% { transform: rotate(216deg);}
+    64.5% { transform: rotate(218deg);}
+    65.0% { transform: rotate(220deg);}
+    65.5% { transform: rotate(222deg);}
+    66.0% { transform: rotate(224deg);}
+    66.5% { transform: rotate(226deg);}
+    67.0% { transform: rotate(228deg);}
+    67.5% { transform: rotate(230deg);}
+    68.0% { transform: rotate(232deg);}
+    68.5% { transform: rotate(234deg);}
+    69.0% { transform: rotate(236deg);}
+    69.5% { transform: rotate(238deg);}
+    70.0% { transform: rotate(240deg);}
+    70.5% { transform: rotate(242deg);}
+    71.0% { transform: rotate(244deg);}
+    71.5% { transform: rotate(246deg);}
+    72.0% { transform: rotate(248deg);}
+    72.5% { transform: rotate(250deg);}
+    73.0% { transform: rotate(252deg);}
+    73.5% { transform: rotate(254deg);}
+    74.0% { transform: rotate(256deg);}
+    74.5% { transform: rotate(258deg);}
+    75.0% { transform: rotate(260deg);}
+    75.5% { transform: rotate(262deg);}
+    76.0% { transform: rotate(264deg);}
+    76.5% { transform: rotate(266deg);}
+    77.0% { transform: rotate(268deg);}
+    77.5% { transform: rotate(270deg);}
+    78.0% { transform: rotate(272deg);}
+    78.5% { transform: rotate(274deg);}
+    79.0% { transform: rotate(276deg);}
+    79.5% { transform: rotate(278deg);}
+    80.0% { transform: rotate(280deg);}
+    80.5% { transform: rotate(282deg);}
+    81.0% { transform: rotate(284deg);}
+    81.5% { transform: rotate(286deg);}
+    82.0% { transform: rotate(288deg);}
+    82.5% { transform: rotate(290deg);}
+    83.0% { transform: rotate(292deg);}
+    83.5% { transform: rotate(294deg);}
+    84.0% { transform: rotate(296deg);}
+    84.5% { transform: rotate(298deg);}
+    85.0% { transform: rotate(300deg);}
+    85.5% { transform: rotate(302deg);}
+    86.0% { transform: rotate(304deg);}
+    86.5% { transform: rotate(306deg);}
+    87.0% { transform: rotate(308deg);}
+    87.5% { transform: rotate(310deg);}
+    88.0% { transform: rotate(312deg);}
+    88.5% { transform: rotate(314deg);}
+    89.0% { transform: rotate(316deg);}
+    89.5% { transform: rotate(318deg);}
+    90.0% { transform: rotate(320deg);}
+    90.5% { transform: rotate(322deg);}
+    91.0% { transform: rotate(324deg);}
+    91.5% { transform: rotate(326deg);}
+    92.0% { transform: rotate(328deg);}
+    92.5% { transform: rotate(330deg);}
+    93.0% { transform: rotate(332deg);}
+    93.5% { transform: rotate(334deg);}
+    94.0% { transform: rotate(336deg);}
+    94.5% { transform: rotate(338deg);}
+    95.0% { transform: rotate(340deg);}
+    95.5% { transform: rotate(342deg);}
+    96.0% { transform: rotate(344deg);}
+    96.5% { transform: rotate(346deg);}
+    97.0% { transform: rotate(348deg);}
+    97.5% { transform: rotate(350deg);}
+    98.0% { transform: rotate(352deg);}
+    98.5% { transform: rotate(354deg);}
+    99.0% { transform: rotate(356deg);}
+    99.5% { transform: rotate(358deg);}
+    100.0% { transform: rotate(360deg);}
 }
